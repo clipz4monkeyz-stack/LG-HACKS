@@ -232,6 +232,25 @@
             animation: pulse 1s infinite;
         }
         
+        .ai-sidebar-upload-btn {
+            background: #4CAF50;
+            color: #ffffff;
+            border: none;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        .ai-sidebar-upload-btn:hover {
+            background: #45a049;
+        }
+        
         .ai-sidebar-send-btn {
             background: #00ff88;
             color: #000000;
@@ -1344,8 +1363,10 @@
             <div class="ai-sidebar-input">
                 <input type="text" id="aiSidebarInput" placeholder="Ask me anything..." onkeypress="handleSidebarKeyPress(event)">
                 <button class="ai-sidebar-voice-btn" id="aiSidebarVoiceBtn" onclick="toggleSidebarVoiceRecording()" title="Voice Input">🎤</button>
+                <button class="ai-sidebar-upload-btn" onclick="uploadDocument()" title="Upload Document">📄</button>
                 <button class="ai-sidebar-send-btn" onclick="sendSidebarMessage()">Send</button>
             </div>
+            <input type="file" id="documentUpload" accept=".txt,.pdf,.doc,.docx" style="display: none;" onchange="handleDocumentUpload(event)">
         </div>
     </div>
 
@@ -2156,6 +2177,99 @@
             }
         }
 
+        function uploadDocument() {
+            document.getElementById('documentUpload').click();
+        }
+
+        async function handleDocumentUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Show processing message
+            addSidebarMessage(`📄 Processing document: ${file.name}`, true);
+            
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'ai-sidebar-message ai typing';
+            typingIndicator.innerHTML = '<div class="ai-sidebar-typing-dots"><span></span><span></span><span></span></div>';
+            document.getElementById('aiSidebarChat').appendChild(typingIndicator);
+            document.getElementById('aiSidebarChat').scrollTop = document.getElementById('aiSidebarChat').scrollHeight;
+
+            try {
+                // Extract text from document
+                const documentText = await extractTextFromFile(file);
+                
+                // Process the document
+                const parsedQuestions = await immigrationLLM.documentParser.parseDocument(documentText, currentLanguage);
+                
+                // Remove typing indicator
+                typingIndicator.remove();
+                
+                // Format and display results
+                const formattedResponse = immigrationLLM.formatParsedQuestions(parsedQuestions, currentLanguage);
+                addSidebarMessage(formattedResponse, false);
+                
+                // Save to chat history
+                chatHistory[chatHistory.length - 1].messages.push({
+                    text: formattedResponse,
+                    isUser: false,
+                    timestamp: new Date()
+                });
+                
+                savePreferences();
+                
+            } catch (error) {
+                console.error('Document processing error:', error);
+                
+                // Remove typing indicator
+                typingIndicator.remove();
+                
+                // Show error message
+                const errorMessage = getTranslatedText('documentProcessingError', currentLanguage) || 
+                                   "I had trouble processing that document. Please try uploading a text file or paste the content directly.";
+                addSidebarMessage(errorMessage, false);
+                
+                chatHistory[chatHistory.length - 1].messages.push({
+                    text: errorMessage,
+                    isUser: false,
+                    timestamp: new Date()
+                });
+                
+                savePreferences();
+            }
+        }
+
+        async function extractTextFromFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const content = e.target.result;
+                    
+                    // Handle different file types
+                    if (file.type === 'text/plain') {
+                        resolve(content);
+                    } else if (file.type === 'application/pdf') {
+                        // For PDF files, we'll use a simple approach
+                        // In a real implementation, you'd use a PDF parsing library
+                        resolve("PDF content extraction not implemented. Please copy and paste the text content.");
+                    } else if (file.type.includes('word') || file.type.includes('document')) {
+                        // For Word documents, we'll use a simple approach
+                        resolve("Word document content extraction not implemented. Please copy and paste the text content.");
+                    } else {
+                        // Try to read as text
+                        resolve(content);
+                    }
+                };
+                
+                reader.onerror = function() {
+                    reject(new Error('Failed to read file'));
+                };
+                
+                // Read as text for now (works for .txt files)
+                reader.readAsText(file);
+            });
+        }
+
         function addSidebarMessage(message, isUser) {
             const messagesContainer = document.getElementById('aiSidebarChat');
             const messageDiv = document.createElement('div');
@@ -2222,6 +2336,290 @@
             savePreferences();
         }
 
+        // Document Parser Class
+        class DocumentParser {
+            constructor() {
+                this.ollamaBaseURL = 'http://localhost:11434/api/generate';
+                this.currentLanguage = 'en';
+                this.questionTypes = {
+                    LEQ: 'long_answer', // Long Essay Questions
+                    SAQ: 'short_answer', // Short Answer Questions
+                    MCQ: 'multiple_choice', // Multiple Choice Questions
+                    BOOLEAN: 'yes_no' // Yes/No Questions
+                };
+            }
+
+            async parseDocument(documentText, language = 'en') {
+                try {
+                    console.log('Starting document parsing...');
+                    
+                    // Step 1: Extract questions from document
+                    const questions = await this.extractQuestions(documentText);
+                    console.log(`Extracted ${questions.length} questions`);
+                    
+                    // Step 2: Chunk questions by type
+                    const chunkedQuestions = await this.chunkQuestions(questions);
+                    console.log('Questions chunked by type:', chunkedQuestions);
+                    
+                    // Step 3: Summarize LEQs for better understanding
+                    const summarizedQuestions = await this.summarizeLEQs(chunkedQuestions, language);
+                    console.log('LEQs summarized');
+                    
+                    // Step 4: Translate if needed
+                    const finalQuestions = await this.translateQuestions(summarizedQuestions, language);
+                    console.log('Questions translated if needed');
+                    
+                    return finalQuestions;
+                    
+                } catch (error) {
+                    console.error('Document parsing error:', error);
+                    return this.getFallbackQuestions(documentText);
+                }
+            }
+
+            async extractQuestions(documentText) {
+                const prompt = `Analyze this immigration document and extract all questions. Return a JSON array where each question has:
+                - "text": the exact question text
+                - "type": "LEQ" for long essay questions, "SAQ" for short answer, "MCQ" for multiple choice, "BOOLEAN" for yes/no
+                - "field_id": a unique identifier for the field
+                - "complexity": "simple", "moderate", or "complex"
+                - "context": brief explanation of what the question is asking
+
+                Document text: "${documentText}"
+
+                Return only valid JSON array.`;
+
+                try {
+                    const response = await this.callOllama(prompt);
+                    const questions = JSON.parse(response);
+                    return Array.isArray(questions) ? questions : [];
+                } catch (error) {
+                    console.error('Question extraction error:', error);
+                    return this.extractQuestionsFallback(documentText);
+                }
+            }
+
+            async chunkQuestions(questions) {
+                const chunked = {
+                    LEQ: [],
+                    SAQ: [],
+                    MCQ: [],
+                    BOOLEAN: []
+                };
+
+                questions.forEach(question => {
+                    const type = question.type || this.detectQuestionType(question.text);
+                    if (chunked[type]) {
+                        chunked[type].push(question);
+                    }
+                });
+
+                return chunked;
+            }
+
+            async summarizeLEQs(chunkedQuestions, language) {
+                const summarized = { ...chunkedQuestions };
+                
+                for (let i = 0; i < summarized.LEQ.length; i++) {
+                    const question = summarized.LEQ[i];
+                    try {
+                        const summary = await this.summarizeQuestion(question.text, language);
+                        summarized.LEQ[i] = {
+                            ...question,
+                            original_text: question.text,
+                            simplified_text: summary,
+                            summary_explanation: await this.explainSummary(question.text, summary, language)
+                        };
+                    } catch (error) {
+                        console.error('Summarization error for question:', question.text, error);
+                        summarized.LEQ[i].simplified_text = question.text;
+                    }
+                }
+
+                return summarized;
+            }
+
+            async summarizeQuestion(questionText, language) {
+                const prompt = `Simplify this immigration form question to make it easier to understand for someone who may not read/write well. Keep the essential meaning but use simpler words and shorter sentences.
+
+                Original question: "${questionText}"
+                
+                Provide a simplified version that:
+                - Uses simple, everyday words
+                - Has shorter sentences
+                - Explains what information is needed
+                - Is clear and direct
+
+                Simplified version:`;
+
+                try {
+                    const response = await this.callOllama(prompt);
+                    return response.trim();
+                } catch (error) {
+                    console.error('Summarization error:', error);
+                    return questionText;
+                }
+            }
+
+            async explainSummary(originalText, summary, language) {
+                const prompt = `Explain why this simplified version is easier to understand than the original:
+
+                Original: "${originalText}"
+                Simplified: "${summary}"
+
+                Provide a brief explanation of what was changed and why it's clearer.`;
+
+                try {
+                    const response = await this.callOllama(prompt);
+                    return response.trim();
+                } catch (error) {
+                    return "This simplified version uses easier words and shorter sentences.";
+                }
+            }
+
+            async translateQuestions(questions, targetLanguage) {
+                if (targetLanguage === 'en') {
+                    return questions;
+                }
+
+                const translated = { ...questions };
+
+                // Translate LEQs
+                for (let i = 0; i < translated.LEQ.length; i++) {
+                    const question = translated.LEQ[i];
+                    try {
+                        question.translated_text = await this.translateText(question.simplified_text || question.text, targetLanguage);
+                        question.translated_explanation = await this.translateText(question.summary_explanation || '', targetLanguage);
+                    } catch (error) {
+                        console.error('Translation error:', error);
+                        question.translated_text = question.simplified_text || question.text;
+                    }
+                }
+
+                // Translate other question types
+                ['SAQ', 'MCQ', 'BOOLEAN'].forEach(type => {
+                    translated[type].forEach(question => {
+                        if (!question.translated_text) {
+                            question.translated_text = question.text;
+                        }
+                    });
+                });
+
+                return translated;
+            }
+
+            async translateText(text, targetLanguage) {
+                const languageNames = {
+                    'es': 'Spanish',
+                    'zh': 'Chinese',
+                    'ar': 'Arabic',
+                    'hi': 'Hindi',
+                    'pt': 'Portuguese',
+                    'ru': 'Russian',
+                    'fr': 'French'
+                };
+
+                const prompt = `Translate this text to ${languageNames[targetLanguage] || targetLanguage}. Keep the meaning clear and use simple words:
+
+                "${text}"
+
+                Translation:`;
+
+                try {
+                    const response = await this.callOllama(prompt);
+                    return response.trim();
+                } catch (error) {
+                    console.error('Translation error:', error);
+                    return text;
+                }
+            }
+
+            async callOllama(prompt) {
+                try {
+                    const response = await fetch(this.ollamaBaseURL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            model: 'llama2', // You can change this to other models
+                            prompt: prompt,
+                            stream: false
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Ollama API error: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    return data.response || '';
+                } catch (error) {
+                    console.error('Ollama API call failed:', error);
+                    throw error;
+                }
+            }
+
+            detectQuestionType(questionText) {
+                const text = questionText.toLowerCase();
+                
+                if (text.includes('yes') && text.includes('no')) {
+                    return 'BOOLEAN';
+                }
+                if (text.includes('check all') || text.includes('select all')) {
+                    return 'MCQ';
+                }
+                if (text.includes('explain') || text.includes('describe') || text.includes('provide details') || text.length > 100) {
+                    return 'LEQ';
+                }
+                
+                return 'SAQ';
+            }
+
+            extractQuestionsFallback(documentText) {
+                // Fallback method using regex patterns
+                const questions = [];
+                const lines = documentText.split('\n');
+                
+                lines.forEach((line, index) => {
+                    const trimmed = line.trim();
+                    if (trimmed.includes('?') || trimmed.match(/^\d+\./)) {
+                        questions.push({
+                            text: trimmed,
+                            type: this.detectQuestionType(trimmed),
+                            field_id: `field_${index}`,
+                            complexity: trimmed.length > 100 ? 'complex' : 'simple',
+                            context: 'Immigration form question'
+                        });
+                    }
+                });
+
+                return questions;
+            }
+
+            getFallbackQuestions(documentText) {
+                return {
+                    LEQ: [{
+                        text: "Please provide a detailed explanation of your situation",
+                        simplified_text: "Tell us about your situation in simple words",
+                        field_id: "fallback_leq_1",
+                        complexity: "moderate"
+                    }],
+                    SAQ: [{
+                        text: "What is your full name?",
+                        field_id: "fallback_saq_1",
+                        complexity: "simple"
+                    }],
+                    MCQ: [],
+                    BOOLEAN: [{
+                        text: "Have you ever been arrested?",
+                        field_id: "fallback_bool_1",
+                        complexity: "simple"
+                    }]
+                };
+            }
+        }
+
         // Immigration LLM Class
         class ImmigrationLLM {
             constructor() {
@@ -2230,6 +2628,7 @@
                 this.model = 'gpt-4';
                 this.currentLanguage = 'en';
                 this.context = this.buildImmigrationContext();
+                this.documentParser = new DocumentParser();
             }
             
             buildImmigrationContext() {
@@ -2260,6 +2659,13 @@
             
             async generateResponse(userMessage, userProfile = null, currentLanguage = null) {
                 try {
+                    // Check if user wants to parse a document
+                    if (userMessage.toLowerCase().includes('parse document') || 
+                        userMessage.toLowerCase().includes('analyze form') ||
+                        userMessage.toLowerCase().includes('help me understand this form')) {
+                        return await this.handleDocumentParsing(userMessage, currentLanguage || this.currentLanguage);
+                    }
+
                     // Use instance language if not provided
                     const language = currentLanguage || this.currentLanguage;
                     const systemPrompt = this.buildSystemPrompt(language);
@@ -2293,6 +2699,155 @@
                     console.error('LLM Error:', error);
                     return this.getFallbackResponse(userMessage, currentLanguage || this.currentLanguage);
                 }
+            }
+
+            async handleDocumentParsing(userMessage, language) {
+                try {
+                    // Extract document text from user message
+                    const documentText = this.extractDocumentText(userMessage);
+                    
+                    if (!documentText) {
+                        return this.getTranslatedText('documentParsingInstructions', language) || 
+                               "Please paste the immigration form text you'd like me to analyze. I'll break it down into simple questions for you.";
+                    }
+
+                    // Parse the document
+                    const parsedQuestions = await this.documentParser.parseDocument(documentText, language);
+                    
+                    // Format the response
+                    return this.formatParsedQuestions(parsedQuestions, language);
+                    
+                } catch (error) {
+                    console.error('Document parsing error:', error);
+                    return this.getTranslatedText('documentParsingError', language) || 
+                           "I had trouble analyzing that document. Please try again or paste a shorter section.";
+                }
+            }
+
+            extractDocumentText(userMessage) {
+                // Look for document text in various formats
+                const patterns = [
+                    /form text[:\s]*(.+)/i,
+                    /document[:\s]*(.+)/i,
+                    /analyze[:\s]*(.+)/i,
+                    /parse[:\s]*(.+)/i
+                ];
+
+                for (const pattern of patterns) {
+                    const match = userMessage.match(pattern);
+                    if (match && match[1].trim().length > 10) {
+                        return match[1].trim();
+                    }
+                }
+
+                // If no pattern matches, return the whole message if it's long enough
+                return userMessage.length > 50 ? userMessage : null;
+            }
+
+            formatParsedQuestions(parsedQuestions, language) {
+                let response = this.getTranslatedText('documentAnalysisComplete', language) || 
+                              "I've analyzed your immigration form. Here's what I found:\n\n";
+
+                // Format LEQs (Long Essay Questions)
+                if (parsedQuestions.LEQ && parsedQuestions.LEQ.length > 0) {
+                    response += `📝 **${this.getTranslatedText('longAnswerQuestions', language) || 'Long Answer Questions'}**\n\n`;
+                    
+                    parsedQuestions.LEQ.forEach((question, index) => {
+                        response += `${index + 1}. **${this.getTranslatedText('originalQuestion', language) || 'Original Question'}:**\n`;
+                        response += `   ${question.original_text || question.text}\n\n`;
+                        
+                        response += `   **${this.getTranslatedText('simplifiedQuestion', language) || 'Simplified Question'}:**\n`;
+                        response += `   ${question.translated_text || question.simplified_text || question.text}\n\n`;
+                        
+                        if (question.translated_explanation || question.summary_explanation) {
+                            response += `   **${this.getTranslatedText('explanation', language) || 'Explanation'}:**\n`;
+                            response += `   ${question.translated_explanation || question.summary_explanation}\n\n`;
+                        }
+                        
+                        response += "---\n\n";
+                    });
+                }
+
+                // Format SAQs (Short Answer Questions)
+                if (parsedQuestions.SAQ && parsedQuestions.SAQ.length > 0) {
+                    response += `📋 **${this.getTranslatedText('shortAnswerQuestions', language) || 'Short Answer Questions'}**\n\n`;
+                    
+                    parsedQuestions.SAQ.forEach((question, index) => {
+                        response += `${index + 1}. ${question.translated_text || question.text}\n`;
+                    });
+                    response += "\n";
+                }
+
+                // Format Boolean Questions
+                if (parsedQuestions.BOOLEAN && parsedQuestions.BOOLEAN.length > 0) {
+                    response += `✅ **${this.getTranslatedText('yesNoQuestions', language) || 'Yes/No Questions'}**\n\n`;
+                    
+                    parsedQuestions.BOOLEAN.forEach((question, index) => {
+                        response += `${index + 1}. ${question.translated_text || question.text}\n`;
+                    });
+                    response += "\n";
+                }
+
+                // Format Multiple Choice Questions
+                if (parsedQuestions.MCQ && parsedQuestions.MCQ.length > 0) {
+                    response += `🔘 **${this.getTranslatedText('multipleChoiceQuestions', language) || 'Multiple Choice Questions'}**\n\n`;
+                    
+                    parsedQuestions.MCQ.forEach((question, index) => {
+                        response += `${index + 1}. ${question.translated_text || question.text}\n`;
+                    });
+                    response += "\n";
+                }
+
+                response += this.getTranslatedText('documentParsingHelp', language) || 
+                           "💡 **Tip:** I can help you fill out these forms step by step. Just ask me about any specific question!";
+
+                return response;
+            }
+
+            getTranslatedText(key, language) {
+                const translations = {
+                    en: {
+                        documentParsingInstructions: "Please paste the immigration form text you'd like me to analyze. I'll break it down into simple questions for you.",
+                        documentParsingError: "I had trouble analyzing that document. Please try again or paste a shorter section.",
+                        documentAnalysisComplete: "I've analyzed your immigration form. Here's what I found:",
+                        longAnswerQuestions: "Long Answer Questions",
+                        shortAnswerQuestions: "Short Answer Questions",
+                        yesNoQuestions: "Yes/No Questions",
+                        multipleChoiceQuestions: "Multiple Choice Questions",
+                        originalQuestion: "Original Question",
+                        simplifiedQuestion: "Simplified Question",
+                        explanation: "Explanation",
+                        documentParsingHelp: "💡 **Tip:** I can help you fill out these forms step by step. Just ask me about any specific question!"
+                    },
+                    es: {
+                        documentParsingInstructions: "Por favor pega el texto del formulario de inmigración que quieres que analice. Lo dividiré en preguntas simples para ti.",
+                        documentParsingError: "Tuve problemas analizando ese documento. Por favor intenta de nuevo o pega una sección más corta.",
+                        documentAnalysisComplete: "He analizado tu formulario de inmigración. Esto es lo que encontré:",
+                        longAnswerQuestions: "Preguntas de Respuesta Larga",
+                        shortAnswerQuestions: "Preguntas de Respuesta Corta",
+                        yesNoQuestions: "Preguntas de Sí/No",
+                        multipleChoiceQuestions: "Preguntas de Opción Múltiple",
+                        originalQuestion: "Pregunta Original",
+                        simplifiedQuestion: "Pregunta Simplificada",
+                        explanation: "Explicación",
+                        documentParsingHelp: "💡 **Consejo:** ¡Puedo ayudarte a llenar estos formularios paso a paso. Solo pregúntame sobre cualquier pregunta específica!"
+                    },
+                    zh: {
+                        documentParsingInstructions: "请粘贴您想让我分析的移民表格文本。我会将其分解为简单的问题供您理解。",
+                        documentParsingError: "我分析该文档时遇到了问题。请重试或粘贴较短的段落。",
+                        documentAnalysisComplete: "我已经分析了您的移民表格。以下是我发现的内容：",
+                        longAnswerQuestions: "长答案问题",
+                        shortAnswerQuestions: "短答案问题",
+                        yesNoQuestions: "是/否问题",
+                        multipleChoiceQuestions: "多选题",
+                        originalQuestion: "原始问题",
+                        simplifiedQuestion: "简化问题",
+                        explanation: "解释",
+                        documentParsingHelp: "💡 **提示：** 我可以逐步帮助您填写这些表格。只需询问我任何具体问题！"
+                    }
+                };
+
+                return translations[language]?.[key] || translations.en[key];
             }
             
             buildSystemPrompt(language) {
