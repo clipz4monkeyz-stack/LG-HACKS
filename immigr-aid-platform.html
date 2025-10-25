@@ -826,6 +826,139 @@
             transform: translateY(-1px);
         }
         
+        /* Pathway Selection */
+        .pathway-selection {
+            margin-bottom: 30px;
+        }
+        
+        .pathway-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .pathway-card {
+            background: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .dark-mode .pathway-card {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .pathway-card:hover {
+            border-color: #00ff88;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,255,136,0.1);
+        }
+        
+        .pathway-card.selected {
+            border-color: #00ff88;
+            background: #f0fff4;
+        }
+        
+        .dark-mode .pathway-card.selected {
+            background: #0d1b0d;
+        }
+        
+        .pathway-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #000000;
+        }
+        
+        .dark-mode .pathway-name {
+            color: #ffffff;
+        }
+        
+        .pathway-description {
+            color: #666666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .dark-mode .pathway-description {
+            color: #cccccc;
+        }
+        
+        .pathway-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .pathway-status.available {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .pathway-status.limited {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .pathway-status.restricted {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .pathway-details {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .dark-mode .pathway-details {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .pathway-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .info-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #00ff88;
+        }
+        
+        .dark-mode .info-item {
+            background: #2a2a2a;
+        }
+        
+        .info-item strong {
+            color: #00ff88;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .info-item span {
+            color: #666666;
+            line-height: 1.5;
+        }
+        
+        .dark-mode .info-item span {
+            color: #cccccc;
+        }
+
         /* Help Resources */
         .help-resources {
             display: grid;
@@ -1297,9 +1430,35 @@
 
             <!-- Documents Section -->
             <div id="documentsSection" class="content-section">
-                <h1 class="section-title" id="documentsSectionTitle">Required Documents</h1>
-                <div class="documents-grid" id="documentsContainer">
-                    <!-- Documents will be populated here -->
+                <h1 class="section-title" id="documentsSectionTitle">Immigration Pathway Selection</h1>
+                <p id="documentsDescription">Select what you are applying for to see all required forms for your specific immigration process</p>
+                
+                <!-- Pathway Selection -->
+                <div class="pathway-selection">
+                    <h3>What are you applying for?</h3>
+                    <div class="pathway-grid" id="pathwayGrid">
+                        <!-- Pathways will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Selected Pathway Details -->
+                <div class="pathway-details" id="pathwayDetails" style="display: none;">
+                    <h3 id="selectedPathwayName">Selected Pathway</h3>
+                    <p id="selectedPathwayDescription">Description</p>
+                    <div class="pathway-info">
+                        <div class="info-item">
+                            <strong>Status:</strong> <span id="pathwayStatus"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Eligibility:</strong> <span id="pathwayEligibility"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Risks:</strong> <span id="pathwayRisks"></span>
+                        </div>
+                    </div>
+                    
+                    <h4>Required Forms for This Process:</h4>
+                    <div id="requiredFormsContainer" class="documents-grid"></div>
                 </div>
             </div>
 
@@ -1529,6 +1688,266 @@
                     }
                 });
             }
+        }
+
+        // Immigration Pathways and Required Forms
+        const immigrationPathways = {
+            'daca': {
+                name: 'DACA (Deferred Action for Childhood Arrivals)',
+                description: 'For undocumented individuals who came to the US as children',
+                status: 'Currently limited due to court rulings',
+                requiredForms: [
+                    { id: 'i-821d', name: 'Form I-821D - DACA Application', priority: 'high', status: 'pending' },
+                    { id: 'i-765', name: 'Form I-765 - Employment Authorization', priority: 'high', status: 'pending' },
+                    { id: 'i-131', name: 'Form I-131 - Advance Parole (if needed)', priority: 'medium', status: 'pending' },
+                    { id: 'g-1145', name: 'Form G-1145 - E-Notification', priority: 'low', status: 'pending' }
+                ],
+                eligibility: 'Arrived before age 16, continuous residence since 2007, education/military requirements',
+                risks: 'No permanent status, subject to policy changes'
+            },
+            'asylum': {
+                name: 'Asylum',
+                description: 'For individuals fleeing persecution in their home country',
+                status: 'Available for those with credible fear',
+                requiredForms: [
+                    { id: 'i-589', name: 'Form I-589 - Asylum Application', priority: 'high', status: 'pending' },
+                    { id: 'i-765', name: 'Form I-765 - Employment Authorization (after 150 days)', priority: 'high', status: 'pending' },
+                    { id: 'i-131', name: 'Form I-131 - Refugee Travel Document', priority: 'medium', status: 'pending' },
+                    { id: 'g-1145', name: 'Form G-1145 - E-Notification', priority: 'low', status: 'pending' }
+                ],
+                eligibility: 'Fear of persecution based on race, religion, nationality, political opinion, or membership in social group',
+                risks: 'Must prove persecution, strict deadlines, potential detention'
+            },
+            'family_based': {
+                name: 'Family-Based Immigration',
+                description: 'For family members of US citizens or lawful permanent residents',
+                status: 'Available with varying wait times',
+                requiredForms: [
+                    { id: 'i-130', name: 'Form I-130 - Petition for Alien Relative', priority: 'high', status: 'pending' },
+                    { id: 'i-485', name: 'Form I-485 - Adjustment of Status (if in US)', priority: 'high', status: 'pending' },
+                    { id: 'i-864', name: 'Form I-864 - Affidavit of Support', priority: 'high', status: 'pending' },
+                    { id: 'i-693', name: 'Form I-693 - Medical Examination', priority: 'high', status: 'pending' },
+                    { id: 'i-765', name: 'Form I-765 - Employment Authorization', priority: 'medium', status: 'pending' },
+                    { id: 'i-131', name: 'Form I-131 - Advance Parole', priority: 'medium', status: 'pending' },
+                    { id: 'g-1145', name: 'Form G-1145 - E-Notification', priority: 'low', status: 'pending' }
+                ],
+                eligibility: 'Immediate relatives (spouse, parent, child under 21) or family preference categories',
+                risks: 'Long wait times for some categories, public charge considerations'
+            },
+            'employment_based': {
+                name: 'Employment-Based Immigration',
+                description: 'For skilled workers, professionals, and investors',
+                status: 'Available with varying wait times',
+                requiredForms: [
+                    { id: 'i-140', name: 'Form I-140 - Immigrant Petition for Alien Worker', priority: 'high', status: 'pending' },
+                    { id: 'i-485', name: 'Form I-485 - Adjustment of Status', priority: 'high', status: 'pending' },
+                    { id: 'i-864', name: 'Form I-864 - Affidavit of Support', priority: 'high', status: 'pending' },
+                    { id: 'i-693', name: 'Form I-693 - Medical Examination', priority: 'high', status: 'pending' },
+                    { id: 'i-765', name: 'Form I-765 - Employment Authorization', priority: 'medium', status: 'pending' },
+                    { id: 'i-131', name: 'Form I-131 - Advance Parole', priority: 'medium', status: 'pending' },
+                    { id: 'g-1145', name: 'Form G-1145 - E-Notification', priority: 'low', status: 'pending' }
+                ],
+                eligibility: 'EB-1 (extraordinary ability), EB-2 (advanced degree), EB-3 (skilled workers), EB-5 (investors)',
+                risks: 'Labor certification required, strict requirements, long processing times'
+            },
+            'naturalization': {
+                name: 'Naturalization (Citizenship)',
+                description: 'For lawful permanent residents seeking US citizenship',
+                status: 'Available for eligible LPRs',
+                requiredForms: [
+                    { id: 'n-400', name: 'Form N-400 - Application for Naturalization', priority: 'high', status: 'pending' },
+                    { id: 'g-1145', name: 'Form G-1145 - E-Notification', priority: 'low', status: 'pending' }
+                ],
+                eligibility: '5 years as LPR (3 if married to US citizen), good moral character, English/civics test',
+                risks: 'Must maintain good moral character, pass tests, continuous residence requirement'
+            },
+            'tps': {
+                name: 'Temporary Protected Status (TPS)',
+                description: 'For nationals of designated countries due to conflict or disaster',
+                status: 'Available for designated countries',
+                requiredForms: [
+                    { id: 'i-821', name: 'Form I-821 - TPS Application', priority: 'high', status: 'pending' },
+                    { id: 'i-765', name: 'Form I-765 - Employment Authorization', priority: 'high', status: 'pending' },
+                    { id: 'g-1145', name: 'Form G-1145 - E-Notification', priority: 'low', status: 'pending' }
+                ],
+                eligibility: 'National of designated country, continuous residence, no serious criminal record',
+                risks: 'Temporary status only, subject to country designation changes'
+            },
+            'u_visa': {
+                name: 'U-Visa (Crime Victims)',
+                description: 'For victims of certain crimes who cooperate with law enforcement',
+                status: 'Available with annual cap',
+                requiredForms: [
+                    { id: 'i-918', name: 'Form I-918 - U-Visa Application', priority: 'high', status: 'pending' },
+                    { id: 'i-765', name: 'Form I-765 - Employment Authorization', priority: 'high', status: 'pending' },
+                    { id: 'g-1145', name: 'Form G-1145 - E-Notification', priority: 'low', status: 'pending' }
+                ],
+                eligibility: 'Victim of qualifying crime, cooperation with law enforcement, suffered substantial harm',
+                risks: 'Annual cap limits, must prove cooperation, strict requirements'
+            },
+            't_visa': {
+                name: 'T-Visa (Human Trafficking Victims)',
+                description: 'For victims of human trafficking',
+                status: 'Available with annual cap',
+                requiredForms: [
+                    { id: 'i-914', name: 'Form I-914 - T-Visa Application', priority: 'high', status: 'pending' },
+                    { id: 'i-765', name: 'Form I-765 - Employment Authorization', priority: 'high', status: 'pending' },
+                    { id: 'g-1145', name: 'Form G-1145 - E-Notification', priority: 'low', status: 'pending' }
+                ],
+                eligibility: 'Victim of severe trafficking, cooperation with law enforcement, extreme hardship if removed',
+                risks: 'Annual cap limits, must prove trafficking, strict requirements'
+            },
+            'si_js': {
+                name: 'Special Immigrant Juvenile Status (SIJS)',
+                description: 'For children who have been abused, neglected, or abandoned',
+                status: 'Available for eligible children',
+                requiredForms: [
+                    { id: 'i-360', name: 'Form I-360 - Special Immigrant Petition', priority: 'high', status: 'pending' },
+                    { id: 'i-485', name: 'Form I-485 - Adjustment of Status', priority: 'high', status: 'pending' },
+                    { id: 'i-693', name: 'Form I-693 - Medical Examination', priority: 'high', status: 'pending' },
+                    { id: 'i-765', name: 'Form I-765 - Employment Authorization', priority: 'medium', status: 'pending' },
+                    { id: 'g-1145', name: 'Form G-1145 - E-Notification', priority: 'low', status: 'pending' }
+                ],
+                eligibility: 'Under 21, unmarried, court finding of abuse/neglect/abandonment, not in best interest to return',
+                risks: 'Must be under 21, complex court process, strict requirements'
+            },
+            'va_wa': {
+                name: 'VAWA (Violence Against Women Act)',
+                description: 'For victims of domestic violence by US citizen/LPR spouse/parent',
+                status: 'Available for eligible victims',
+                requiredForms: [
+                    { id: 'i-360', name: 'Form I-360 - VAWA Self-Petition', priority: 'high', status: 'pending' },
+                    { id: 'i-485', name: 'Form I-485 - Adjustment of Status', priority: 'high', status: 'pending' },
+                    { id: 'i-693', name: 'Form I-693 - Medical Examination', priority: 'high', status: 'pending' },
+                    { id: 'i-765', name: 'Form I-765 - Employment Authorization', priority: 'medium', status: 'pending' },
+                    { id: 'g-1145', name: 'Form G-1145 - E-Notification', priority: 'low', status: 'pending' }
+                ],
+                eligibility: 'Victim of battery/extreme cruelty by US citizen/LPR spouse/parent, good moral character',
+                risks: 'Must prove abuse, strict evidence requirements, complex process'
+            },
+            'waivers': {
+                name: 'Waivers of Inadmissibility',
+                description: 'For individuals with grounds of inadmissibility seeking immigration relief',
+                status: 'Available for qualifying individuals',
+                requiredForms: [
+                    { id: 'i-601', name: 'Form I-601 - Waiver of Grounds of Inadmissibility', priority: 'high', status: 'pending' },
+                    { id: 'i-601a', name: 'Form I-601A - Provisional Unlawful Presence Waiver', priority: 'high', status: 'pending' },
+                    { id: 'i-212', name: 'Form I-212 - Application for Permission to Reapply', priority: 'high', status: 'pending' },
+                    { id: 'g-1145', name: 'Form G-1145 - E-Notification', priority: 'low', status: 'pending' }
+                ],
+                eligibility: 'Qualifying relative (US citizen/LPR spouse/parent), extreme hardship, good moral character',
+                risks: 'High denial rates, strict hardship requirements, complex evidence'
+            },
+            'removal_defense': {
+                name: 'Removal Defense',
+                description: 'For individuals in removal proceedings seeking relief',
+                status: 'Available for those in proceedings',
+                requiredForms: [
+                    { id: 'i-589', name: 'Form I-589 - Asylum Application', priority: 'high', status: 'pending' },
+                    { id: 'i-360', name: 'Form I-360 - Special Immigrant Petition', priority: 'high', status: 'pending' },
+                    { id: 'i-601', name: 'Form I-601 - Waiver Application', priority: 'high', status: 'pending' },
+                    { id: 'i-765', name: 'Form I-765 - Employment Authorization', priority: 'medium', status: 'pending' },
+                    { id: 'g-1145', name: 'Form G-1145 - E-Notification', priority: 'low', status: 'pending' }
+                ],
+                eligibility: 'Various forms of relief available in removal proceedings',
+                risks: 'Must appear in immigration court, strict deadlines, high stakes'
+            }
+        };
+
+        // Pathway Selection Functions
+        function populatePathways() {
+            const pathwayGrid = document.getElementById('pathwayGrid');
+            if (!pathwayGrid) return;
+            
+            pathwayGrid.innerHTML = '';
+            
+            Object.keys(immigrationPathways).forEach(pathwayKey => {
+                const pathway = immigrationPathways[pathwayKey];
+                const pathwayCard = createPathwayCard(pathwayKey, pathway);
+                pathwayGrid.appendChild(pathwayCard);
+            });
+        }
+        
+        function createPathwayCard(pathwayKey, pathway) {
+            const card = document.createElement('div');
+            card.className = 'pathway-card';
+            card.onclick = () => selectPathway(pathwayKey);
+            
+            let statusClass = 'available';
+            if (pathway.status.includes('limited') || pathway.status.includes('court')) {
+                statusClass = 'limited';
+            } else if (pathway.status.includes('cap') || pathway.status.includes('restricted')) {
+                statusClass = 'restricted';
+            }
+            
+            card.innerHTML = `
+                <div class="pathway-name">${pathway.name}</div>
+                <div class="pathway-description">${pathway.description}</div>
+                <div class="pathway-status ${statusClass}">${pathway.status}</div>
+            `;
+            
+            return card;
+        }
+        
+        function selectPathway(pathwayKey) {
+            const pathway = immigrationPathways[pathwayKey];
+            if (!pathway) return;
+            
+            // Remove selected class from all cards
+            document.querySelectorAll('.pathway-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            event.currentTarget.classList.add('selected');
+            
+            // Show pathway details
+            const pathwayDetails = document.getElementById('pathwayDetails');
+            const selectedPathwayName = document.getElementById('selectedPathwayName');
+            const selectedPathwayDescription = document.getElementById('selectedPathwayDescription');
+            const pathwayStatus = document.getElementById('pathwayStatus');
+            const pathwayEligibility = document.getElementById('pathwayEligibility');
+            const pathwayRisks = document.getElementById('pathwayRisks');
+            const requiredFormsContainer = document.getElementById('requiredFormsContainer');
+            
+            selectedPathwayName.textContent = pathway.name;
+            selectedPathwayDescription.textContent = pathway.description;
+            pathwayStatus.textContent = pathway.status;
+            pathwayEligibility.textContent = pathway.eligibility;
+            pathwayRisks.textContent = pathway.risks;
+            
+            // Populate required forms
+            requiredFormsContainer.innerHTML = '';
+            pathway.requiredForms.forEach(form => {
+                const formCard = createFormCard(form);
+                requiredFormsContainer.appendChild(formCard);
+            });
+            
+            pathwayDetails.style.display = 'block';
+            
+            // Scroll to details
+            pathwayDetails.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function createFormCard(form) {
+            const card = document.createElement('div');
+            card.className = 'document-card';
+            
+            const priorityClass = `priority-${form.priority}`;
+            const statusClass = `status-${form.status}`;
+            
+            card.innerHTML = `
+                <div class="document-status ${statusClass}">${form.status.charAt(0).toUpperCase() + form.status.slice(1)}</div>
+                <div class="document-title" data-doc-id="${form.id}">${form.name}</div>
+                <div class="document-priority ${priorityClass}">Priority: ${form.priority.charAt(0).toUpperCase() + form.priority.slice(1)}</div>
+                <div class="document-actions">
+                    <button class="btn btn-secondary" onclick="viewDocument('${form.id}')">View</button>
+                    <button class="btn" onclick="fillDocument('${form.id}')">Fill</button>
+                    <button class="btn btn-success" onclick="downloadDocument('${form.id}')">Download</button>
+                </div>
+            `;
+            
+            return card;
         }
 
         // Document Functions
@@ -4734,6 +5153,14 @@
                 document.body.style.opacity = '1';
             }, 50);
         }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            populatePathways();
+            populateDocuments();
+            populateHelpResources();
+            initializeSpeechRecognition();
+        });
     </script>
 </body>
 </html>
