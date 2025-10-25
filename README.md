@@ -1,76 +1,55 @@
-# NavigateHome AI - Your 24/7 Immigration Caseworker
+# Immigr-Aid - Your AI-Powered Immigration Assistant
 
-A comprehensive web platform that acts as a 24/7 caseworker for immigrants, providing intelligent document assistance, rights protection, healthcare navigation, and community resource connection.
+Immigration system is way too hard to navigate by yourself and the alternative is hiring an expensive immigration lawyer. **Immigr-Aid** solves this by providing a comprehensive AI-powered platform that acts as your 24/7 immigration caseworker.
 
 ## 🚀 Features
 
-### ✅ **Fully Functional Dashboard**
-- **Real-time Progress Tracking**: Live case progress updates with visual progress bars
-- **Document Management**: Three-tier system (Pending, Under Review, Completed)
-- **Smart Notifications**: Real-time alerts for document status changes
-- **Community Insights**: Success rates, processing times, and cost estimates
+### ✅ **Fully Functional Document System**
+- **Real Immigration Forms**: Complete I-821D (DACA), I-765 (Work Authorization), I-131 (Advance Parole) forms
+- **Native Language Support**: All forms translate to 8 languages (EN, ES, ZH, AR, HI, PT, RU, FR)
+- **AI-Powered Form Filling**: Intelligent assistance using your profile data
+- **Real-time Validation**: Form validation with helpful error messages
+- **PDF Generation**: Download completed forms as professional PDFs
 
-### ✅ **Working AI Chatbot**
-- **Intelligent Responses**: Context-aware AI responses based on immigration status
-- **Typing Indicators**: Realistic chat experience with typing animations
-- **Voice Input**: Speech-to-text functionality with recording indicators
-- **Document Upload**: Direct file upload integration in chat
+### ✅ **Advanced AI Assistant**
+- **LLM Integration**: OpenAI-powered responses in your native language
+- **Context-Aware**: Uses your profile to provide personalized guidance
+- **Speech-to-Text**: Voice input for long responses
+- **Form Assistance**: Automatically detects when you need help with forms
+- **Multi-language Responses**: AI responds in your selected language
 
-### ✅ **Real-time Translation**
-- **20+ Languages**: Support for major immigrant languages
-- **Instant Translation**: Real-time interface translation
-- **Native Language Support**: Display in user's preferred language
+### ✅ **Complete Language Support**
+- **8 Languages**: English, Spanish, Chinese, Arabic, Hindi, Portuguese, Russian, French
+- **Instant Translation**: All UI elements translate immediately
 - **Cultural Sensitivity**: Appropriate translations for legal/immigration terms
+- **Form Field Translation**: Every form field, label, and option translated
 
-### ✅ **Document System**
-- **Upload & Analysis**: Drag-and-drop document upload with instant analysis
-- **Status Tracking**: Real-time document status updates
-- **Download Capability**: Secure document download for verified files
-- **Expiration Alerts**: Automatic notifications for expiring documents
+### ✅ **Professional Dashboard**
+- **Progress Tracking**: Visual progress bars showing completion percentage
+- **Document Management**: Three-tier system (Pending, Under Review, Completed)
+- **Profile Management**: Comprehensive user profile with immigration details
+- **Help Resources**: Community resources with contact information
+- **Theme Support**: Dark/light mode toggle
 
-### ✅ **Speech-to-Text**
-- **Voice Recording**: One-click voice message recording
-- **Real-time Conversion**: Instant speech-to-text conversion
-- **Visual Feedback**: Recording indicators and status updates
-- **Accessibility**: Full voice navigation support
-
-### ✅ **Profile Management**
-- **Comprehensive Forms**: Complete user profile with immigration details
-- **Country Selection**: Extensive list of countries of origin
-- **Language Preferences**: Multi-language interface support
-- **Data Persistence**: Local storage for user preferences
-
-### ✅ **Resource Finder**
-- **Real Data Integration**: Actual community resources with contact info
-- **Advanced Search**: Filter by type, services, and location
-- **Rating System**: Community ratings and reviews
-- **Share Functionality**: Easy sharing of resource information
-
-### ✅ **Rights Protection**
-- **Know Your Rights**: Comprehensive rights information
-- **Emergency Features**: One-click emergency contact system
-- **Legal Hotlines**: Direct access to legal aid numbers
-- **Situation-Specific Guidance**: Rights for different scenarios
-
-### ✅ **Healthcare Navigation**
-- **Insurance Options**: Complete insurance guidance
-- **Clinic Finder**: Free and low-cost healthcare providers
-- **Mental Health Resources**: Crisis support and counseling
-- **Appointment Scheduling**: Direct booking capabilities
+### ✅ **Real-time Features**
+- **Auto-save**: Form data saved automatically to localStorage
+- **Data Persistence**: Previously filled data loads when reopening forms
+- **Status Updates**: Document status changes trigger notifications
+- **Progress Updates**: Real-time progress tracking
 
 ## 🛠️ Technology Stack
 
-- **Frontend**: React 18 with modern hooks
-- **Styling**: Tailwind CSS with custom animations
-- **Icons**: Lucide React icons
-- **Real-time Updates**: JavaScript intervals and state management
+- **Frontend**: Pure HTML5, CSS3, JavaScript (ES6+)
+- **Styling**: Custom CSS with dark/light theme support
+- **AI Integration**: OpenAI API with fallback responses
+- **Data Storage**: LocalStorage for user data and preferences
+- **PDF Generation**: Client-side PDF creation
 - **Responsive Design**: Mobile-first approach
-- **Accessibility**: WCAG compliant design
 
 ## 🚀 Quick Start
 
 ### Option 1: Direct File Access
-1. Open `enhanced.html` in any modern web browser
+1. Open `immigr-aid-dashboard.html` in any modern web browser
 2. All features work immediately - no installation required!
 
 ### Option 2: Local Server
@@ -79,15 +58,17 @@ A comprehensive web platform that acts as a 24/7 caseworker for immigrants, prov
 cd navigatehome-ai
 
 # Start local server
-python3 -m http.server 3000
+python3 -m http.server 8080
 
-# Open browser to http://localhost:3000/enhanced.html
+# Open browser to http://localhost:8080/immigr-aid-dashboard.html
 ```
 
-### Option 3: Live Server (VS Code)
-1. Install "Live Server" extension in VS Code
-2. Right-click on `enhanced.html`
-3. Select "Open with Live Server"
+### Option 3: Use the Start Script
+```bash
+# Make executable and run
+chmod +x start.sh
+./start.sh
+```
 
 ## 📱 Responsive Design
 
@@ -96,83 +77,70 @@ python3 -m http.server 3000
 - **Desktop**: Full-featured desktop experience
 - **Cross-browser**: Works on Chrome, Firefox, Safari, Edge
 
+## 🌟 Key Features in Action
+
+### Document Filling
+- Click "Fill" on any document to open the interactive form
+- All fields translate to your selected language
+- AI assistant provides contextual help
+- Save progress and download completed forms
+
+### AI Assistant
+- Ask questions about immigration processes
+- Get help filling out specific forms
+- Receive responses in your native language
+- Use voice input for long responses
+
+### Language Switching
+- Change language instantly from the top navigation
+- All content updates immediately
+- Form fields refresh with new language
+- Preserves your data during language changes
+
 ## 🔧 Customization
 
 ### Adding New Languages
 ```javascript
-const languages = [
-    { code: 'en', name: 'English', native: 'English' },
-    { code: 'es', name: 'Spanish', native: 'Español' },
-    // Add your language here
-    { code: 'your-code', name: 'Your Language', native: 'Native Name' }
-];
-```
-
-### Adding New Resources
-```javascript
-const resources = [
-    {
-        id: 1,
-        name: 'Resource Name',
-        type: 'Resource Type',
-        address: 'Full Address',
-        phone: '(555) 123-4567',
-        rating: 4.8,
-        free: true,
-        distance: '1.2 mi',
-        services: ['Service 1', 'Service 2'],
-        availability: 'Mon-Fri 9AM-5PM'
+const translations = {
+    'new-lang': {
+        // Add translations for new language
+        firstName: 'First Name in New Language',
+        lastName: 'Last Name in New Language',
+        // ... more translations
     }
-];
+};
 ```
 
-## 🌟 Key Features in Action
-
-### Real-time Updates
-- Case progress updates every 5 seconds
-- Document status changes trigger notifications
-- Live typing indicators in chat
-- Instant search filtering
-
-### Interactive Elements
-- Hover effects on all cards and buttons
-- Smooth animations and transitions
-- Loading states and progress indicators
-- Responsive feedback for all actions
-
-### Accessibility
-- Keyboard navigation support
-- Screen reader friendly
-- High contrast mode support
-- Voice control integration
-
-## 📊 Performance
-
-- **Load Time**: < 2 seconds on average connection
-- **Responsiveness**: < 100ms for all interactions
-- **Memory Usage**: Optimized for mobile devices
-- **Offline Support**: Core features work without internet
+### Adding New Forms
+```javascript
+const fieldSets = {
+    'new-form': [
+        { id: 'field1', name: 'field1', type: 'text', label: 'fieldLabel', required: true },
+        // ... more fields
+    ]
+};
+```
 
 ## 🔒 Privacy & Security
 
-- **No Data Collection**: All data stays in browser
-- **Local Storage**: User preferences saved locally
+- **No Data Collection**: All data stays in your browser
+- **Local Storage**: User preferences and form data saved locally
 - **No Tracking**: No analytics or tracking scripts
-- **Secure Uploads**: Client-side file handling only
+- **Secure Processing**: Client-side form handling only
 
 ## 🌍 Internationalization
 
-- **20+ Languages**: Major immigrant languages supported
+- **8 Languages**: Major immigrant languages supported
 - **Cultural Sensitivity**: Appropriate translations for legal terms
-- **RTL Support**: Right-to-left language support
-- **Localized Content**: Region-specific resources and information
+- **Form Translation**: Every form element translated
+- **AI Responses**: AI responds in selected language
 
 ## 📞 Support
 
 For questions or support:
-- **Email**: support@navigatehome.ai
-- **Phone**: 1-800-NAVIGATE
-- **Live Chat**: Available in the application
+- **GitHub Issues**: Report bugs or request features
+- **Documentation**: Comprehensive README and inline help
+- **AI Assistant**: Built-in help system
 
 ## 📄 License
 
@@ -180,4 +148,17 @@ MIT License - Feel free to use and modify for your community needs.
 
 ---
 
-**NavigateHome AI** - Empowering immigrants with technology, one case at a time. 🌟
+**Immigr-Aid** - Making immigration accessible through AI technology. 🌟
+
+## 🎯 What Makes This Different
+
+Unlike expensive immigration lawyers or confusing government websites, Immigr-Aid provides:
+
+- **24/7 Availability**: Access help anytime, anywhere
+- **Native Language Support**: No language barriers
+- **AI-Powered Guidance**: Intelligent assistance for complex forms
+- **Cost-Free**: No expensive lawyer fees
+- **User-Friendly**: Designed for non-technical users
+- **Comprehensive**: Covers all major immigration forms and processes
+
+**Start your immigration journey with confidence - Immigr-Aid is here to help!**
