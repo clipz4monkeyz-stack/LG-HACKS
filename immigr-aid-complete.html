@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NavigateHome Immigr-AId - Your 24/7 Immigration Caseworker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #000000;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        body.dark-mode {
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .login-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            color: white;
+        }
+        
+        .login-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .ai-emphasis {
+            color: #00ff88;
+            text-shadow: 0 0 10px #00ff88;
+        }
+        
+        .login-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .login-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .demo-login {
+            background: rgba(0, 255, 136, 0.3);
+            border: 2px solid rgba(0, 255, 136, 0.5);
+        }
+        
+        .demo-login:hover {
+            background: rgba(0, 255, 136, 0.5);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Navigation Bar */
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 0 20px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .dark-mode .navbar {
+            background: #000000;
+            border-bottom: 1px solid #333333;
+        }
+        
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #000000;
+        }
+        
+        .dark-mode .logo {
+            color: #ffffff;
+        }
+        
+        .ai-emphasis-nav {
+            color: #00ff88;
+            text-shadow: 0 0 5px #00ff88;
+        }
+        
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .nav-button {
+            padding: 10px 15px;
+            background: transparent;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            color: #000000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .dark-mode .nav-button {
+            border-color: #333333;
+            color: #ffffff;
+        }
+        
+        .nav-button:hover {
+            background: #f5f5f5;
+        }
+        
+        .dark-mode .nav-button:hover {
+            background: #333333;
+        }
+        
+        .nav-button.active {
+            background: #00ff88;
+            color: #000000;
+            border-color: #00ff88;
+        }
+        
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            color: #000000;
+        }
+        
+        .dark-mode .theme-toggle {
+            border-color: #333333;
+            color: #ffffff;
+        }
+        
+        .language-selector {
+            background: transparent;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #000000;
+            cursor: pointer;
+        }
+        
+        .dark-mode .language-selector {
+            border-color: #333333;
+            color: #ffffff;
+        }
+        
+        .language-selector option {
+            background: #ffffff;
+            color: #000000;
+        }
+        
+        .dark-mode .language-selector option {
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .content-section {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 30px;
+        }
+        
+        .dark-mode .content-section {
+            background: #000000;
+            border-color: #333333;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #000000;
+        }
+        
+        .dark-mode .section-title {
+            color: #ffffff;
+        }
+        
+        .ai-emphasis-title {
+            color: #00ff88;
+        }
+        
+        .progress-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .dark-mode .progress-section {
+            background: #1a1a1a;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e5e5e5;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .dark-mode .progress-bar {
+            background: #333333;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #00ff88;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        /* Legal Journey */
+        .legal-journey {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .journey-step {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e5e5e5;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .journey-step {
+            border-color: #333333;
+        }
+        
+        .journey-step.completed {
+            background: #f0f9ff;
+            border-color: #00ff88;
+        }
+        
+        .dark-mode .journey-step.completed {
+            background: #0a1a0a;
+        }
+        
+        .journey-step.current {
+            background: #fff7ed;
+            border-color: #f59e0b;
+        }
+        
+        .dark-mode .journey-step.current {
+            background: #1a0f00;
+        }
+        
+        .journey-step.pending {
+            background: #f8f9fa;
+            opacity: 0.6;
+        }
+        
+        .dark-mode .journey-step.pending {
+            background: #1a1a1a;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .step-number.completed {
+            background: #00ff88;
+            color: #000000;
+        }
+        
+        .step-number.current {
+            background: #f59e0b;
+            color: #ffffff;
+        }
+        
+        .step-number.pending {
+            background: #e5e5e5;
+            color: #666666;
+        }
+        
+        .dark-mode .step-number.pending {
+            background: #333333;
+            color: #999999;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .step-description {
+            color: #666666;
+            margin-bottom: 8px;
+        }
+        
+        .dark-mode .step-description {
+            color: #999999;
+        }
+        
+        .step-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: #888888;
+        }
+        
+        .dark-mode .step-meta {
+            color: #777777;
+        }
+        
+        .step-duration {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .step-cost {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Profile Form */
+        .profile-form {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #000000;
+        }
+        
+        .dark-mode .form-label {
+            color: #ffffff;
+        }
+        
+        .form-input {
+            padding: 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #ffffff;
+            color: #000000;
+        }
+        
+        .dark-mode .form-input {
+            border-color: #333333;
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+        
+        .form-input::placeholder {
+            color: #999999;
+        }
+        
+        .dark-mode .form-input::placeholder {
+            color: #666666;
+        }
+        
+        /* AI Chat */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .dark-mode .chat-messages {
+            background: #1a1a1a;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 80%;
+        }
+        
+        .message.user {
+            background: #e5e5e5;
+            color: #000000;
+            margin-left: auto;
+        }
+        
+        .dark-mode .message.user {
+            background: #333333;
+            color: #ffffff;
+        }
+        
+        .message.ai {
+            background: #00ff88;
+            color: #000000;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 25px;
+            outline: none;
+            background: #ffffff;
+            color: #000000;
+        }
+        
+        .dark-mode .chat-input input {
+            border-color: #333333;
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        .chat-input input:focus {
+            border-color: #00ff88;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #00ff88;
+            color: #000000;
+        }
+        
+        .btn-secondary {
+            background: #e5e5e5;
+            color: #000000;
+        }
+        
+        .dark-mode .btn-secondary {
+            background: #333333;
+            color: #ffffff;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+        
+        .speech-btn {
+            background: #f59e0b;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .speech-btn.recording {
+            background: #ef4444;
+            animation: pulse 1s infinite;
+        }
+        
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .modal-content {
+            background: #ffffff;
+            color: #000000;
+            width: 90%;
+            max-width: 800px;
+            height: 80%;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .dark-mode .modal-content {
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        .modal-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dark-mode .modal-header {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .modal-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .dark-mode .modal-footer {
+            border-color: #333333;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #000000;
+        }
+        
+        .dark-mode .close-btn {
+            color: #ffffff;
+        }
+        
+        /* Chat History */
+        .chat-history {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .chat-item {
+            padding: 15px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .chat-item {
+            border-color: #333333;
+        }
+        
+        .chat-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .dark-mode .chat-item:hover {
+            background: #1a1a1a;
+        }
+        
+        .chat-item-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .chat-item-date {
+            font-size: 0.9rem;
+            color: #666666;
+        }
+        
+        .dark-mode .chat-item-date {
+            color: #999999;
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            background: #00ff88;
+            color: #000000;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+            max-width: 300px;
+        }
+        
+        .notification.error {
+            background: #ef4444;
+            color: #ffffff;
+        }
+        
+        .notification.warning {
+            background: #f59e0b;
+            color: #ffffff;
+        }
+        
+        .notification.info {
+            background: #3b82f6;
+            color: #ffffff;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .navbar {
+                padding: 0 10px;
+            }
+            
+            .navbar-right {
+                gap: 10px;
+            }
+            
+            .nav-button {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .legal-journey {
+                gap: 10px;
+            }
+            
+            .journey-step {
+                padding: 15px;
+            }
+            
+            .step-number {
+                width: 35px;
+                height: 35px;
+                margin-right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-form">
+            <div class="login-title">
+                🛡️ NavigateHome <span class="ai-emphasis">Immigr-AId</span>
+            </div>
+            <div class="login-subtitle">Your 24/7 Immigration Caseworker</div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Enter your password" required>
+                </div>
+                
+                <button type="submit" class="login-button">Sign In</button>
+            </form>
+            
+            <button onclick="demoLogin()" class="login-button demo-login">🚀 Demo Login (Skip)</button>
+            
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">
+                New user? <a href="#" style="color: white; text-decoration: underline;">Create Account</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" class="hidden">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="navbar-left">
+                <div class="logo">
+                    🛡️ NavigateHome <span class="ai-emphasis-nav">Immigr-AId</span>
+                </div>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="nav-button" onclick="showSection('profile')" id="profileNav">
+                    👤 Profile
+                </button>
+                <button class="nav-button" onclick="showSection('legal')" id="legalNav">
+                    ⚖️ Legal Journey
+                </button>
+                <button class="nav-button" onclick="showSection('ai-chat')" id="aiChatNav">
+                    🤖 AI Assistant
+                </button>
+                <button class="nav-button" onclick="showSection('chat-history')" id="chatHistoryNav">
+                    💬 AI Chats
+                </button>
+                <select class="language-selector" id="languageSelect" onchange="changeLanguage()">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="zh">中文</option>
+                    <option value="ar">العربية</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="pt">Português</option>
+                    <option value="ru">Русский</option>
+                    <option value="fr">Français</option>
+                </select>
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+                    🌙
+                </button>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="main-content">
+                <!-- Profile Section -->
+                <div id="profileSection" class="content-section">
+                    <h2 class="section-title">Personal Information</h2>
+                    <form class="profile-form" id="profileForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-input" id="firstName" value="Carlos">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-input" id="lastName" value="Rodriguez">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" id="email" value="carlos@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" class="form-input" id="phone" value="(555) 987-6543">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" class="form-input" id="dateOfBirth" value="1995-06-15">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Country of Origin</label>
+                                <select class="form-input" id="countryOfOrigin">
+                                    <option value="Mexico">Mexico</option>
+                                    <option value="China">China</option>
+                                    <option value="India">India</option>
+                                    <option value="Philippines">Philippines</option>
+                                    <option value="El Salvador">El Salvador</option>
+                                    <option value="Guatemala">Guatemala</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Current Address</label>
+                                <input type="text" class="form-input" id="currentAddress" value="123 Main St, Los Angeles, CA 90210">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Entry Date to US</label>
+                                <input type="date" class="form-input" id="entryDate" value="2010-08-20">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Visa Status</label>
+                                <input type="text" class="form-input" id="visaStatus" value="DACA" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">DACA Expiration</label>
+                                <input type="date" class="form-input" id="dacaExpiration" value="2025-01-10">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Emergency Contact Name</label>
+                                <input type="text" class="form-input" id="emergencyContact" value="Maria Rodriguez">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Emergency Contact Phone</label>
+                                <input type="tel" class="form-input" id="emergencyPhone" value="(555) 123-4567">
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="btn btn-primary" onclick="saveProfile()">Save Profile</button>
+                    </form>
+                </div>
+
+                <!-- Legal Journey Section -->
+                <div id="legalSection" class="content-section hidden">
+                    <h2 class="section-title">Legal Journey - <span class="ai-emphasis-title">DACA Renewal Process</span></h2>
+                    
+                    <div class="progress-section">
+                        <h3>Overall Progress</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 60%"></div>
+                        </div>
+                        <p>60% Complete - Next deadline: March 15, 2024</p>
+                    </div>
+                    
+                    <div class="legal-journey">
+                        <div class="journey-step completed">
+                            <div class="step-number completed">1</div>
+                            <div class="step-content">
+                                <div class="step-title">Initial Consultation</div>
+                                <div class="step-description">Meet with immigration attorney to assess eligibility and gather required documents</div>
+                                <div class="step-meta">
+                                    <div class="step-duration">⏱️ 2-3 hours</div>
+                                    <div class="step-cost">💰 $200-500</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step completed">
+                            <div class="step-number completed">2</div>
+                            <div class="step-content">
+                                <div class="step-title">Document Collection</div>
+                                <div class="step-description">Gather all required documents: passport, birth certificate, school records, etc.</div>
+                                <div class="step-meta">
+                                    <div class="step-duration">⏱️ 1-2 weeks</div>
+                                    <div class="step-cost">💰 $0-200</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step current">
+                            <div class="step-number current">3</div>
+                            <div class="step-content">
+                                <div class="step-title">Form I-821D Preparation</div>
+                                <div class="step-description">Complete DACA renewal application with all supporting evidence</div>
+                                <div class="step-meta">
+                                    <div class="step-duration">⏱️ 3-5 days</div>
+                                    <div class="step-cost">💰 $495</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step current">
+                            <div class="step-number current">4</div>
+                            <div class="step-content">
+                                <div class="step-title">Form I-765 Preparation</div>
+                                <div class="step-description">Complete employment authorization application</div>
+                                <div class="step-meta">
+                                    <div class="step-duration">⏱️ 2-3 days</div>
+                                    <div class="step-cost">💰 $410</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step pending">
+                            <div class="step-number pending">5</div>
+                            <div class="step-content">
+                                <div class="step-title">Application Submission</div>
+                                <div class="step-description">Submit all forms and documents to USCIS</div>
+                                <div class="step-meta">
+                                    <div class="step-duration">⏱️ 1 day</div>
+                                    <div class="step-cost">💰 $0</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step pending">
+                            <div class="step-number pending">6</div>
+                            <div class="step-content">
+                                <div class="step-title">Biometrics Appointment</div>
+                                <div class="step-description">Attend fingerprinting and photo appointment</div>
+                                <div class="step-meta">
+                                    <div class="step-duration">⏱️ 1 hour</div>
+                                    <div class="step-cost">💰 $0</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step pending">
+                            <div class="step-number pending">7</div>
+                            <div class="step-content">
+                                <div class="step-title">Case Review</div>
+                                <div class="step-description">USCIS reviews application and supporting documents</div>
+                                <div class="step-meta">
+                                    <div class="step-duration">⏱️ 4-6 months</div>
+                                    <div class="step-cost">💰 $0</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-step pending">
+                            <div class="step-number pending">8</div>
+                            <div class="step-content">
+                                <div class="step-title">Approval & Card Production</div>
+                                <div class="step-description">Receive approval notice and new DACA card</div>
+                                <div class="step-meta">
+                                    <div class="step-duration">⏱️ 2-3 weeks</div>
+                                    <div class="step-cost">💰 $0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Chat Section -->
+                <div id="aiChatSection" class="content-section hidden">
+                    <h2 class="section-title">AI Assistant - <span class="ai-emphasis-title">Immigr-AId</span></h2>
+                    
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message ai">
+                                <div>Hello! I'm your AI immigration assistant. I can help you with your DACA renewal process, answer questions about forms, and guide you through each step. How can I assist you today?</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input">
+                            <input type="text" id="chatInput" placeholder="Type your message or use voice input..." onkeypress="handleChatKeyPress(event)">
+                            <button class="speech-btn" id="speechBtn" onclick="toggleSpeechRecognition()" title="Click to speak">
+                                🎤
+                            </button>
+                            <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat History Section -->
+                <div id="chatHistorySection" class="content-section hidden">
+                    <h2 class="section-title">AI Chat History</h2>
+                    
+                    <div class="chat-history" id="chatHistoryList">
+                        <!-- Chat history will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentLanguage = 'en';
+        let isDarkMode = false;
+        let isRecording = false;
+        let recognition = null;
+        let chatHistory = [];
+        let currentChatId = null;
+
+        // Initialize speech recognition
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                isRecording = true;
+                document.getElementById('speechBtn').classList.add('recording');
+                showNotification('Listening... Speak now', 'info');
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('chatInput').value = transcript;
+                showNotification('Speech converted to text', 'success');
+            };
+
+            recognition.onerror = function(event) {
+                showNotification('Speech recognition error: ' + event.error, 'error');
+                isRecording = false;
+                document.getElementById('speechBtn').classList.remove('recording');
+            };
+
+            recognition.onend = function() {
+                isRecording = false;
+                document.getElementById('speechBtn').classList.remove('recording');
+            };
+        }
+
+        // Login functionality
+        function demoLogin() {
+            showNotification('Welcome to NavigateHome Immigr-AId!', 'success');
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            showSection('profile');
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            const password = this.querySelector('input[type="password"]').value;
+            
+            if (email && password) {
+                showNotification('Login successful!', 'success');
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+                showSection('profile');
+            } else {
+                showNotification('Please fill in all fields', 'error');
+            }
+        });
+
+        // Theme toggle
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            document.getElementById('themeToggle').textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        // Language switching
+        function changeLanguage() {
+            currentLanguage = document.getElementById('languageSelect').value;
+            showNotification(`Language changed to ${getLanguageName(currentLanguage)}`, 'info');
+        }
+
+        function getLanguageName(code) {
+            const names = {
+                'en': 'English',
+                'es': 'Español',
+                'zh': '中文',
+                'ar': 'العربية',
+                'hi': 'हिन्दी',
+                'pt': 'Português',
+                'ru': 'Русский',
+                'fr': 'Français'
+            };
+            return names[code] || 'English';
+        }
+
+        // Section navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + 'Section').classList.remove('hidden');
+            document.getElementById(sectionName + 'Nav').classList.add('active');
+        }
+
+        // Speech recognition
+        function toggleSpeechRecognition() {
+            if (!recognition) {
+                showNotification('Speech recognition not supported in this browser', 'error');
+                return;
+            }
+
+            if (isRecording) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        }
+
+        // Chat functionality
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addChatMessage(message, true);
+                
+                // Save to chat history
+                if (!currentChatId) {
+                    currentChatId = Date.now();
+                    chatHistory.push({
+                        id: currentChatId,
+                        title: message.substring(0, 50) + (message.length > 50 ? '...' : ''),
+                        date: new Date(),
+                        messages: []
+                    });
+                }
+                
+                chatHistory[chatHistory.length - 1].messages.push({
+                    text: message,
+                    isUser: true,
+                    timestamp: new Date()
+                });
+                
+                input.value = '';
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const responses = [
+                        "Based on your profile information, I can help you complete Form I-821D. You'll need to provide your current address, entry date, and DACA expiration date. Would you like me to help you fill out the form?",
+                        "I see your DACA expires on January 10, 2025. You should submit your renewal application 120 days before expiration, which would be around September 2024. Would you like me to create a timeline for you?",
+                        "For your employment authorization, you'll need to complete Form I-765 along with Form I-821D. The total cost will be $905 ($495 + $410). I can help you prepare both forms.",
+                        "I notice you're from Mexico and entered the US in 2010. You'll need to provide evidence of continuous residence since 2010. Do you have school records, medical records, or employment records from that time?",
+                        "Your emergency contact Maria Rodriguez is listed. Make sure she's aware she may be contacted by USCIS. Would you like me to help you prepare a checklist of all required documents?",
+                        "Based on your information, you're eligible for DACA renewal. The process typically takes 4-6 months. I can help you track your case status and prepare for the biometrics appointment."
+                    ];
+                    const response = responses[Math.floor(Math.random() * responses.length)];
+                    addChatMessage(response, false);
+                    
+                    // Save AI response to chat history
+                    chatHistory[chatHistory.length - 1].messages.push({
+                        text: response,
+                        isUser: false,
+                        timestamp: new Date()
+                    });
+                    
+                    updateChatHistory();
+                }, 1500);
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function addChatMessage(text, isUser) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            messageDiv.textContent = text;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Chat history
+        function updateChatHistory() {
+            const container = document.getElementById('chatHistoryList');
+            container.innerHTML = '';
+            
+            chatHistory.forEach(chat => {
+                const chatDiv = document.createElement('div');
+                chatDiv.className = 'chat-item';
+                chatDiv.onclick = () => loadChatHistory(chat.id);
+                
+                chatDiv.innerHTML = `
+                    <div class="chat-item-title">${chat.title}</div>
+                    <div class="chat-item-date">${chat.date.toLocaleDateString()} at ${chat.date.toLocaleTimeString()}</div>
+                `;
+                
+                container.appendChild(chatDiv);
+            });
+        }
+
+        function loadChatHistory(chatId) {
+            const chat = chatHistory.find(c => c.id === chatId);
+            if (chat) {
+                currentChatId = chatId;
+                const messagesContainer = document.getElementById('chatMessages');
+                messagesContainer.innerHTML = '';
+                
+                chat.messages.forEach(msg => {
+                    addChatMessage(msg.text, msg.isUser);
+                });
+                
+                showSection('ai-chat');
+            }
+        }
+
+        // Profile functionality
+        function saveProfile() {
+            const profileData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                dateOfBirth: document.getElementById('dateOfBirth').value,
+                countryOfOrigin: document.getElementById('countryOfOrigin').value,
+                currentAddress: document.getElementById('currentAddress').value,
+                entryDate: document.getElementById('entryDate').value,
+                visaStatus: document.getElementById('visaStatus').value,
+                dacaExpiration: document.getElementById('dacaExpiration').value,
+                emergencyContact: document.getElementById('emergencyContact').value,
+                emergencyPhone: document.getElementById('emergencyPhone').value
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('profileData', JSON.stringify(profileData));
+            
+            showNotification('Profile saved successfully! AI can now use this information to help you.', 'success');
+        }
+
+        // Load profile data
+        function loadProfile() {
+            const savedData = localStorage.getItem('profileData');
+            if (savedData) {
+                const profileData = JSON.parse(savedData);
+                Object.keys(profileData).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        element.value = profileData[key];
+                    }
+                });
+            }
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Real-time progress updates
+        setInterval(() => {
+            const progressFill = document.getElementById('progressFill');
+            if (progressFill) {
+                const currentWidth = parseInt(progressFill.style.width);
+                if (currentWidth < 100) {
+                    progressFill.style.width = (currentWidth + Math.random() * 2) + '%';
+                }
+            }
+        }, 5000);
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfile();
+            updateChatHistory();
+            
+            // Welcome message
+            setTimeout(() => {
+                showNotification('Welcome to NavigateHome Immigr-AId! Your AI assistant is ready to help.', 'success');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

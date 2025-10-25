@@ -1,0 +1,30 @@
+{
+  "name": "navigatehome-ai",
+  "version": "1.0.0",
+  "description": "NavigateHome AI - Your 24/7 Immigration Caseworker",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 3000",
+    "dev": "python3 -m http.server 3000",
+    "build": "echo 'Build complete'",
+    "serve": "python3 -m http.server 3000"
+  },
+  "keywords": [
+    "immigration",
+    "ai",
+    "assistant",
+    "legal",
+    "documents",
+    "translation"
+  ],
+  "author": "NavigateHome AI Team",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "lucide": "^0.263.1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.0"
+  }
+}
