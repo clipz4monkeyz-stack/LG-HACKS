@@ -1,0 +1,2785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immigr-Aid - Your 24/7 Immigration Caseworker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #000000;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        body.dark-mode {
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        /* Navigation Bar */
+        .nav-bar {
+            background: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .dark-mode .nav-bar {
+            background: #1a1a1a;
+            border-bottom-color: #333333;
+        }
+        
+        .nav-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #000000;
+        }
+        
+        .dark-mode .nav-title {
+            color: #ffffff;
+        }
+        
+        .ai-emphasis {
+            color: #00ff88;
+            text-shadow: 0 0 10px #00ff88;
+        }
+        
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .language-selector {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #000000;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .language-selector {
+            background: #2a2a2a;
+            border-color: #444444;
+            color: #ffffff;
+        }
+        
+        .language-selector:hover {
+            border-color: #00ff88;
+        }
+        
+        .theme-toggle {
+            background: #00ff88;
+            color: #000000;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: #00cc6a;
+            transform: translateY(-1px);
+        }
+        
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-tab {
+            background: #f8f9fa;
+            color: #000000;
+            border: 1px solid #e0e0e0;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .dark-mode .nav-tab {
+            background: #2a2a2a;
+            color: #ffffff;
+            border-color: #444444;
+        }
+        
+        .nav-tab:hover {
+            background: #00ff88;
+            color: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,255,136,0.3);
+        }
+        
+        .nav-tab.active {
+            background: #00ff88;
+            color: #000000;
+            box-shadow: 0 4px 15px rgba(0,255,136,0.3);
+        }
+        
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Section Titles */
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #000000;
+        }
+        
+        .dark-mode .section-title {
+            color: #ffffff;
+        }
+        
+        /* Cards */
+        .card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .card {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .dark-mode .card:hover {
+            box-shadow: 0 8px 25px rgba(0,255,136,0.1);
+        }
+        
+        /* Progress Section */
+        .progress-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .progress-card {
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            color: #000000;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,255,136,0.3);
+        }
+        
+        .progress-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .progress-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        /* Profile Section */
+        .profile-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #000000;
+        }
+        
+        .dark-mode .form-group label {
+            color: #ffffff;
+        }
+        
+        .required-field {
+            color: #ff4444;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: #ffffff;
+            color: #000000;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .form-group input,
+        .dark-mode .form-group select,
+        .dark-mode .form-group textarea {
+            background: #2a2a2a;
+            border-color: #444444;
+            color: #ffffff;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 10px rgba(0,255,136,0.3);
+        }
+        
+        /* Buttons */
+        .btn {
+            background: #00ff88;
+            color: #000000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background: #00cc6a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,255,136,0.3);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: #ffffff;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: #ffffff;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+        }
+        
+        /* Documents Section */
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .document-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .dark-mode .document-card {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .document-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .document-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-in-progress {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .document-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #000000;
+        }
+        
+        .dark-mode .document-title {
+            color: #ffffff;
+        }
+        
+        .document-description {
+            color: #666666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .dark-mode .document-description {
+            color: #cccccc;
+        }
+        
+        .document-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .document-actions .btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+        
+        /* Chat Section */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .dark-mode .chat-container {
+            border-color: #333333;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+        
+        .dark-mode .chat-messages {
+            background: #2a2a2a;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        
+        .message.user {
+            background: #00ff88;
+            color: #000000;
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .message.ai {
+            background: #ffffff;
+            color: #000000;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .dark-mode .message.ai {
+            background: #1a1a1a;
+            color: #ffffff;
+            border-color: #333333;
+        }
+        
+        .message.typing {
+            background: #e5e5e5;
+            color: #666666;
+        }
+        
+        .dark-mode .message.typing {
+            background: #333333;
+            color: #999999;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #666666;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .dark-mode .typing-dots span {
+            background: #999999;
+        }
+        
+        .typing-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        
+        .typing-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .chat-input-container {
+            padding: 20px;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .dark-mode .chat-input-container {
+            background: #1a1a1a;
+            border-top-color: #333333;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1rem;
+            background: #ffffff;
+            color: #000000;
+        }
+        
+        .dark-mode .chat-input {
+            background: #2a2a2a;
+            border-color: #444444;
+            color: #ffffff;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+        
+        .voice-btn {
+            background: #ff6b6b;
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .voice-btn:hover {
+            background: #ff5252;
+            transform: scale(1.1);
+        }
+        
+        .voice-btn.recording {
+            background: #ff4444;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .send-btn {
+            background: #00ff88;
+            color: #000000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            background: #00cc6a;
+            transform: translateY(-1px);
+        }
+        
+        /* Help Resources */
+        .help-resources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .resource-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .resource-card {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .resource-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #000000;
+        }
+        
+        .dark-mode .resource-name {
+            color: #ffffff;
+        }
+        
+        .resource-type {
+            color: #00ff88;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .resource-phone {
+            margin-bottom: 5px;
+            color: #666666;
+        }
+        
+        .dark-mode .resource-phone {
+            color: #cccccc;
+        }
+        
+        .resource-website {
+            color: #00ff88;
+            text-decoration: none;
+        }
+        
+        .resource-website:hover {
+            text-decoration: underline;
+        }
+        
+        .service-tag,
+        .language-tag {
+            display: inline-block;
+            background: #e9ecef;
+            color: #495057;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+        
+        .dark-mode .service-tag,
+        .dark-mode .language-tag {
+            background: #444444;
+            color: #ffffff;
+        }
+        
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .modal-content {
+            background: #ffffff;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .dark-mode .modal-content {
+            background: #1a1a1a;
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dark-mode .modal-header {
+            border-bottom-color: #333333;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: #000000;
+        }
+        
+        .dark-mode .modal-header h2 {
+            color: #ffffff;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666666;
+            padding: 5px;
+        }
+        
+        .dark-mode .close-btn {
+            color: #cccccc;
+        }
+        
+        .close-btn:hover {
+            color: #ff4444;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .dark-mode .modal-footer {
+            border-top-color: #333333;
+        }
+        
+        /* Form Styles */
+        .immigration-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .form-header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .form-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #000000;
+        }
+        
+        .dark-mode .form-header h3 {
+            color: #ffffff;
+        }
+        
+        .form-description {
+            color: #666666;
+            font-size: 1rem;
+        }
+        
+        .dark-mode .form-description {
+            color: #cccccc;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-tabs {
+                justify-content: center;
+            }
+            
+            .nav-tab {
+                font-size: 0.9rem;
+                padding: 10px 15px;
+            }
+            
+            .main-container {
+                padding: 15px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .progress-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .documents-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .help-resources {
+                grid-template-columns: 1fr;
+            }
+            
+            .chat-container {
+                height: 500px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10px;
+            }
+            
+            .immigration-form {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-title {
+                font-size: 1.5rem;
+            }
+            
+            .nav-tab {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .document-card {
+                padding: 20px;
+            }
+            
+            .chat-container {
+                height: 400px;
+            }
+            
+            .chat-input-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .chat-input {
+                border-radius: 10px;
+            }
+            
+            .send-btn {
+                border-radius: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+        <div class="nav-title">
+            Immigr-<span class="ai-emphasis">Aid</span>
+        </div>
+        <div class="nav-controls">
+            <select id="languageSelect" class="language-selector" onchange="changeLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="zh">中文</option>
+                <option value="ar">العربية</option>
+                <option value="hi">हिन्दी</option>
+                <option value="pt">Português</option>
+                <option value="ru">Русский</option>
+                <option value="fr">Français</option>
+            </select>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <a href="#" class="nav-tab active" onclick="showSection('dashboard')" id="dashboardNav">📊 Dashboard</a>
+            <a href="#" class="nav-tab" onclick="showSection('profile')" id="profileNav">👤 Profile</a>
+            <a href="#" class="nav-tab" onclick="showSection('documents')" id="documentsNav">📄 Documents</a>
+            <a href="#" class="nav-tab" onclick="showSection('chat')" id="chatNav">🤖 AI Assistant</a>
+            <a href="#" class="nav-tab" onclick="showSection('chatHistory')" id="chatHistoryNav">💬 AI Chats</a>
+            <a href="#" class="nav-tab" onclick="showSection('help')" id="helpNav">🆘 Help Resources</a>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboardSection" class="content-section active">
+            <h1 class="section-title" id="dashboardTitle">Dashboard - Immigr-Aid</h1>
+            
+            <!-- Progress Cards -->
+            <div class="progress-container">
+                <div class="progress-card">
+                    <div class="progress-number" id="completedCount">0</div>
+                    <div class="progress-label" id="completedLabel">Completed</div>
+                </div>
+                <div class="progress-card">
+                    <div class="progress-number" id="remainingCount">3</div>
+                    <div class="progress-label" id="remainingLabel">Remaining</div>
+                </div>
+            </div>
+
+            <!-- Profile Completion Card -->
+            <div class="card">
+                <h2 id="profileTitle">Personal Information</h2>
+                <p id="profileDescription">Complete your profile to enable AI assistance with form filling and personalized guidance.</p>
+                <div style="margin-top: 15px;">
+                    <button class="btn" onclick="showSection('profile')" id="completeProfileBtn">Complete Profile</button>
+                </div>
+            </div>
+
+            <!-- Documents Overview -->
+            <div class="card">
+                <h2 id="documentsTitle">Required Documents</h2>
+                <p id="documentsDescription">All documents needed to complete your immigration application process</p>
+                <div id="documentsPreview" class="documents-grid" style="margin-top: 20px;">
+                    <!-- Documents will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div id="profileSection" class="content-section">
+            <h1 class="section-title" id="profileSectionTitle">Personal Information</h1>
+            <div class="card">
+                <form class="profile-form" id="profileForm">
+                    <div class="form-group">
+                        <label for="firstName" id="firstNameLabel">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" id="lastNameLabel">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="middleName" id="middleNameLabel">Middle Name</label>
+                        <input type="text" id="middleName" name="middleName">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateOfBirth" id="dateOfBirthLabel">Date of Birth *</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="countryOfBirth" id="countryOfBirthLabel">Country of Birth *</label>
+                        <select id="countryOfBirth" name="countryOfBirth" required>
+                            <option value="">Select Country</option>
+                            <option value="Mexico">Mexico</option>
+                            <option value="China">China</option>
+                            <option value="India">India</option>
+                            <option value="Philippines">Philippines</option>
+                            <option value="El Salvador">El Salvador</option>
+                            <option value="Guatemala">Guatemala</option>
+                            <option value="Honduras">Honduras</option>
+                            <option value="Cuba">Cuba</option>
+                            <option value="Dominican Republic">Dominican Republic</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Venezuela">Venezuela</option>
+                            <option value="Brazil">Brazil</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Peru">Peru</option>
+                            <option value="Ecuador">Ecuador</option>
+                            <option value="Bolivia">Bolivia</option>
+                            <option value="Chile">Chile</option>
+                            <option value="Uruguay">Uruguay</option>
+                            <option value="Paraguay">Paraguay</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="currentAddress" id="currentAddressLabel">Current Address *</label>
+                        <textarea id="currentAddress" name="currentAddress" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber" id="phoneNumberLabel">Phone Number *</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailAddress" id="emailAddressLabel">Email Address *</label>
+                        <input type="email" id="emailAddress" name="emailAddress" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="socialSecurityNumber" id="socialSecurityNumberLabel">Social Security Number</label>
+                        <input type="text" id="socialSecurityNumber" name="socialSecurityNumber">
+                    </div>
+                    <div class="form-group">
+                        <label for="entryDate" id="entryDateLabel">Entry Date to US *</label>
+                        <input type="date" id="entryDate" name="entryDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="methodOfEntry" id="methodOfEntryLabel">Method of Entry *</label>
+                        <select id="methodOfEntry" name="methodOfEntry" required>
+                            <option value="">Select Method</option>
+                            <option value="Visa">Visa</option>
+                            <option value="Border Crossing">Border Crossing</option>
+                            <option value="Airport">Airport</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="educationLevel" id="educationLevelLabel">Education Level *</label>
+                        <select id="educationLevel" name="educationLevel" required>
+                            <option value="">Select Education Level</option>
+                            <option value="Elementary">Elementary School</option>
+                            <option value="Middle School">Middle School</option>
+                            <option value="High School">High School</option>
+                            <option value="Some College">Some College</option>
+                            <option value="Associate Degree">Associate Degree</option>
+                            <option value="Bachelor Degree">Bachelor Degree</option>
+                            <option value="Master Degree">Master Degree</option>
+                            <option value="Doctorate">Doctorate</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="employmentStatus" id="employmentStatusLabel">Employment Status *</label>
+                        <select id="employmentStatus" name="employmentStatus" required>
+                            <option value="">Select Status</option>
+                            <option value="Employed">Employed</option>
+                            <option value="Unemployed">Unemployed</option>
+                            <option value="Student">Student</option>
+                            <option value="Self-Employed">Self-Employed</option>
+                            <option value="Retired">Retired</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="criminalHistory" id="criminalHistoryLabel">Criminal History *</label>
+                        <select id="criminalHistory" name="criminalHistory" required>
+                            <option value="">Select Status</option>
+                            <option value="None">No Criminal History</option>
+                            <option value="Minor">Minor Offenses</option>
+                            <option value="Major">Major Offenses</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <button type="button" class="btn" onclick="saveProfile()" id="saveProfileBtn">Save Profile Information</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Documents Section -->
+        <div id="documentsSection" class="content-section">
+            <h1 class="section-title" id="documentsSectionTitle">Required Documents</h1>
+            <div class="documents-grid" id="documentsContainer">
+                <!-- Documents will be populated here -->
+            </div>
+        </div>
+
+        <!-- AI Chat Section -->
+        <div id="chatSection" class="content-section">
+            <h1 class="section-title" id="chatTitle">AI Assistant - Immigr-Aid</h1>
+            <div class="card">
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message ai">
+                            <div id="welcomeMessage">Hello! I am your AI immigration assistant. I can help you fill out forms, answer questions about your immigration process, and guide you through each step. How can I assist you today?</div>
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input type="text" id="chatInput" class="chat-input" placeholder="Type your message or use voice input..." onkeypress="handleKeyPress(event)">
+                        <button class="voice-btn" id="voiceBtn" onclick="toggleVoiceRecording()" title="Voice Input">🎤</button>
+                        <button class="send-btn" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat History Section -->
+        <div id="chatHistorySection" class="content-section">
+            <h1 class="section-title" id="chatHistoryTitle">AI Chat History</h1>
+            <div class="card">
+                <div id="chatHistoryContainer">
+                    <p id="noChatHistory">No chat history yet. Start a conversation with the AI assistant!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Resources Section -->
+        <div id="helpSection" class="content-section">
+            <h1 class="section-title" id="helpTitle">Help Resources & Locations</h1>
+            <div class="help-resources">
+                <div>
+                    <h3 id="emergencyResources">Emergency Resources</h3>
+                    <div id="emergencyResourcesContainer">
+                        <!-- Emergency resources will be populated here -->
+                    </div>
+                </div>
+                <div>
+                    <h3 id="legalAid">Legal Aid</h3>
+                    <div id="legalAidContainer">
+                        <!-- Legal aid resources will be populated here -->
+                    </div>
+                </div>
+                <div>
+                    <h3 id="communityCenters">Community Centers</h3>
+                    <div id="communityCentersContainer">
+                        <!-- Community centers will be populated here -->
+                    </div>
+                </div>
+                <div>
+                    <h3 id="healthcareResources">Healthcare</h3>
+                    <div id="healthcareResourcesContainer">
+                        <!-- Healthcare resources will be populated here -->
+                    </div>
+                </div>
+                <div>
+                    <h3 id="employmentResources">Employment</h3>
+                    <div id="employmentResourcesContainer">
+                        <!-- Employment resources will be populated here -->
+                    </div>
+                </div>
+                <div>
+                    <h3 id="educationalResources">Educational Resources</h3>
+                    <div id="educationalResourcesContainer">
+                        <!-- Educational resources will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentLanguage = 'en';
+        let currentSection = 'dashboard';
+        let userProfile = {};
+        let profileComplete = false;
+        let chatHistory = [];
+        let currentChatId = null;
+        let recognition = null;
+        let isRecording = false;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            // Load saved preferences
+            loadPreferences();
+            
+            // Initialize speech recognition
+            initializeSpeechRecognition();
+            
+            // Populate initial content
+            populateDocuments();
+            populateHelpResources();
+            updateProgress();
+            updateChatHistory();
+            
+            // Set initial language
+            updateLanguage();
+        }
+
+        function loadPreferences() {
+            // Load language preference
+            const savedLanguage = localStorage.getItem('language');
+            if (savedLanguage) {
+                currentLanguage = savedLanguage;
+                document.getElementById('languageSelect').value = currentLanguage;
+            }
+            
+            // Load theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.theme-toggle').textContent = '☀️ Light';
+            }
+            
+            // Load profile data
+            const savedProfile = localStorage.getItem('profileData');
+            if (savedProfile) {
+                userProfile = JSON.parse(savedProfile);
+                profileComplete = true;
+                populateProfileForm();
+            }
+            
+            // Load chat history
+            const savedChatHistory = localStorage.getItem('chatHistory');
+            if (savedChatHistory) {
+                chatHistory = JSON.parse(savedChatHistory);
+            }
+        }
+
+        function savePreferences() {
+            localStorage.setItem('language', currentLanguage);
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            localStorage.setItem('profileData', JSON.stringify(userProfile));
+            localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+        }
+
+        // Language and Theme Functions
+        function changeLanguage(language) {
+            currentLanguage = language;
+            updateLanguage();
+            savePreferences();
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const themeBtn = document.querySelector('.theme-toggle');
+            if (document.body.classList.contains('dark-mode')) {
+                themeBtn.textContent = '☀️ Light';
+            } else {
+                themeBtn.textContent = '🌙 Dark';
+            }
+            savePreferences();
+        }
+
+        // Navigation Functions
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + 'Section').classList.add('active');
+            
+            // Add active class to selected tab
+            event.target.classList.add('active');
+            
+            currentSection = sectionName;
+        }
+
+        // Profile Functions
+        function saveProfile() {
+            const form = document.getElementById('profileForm');
+            const formData = new FormData(form);
+            
+            userProfile = {};
+            for (let [key, value] of formData.entries()) {
+                userProfile[key] = value;
+            }
+            
+            profileComplete = true;
+            savePreferences();
+            updateProgress();
+            
+            // Show success message
+            alert('Profile saved successfully!');
+        }
+
+        function populateProfileForm() {
+            if (userProfile && Object.keys(userProfile).length > 0) {
+                Object.keys(userProfile).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        element.value = userProfile[key];
+                    }
+                });
+            }
+        }
+
+        // Document Functions
+        function populateDocuments() {
+            const documents = [
+                {
+                    id: 'i-821d',
+                    name: 'Form I-821D - DACA Application',
+                    description: 'Application for Deferred Action for Childhood Arrivals',
+                    status: 'pending',
+                    fields: ['personalInfo', 'arrivalInfo', 'educationInfo', 'criminalHistory', 'economicNecessity']
+                },
+                {
+                    id: 'i-765',
+                    name: 'Form I-765 - Work Authorization',
+                    description: 'Application for Employment Authorization Document',
+                    status: 'pending',
+                    fields: ['personalInfo', 'immigrationStatus', 'employmentHistory', 'supportingDocuments']
+                },
+                {
+                    id: 'i-131',
+                    name: 'Form I-131 - Advance Parole',
+                    description: 'Application for Travel Document',
+                    status: 'pending',
+                    fields: ['personalInfo', 'travelPurpose', 'travelDates', 'supportingEvidence']
+                }
+            ];
+            
+            const container = document.getElementById('documentsContainer');
+            const previewContainer = document.getElementById('documentsPreview');
+            
+            if (container) {
+                container.innerHTML = '';
+                documents.forEach(doc => {
+                    const docCard = createDocumentCard(doc);
+                    container.appendChild(docCard);
+                });
+            }
+            
+            if (previewContainer) {
+                previewContainer.innerHTML = '';
+                documents.forEach(doc => {
+                    const docCard = createDocumentCard(doc, true);
+                    previewContainer.appendChild(docCard);
+                });
+            }
+        }
+
+        function createDocumentCard(doc, isPreview = false) {
+            const card = document.createElement('div');
+            card.className = 'document-card';
+            
+            const statusClass = `status-${doc.status}`;
+            const statusText = doc.status.charAt(0).toUpperCase() + doc.status.slice(1).replace('-', ' ');
+            
+            card.innerHTML = `
+                <div class="document-status ${statusClass}">${statusText}</div>
+                <div class="document-title">${doc.name}</div>
+                <div class="document-description">${doc.description}</div>
+                <div class="document-actions">
+                    <button class="btn btn-secondary" onclick="viewDocument('${doc.id}')">View</button>
+                    <button class="btn" onclick="fillDocument('${doc.id}')">Fill</button>
+                    <button class="btn btn-success" onclick="downloadDocument('${doc.id}')">Download</button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function viewDocument(docId) {
+            const documents = {
+                'i-821d': {
+                    name: 'Form I-821D - DACA Application',
+                    description: 'Application for Deferred Action for Childhood Arrivals',
+                    fields: [
+                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
+                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
+                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
+                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
+                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
+                        { id: 'countryOfBirth', label: 'Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
+                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
+                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
+                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
+                        { id: 'socialSecurityNumber', label: 'Social Security Number', type: 'text', required: false },
+                        { id: 'arrivalInfo', label: 'Arrival Information', type: 'section' },
+                        { id: 'entryDate', label: 'Date of Entry to US', type: 'date', required: true },
+                        { id: 'methodOfEntry', label: 'Method of Entry', type: 'select', required: true, options: ['Visa', 'Border Crossing', 'Airport', 'Other'] },
+                        { id: 'educationInfo', label: 'Education Information', type: 'section' },
+                        { id: 'educationLevel', label: 'Education Level', type: 'select', required: true, options: ['Elementary', 'Middle School', 'High School', 'Some College', 'Associate Degree', 'Bachelor Degree', 'Master Degree', 'Doctorate'] },
+                        { id: 'schoolName', label: 'Current/Last School Name', type: 'text', required: false },
+                        { id: 'graduationDate', label: 'Graduation Date', type: 'date', required: false },
+                        { id: 'criminalHistory', label: 'Criminal History', type: 'section' },
+                        { id: 'criminalRecord', label: 'Criminal Record', type: 'select', required: true, options: ['None', 'Minor Offenses', 'Major Offenses'] },
+                        { id: 'criminalDetails', label: 'Criminal Details (if applicable)', type: 'textarea', required: false },
+                        { id: 'economicNecessity', label: 'Economic Necessity', type: 'section' },
+                        { id: 'employmentStatus', label: 'Employment Status', type: 'select', required: true, options: ['Employed', 'Unemployed', 'Student', 'Self-Employed', 'Retired', 'Other'] },
+                        { id: 'annualIncome', label: 'Annual Income', type: 'number', required: false },
+                        { id: 'householdSize', label: 'Household Size', type: 'number', required: false },
+                        { id: 'economicHardship', label: 'Economic Hardship Explanation', type: 'textarea', required: false }
+                    ]
+                },
+                'i-765': {
+                    name: 'Form I-765 - Work Authorization',
+                    description: 'Application for Employment Authorization Document',
+                    fields: [
+                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
+                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
+                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
+                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
+                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
+                        { id: 'countryOfBirth', label: 'Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
+                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
+                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
+                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
+                        { id: 'socialSecurityNumber', label: 'Social Security Number', type: 'text', required: false },
+                        { id: 'immigrationStatus', label: 'Immigration Status', type: 'section' },
+                        { id: 'currentStatus', label: 'Current Immigration Status', type: 'select', required: true, options: ['DACA', 'TPS', 'Asylum Pending', 'Family Petition Pending', 'Other'] },
+                        { id: 'alienNumber', label: 'Alien Number (if applicable)', type: 'text', required: false },
+                        { id: 'employmentHistory', label: 'Employment History', type: 'section' },
+                        { id: 'previousEmployer', label: 'Previous Employer', type: 'text', required: false },
+                        { id: 'employmentDates', label: 'Employment Dates', type: 'text', required: false },
+                        { id: 'jobTitle', label: 'Job Title', type: 'text', required: false },
+                        { id: 'supportingDocuments', label: 'Supporting Documents', type: 'section' },
+                        { id: 'passportPhoto', label: 'Passport Photo Required', type: 'checkbox', required: true },
+                        { id: 'identityDocument', label: 'Identity Document', type: 'checkbox', required: true },
+                        { id: 'employmentEvidence', label: 'Employment Evidence', type: 'checkbox', required: false }
+                    ]
+                },
+                'i-131': {
+                    name: 'Form I-131 - Advance Parole',
+                    description: 'Application for Travel Document',
+                    fields: [
+                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
+                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
+                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
+                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
+                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
+                        { id: 'countryOfBirth', label: 'Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
+                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
+                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
+                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
+                        { id: 'socialSecurityNumber', label: 'Social Security Number', type: 'text', required: false },
+                        { id: 'travelPurpose', label: 'Travel Purpose', type: 'section' },
+                        { id: 'travelReason', label: 'Reason for Travel', type: 'select', required: true, options: ['Educational', 'Employment', 'Humanitarian', 'Family Emergency', 'Medical', 'Other'] },
+                        { id: 'travelDestination', label: 'Travel Destination', type: 'text', required: true },
+                        { id: 'travelDates', label: 'Travel Dates', type: 'section' },
+                        { id: 'departureDate', label: 'Departure Date', type: 'date', required: true },
+                        { id: 'returnDate', label: 'Return Date', type: 'date', required: true },
+                        { id: 'supportingEvidence', label: 'Supporting Evidence', type: 'section' },
+                        { id: 'travelDocumentation', label: 'Travel Documentation', type: 'textarea', required: false },
+                        { id: 'emergencyContact', label: 'Emergency Contact', type: 'text', required: true },
+                        { id: 'emergencyPhone', label: 'Emergency Phone', type: 'tel', required: true }
+                    ]
+                }
+            };
+            
+            const doc = documents[docId];
+            if (!doc) return;
+            
+            openDocumentModal(doc);
+        }
+
+        function fillDocument(docId) {
+            // Load saved form data if available
+            const savedData = localStorage.getItem(`form_${docId}`);
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                // Pre-fill form with saved data
+                Object.keys(data).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        element.value = data[key];
+                    }
+                });
+            }
+            
+            viewDocument(docId);
+        }
+
+        function downloadDocument(docId) {
+            const savedData = localStorage.getItem(`form_${docId}`);
+            if (!savedData) {
+                alert('Please fill out the form first before downloading.');
+                return;
+            }
+            
+            const data = JSON.parse(savedData);
+            const doc = getDocumentInfo(docId);
+            
+            // Generate PDF content
+            let pdfContent = `
+                <h1>${doc.name}</h1>
+                <h2>${doc.description}</h2>
+                <hr>
+            `;
+            
+            Object.keys(data).forEach(key => {
+                if (data[key]) {
+                    const field = doc.fields.find(f => f.id === key);
+                    if (field) {
+                        pdfContent += `<p><strong>${field.label}:</strong> ${data[key]}</p>`;
+                    }
+                }
+            });
+            
+            // Create downloadable file
+            const blob = new Blob([pdfContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${docId}_filled.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Document downloaded successfully!');
+        }
+
+        function getDocumentInfo(docId) {
+            const documents = {
+                'i-821d': {
+                    name: 'Form I-821D - DACA Application',
+                    description: 'Application for Deferred Action for Childhood Arrivals',
+                    fields: [
+                        { id: 'firstName', label: 'First Name' },
+                        { id: 'lastName', label: 'Last Name' },
+                        { id: 'middleName', label: 'Middle Name' },
+                        { id: 'dateOfBirth', label: 'Date of Birth' },
+                        { id: 'countryOfBirth', label: 'Country of Birth' },
+                        { id: 'currentAddress', label: 'Current Address' },
+                        { id: 'phoneNumber', label: 'Phone Number' },
+                        { id: 'emailAddress', label: 'Email Address' },
+                        { id: 'socialSecurityNumber', label: 'Social Security Number' },
+                        { id: 'entryDate', label: 'Date of Entry to US' },
+                        { id: 'methodOfEntry', label: 'Method of Entry' },
+                        { id: 'educationLevel', label: 'Education Level' },
+                        { id: 'schoolName', label: 'Current/Last School Name' },
+                        { id: 'graduationDate', label: 'Graduation Date' },
+                        { id: 'criminalRecord', label: 'Criminal Record' },
+                        { id: 'criminalDetails', label: 'Criminal Details' },
+                        { id: 'employmentStatus', label: 'Employment Status' },
+                        { id: 'annualIncome', label: 'Annual Income' },
+                        { id: 'householdSize', label: 'Household Size' },
+                        { id: 'economicHardship', label: 'Economic Hardship Explanation' }
+                    ]
+                },
+                'i-765': {
+                    name: 'Form I-765 - Work Authorization',
+                    description: 'Application for Employment Authorization Document',
+                    fields: [
+                        { id: 'firstName', label: 'First Name' },
+                        { id: 'lastName', label: 'Last Name' },
+                        { id: 'middleName', label: 'Middle Name' },
+                        { id: 'dateOfBirth', label: 'Date of Birth' },
+                        { id: 'countryOfBirth', label: 'Country of Birth' },
+                        { id: 'currentAddress', label: 'Current Address' },
+                        { id: 'phoneNumber', label: 'Phone Number' },
+                        { id: 'emailAddress', label: 'Email Address' },
+                        { id: 'socialSecurityNumber', label: 'Social Security Number' },
+                        { id: 'currentStatus', label: 'Current Immigration Status' },
+                        { id: 'alienNumber', label: 'Alien Number' },
+                        { id: 'previousEmployer', label: 'Previous Employer' },
+                        { id: 'employmentDates', label: 'Employment Dates' },
+                        { id: 'jobTitle', label: 'Job Title' }
+                    ]
+                },
+                'i-131': {
+                    name: 'Form I-131 - Advance Parole',
+                    description: 'Application for Travel Document',
+                    fields: [
+                        { id: 'firstName', label: 'First Name' },
+                        { id: 'lastName', label: 'Last Name' },
+                        { id: 'middleName', label: 'Middle Name' },
+                        { id: 'dateOfBirth', label: 'Date of Birth' },
+                        { id: 'countryOfBirth', label: 'Country of Birth' },
+                        { id: 'currentAddress', label: 'Current Address' },
+                        { id: 'phoneNumber', label: 'Phone Number' },
+                        { id: 'emailAddress', label: 'Email Address' },
+                        { id: 'socialSecurityNumber', label: 'Social Security Number' },
+                        { id: 'travelReason', label: 'Reason for Travel' },
+                        { id: 'travelDestination', label: 'Travel Destination' },
+                        { id: 'departureDate', label: 'Departure Date' },
+                        { id: 'returnDate', label: 'Return Date' },
+                        { id: 'travelDocumentation', label: 'Travel Documentation' },
+                        { id: 'emergencyContact', label: 'Emergency Contact' },
+                        { id: 'emergencyPhone', label: 'Emergency Phone' }
+                    ]
+                }
+            };
+            
+            return documents[docId];
+        }
+
+        function openDocumentModal(doc) {
+            // Create modal
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${doc.name}</h2>
+                        <button class="close-btn" onclick="closeModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-header">
+                            <h3>${doc.name}</h3>
+                            <p class="form-description">${doc.description}</p>
+                        </div>
+                        <form id="documentForm" class="immigration-form">
+                            ${generateFormFields(doc.fields)}
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="saveDocumentForm('${doc.id || 'unknown'}')">Save</button>
+                        <button type="button" class="btn btn-success" onclick="downloadDocument('${doc.id || 'unknown'}')">Download</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Load saved data
+            loadFormData(doc.id || 'unknown');
+        }
+
+        function generateFormFields(fields) {
+            let html = '';
+            
+            fields.forEach(field => {
+                if (field.type === 'section') {
+                    html += `<div class="form-section" style="grid-column: 1 / -1; margin: 20px 0 10px 0; padding: 10px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #00ff88;">
+                        <h4 style="margin: 0; color: #000000;">${field.label}</h4>
+                    </div>`;
+                } else {
+                    html += `<div class="form-group">
+                        <label for="${field.id}">${field.label}${field.required ? ' *' : ''}</label>
+                        ${generateFieldInput(field)}
+                    </div>`;
+                }
+            });
+            
+            return html;
+        }
+
+        function generateFieldInput(field) {
+            const required = field.required ? 'required' : '';
+            
+            switch (field.type) {
+                case 'text':
+                case 'email':
+                case 'tel':
+                case 'date':
+                case 'number':
+                    return `<input type="${field.type}" id="${field.id}" name="${field.id}" ${required}>`;
+                
+                case 'textarea':
+                    return `<textarea id="${field.id}" name="${field.id}" rows="3" ${required}></textarea>`;
+                
+                case 'select':
+                    let options = '<option value="">Select...</option>';
+                    if (field.options) {
+                        field.options.forEach(option => {
+                            options += `<option value="${option}">${option}</option>`;
+                        });
+                    }
+                    return `<select id="${field.id}" name="${field.id}" ${required}>${options}</select>`;
+                
+                case 'checkbox':
+                    return `<input type="checkbox" id="${field.id}" name="${field.id}" ${required}>`;
+                
+                default:
+                    return `<input type="text" id="${field.id}" name="${field.id}" ${required}>`;
+            }
+        }
+
+        function saveDocumentForm(docId) {
+            const form = document.getElementById('documentForm');
+            const formData = new FormData(form);
+            const data = {};
+            
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            // Save to localStorage
+            localStorage.setItem(`form_${docId}`, JSON.stringify(data));
+            
+            // Show success message
+            alert('Form saved successfully!');
+        }
+
+        function loadFormData(docId) {
+            const savedData = localStorage.getItem(`form_${docId}`);
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                Object.keys(data).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        element.value = data[key];
+                    }
+                });
+            }
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('.modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Enhanced Chat Functions with LLM Integration
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addChatMessage(message, true);
+                
+                // Save to chat history
+                if (!currentChatId) {
+                    currentChatId = Date.now();
+                    chatHistory.push({
+                        id: currentChatId,
+                        title: message.substring(0, 50) + (message.length > 50 ? '...' : ''),
+                        date: new Date(),
+                        messages: []
+                    });
+                }
+                
+                chatHistory[chatHistory.length - 1].messages.push({
+                    text: message,
+                    isUser: true,
+                    timestamp: new Date()
+                });
+                
+                input.value = '';
+                
+                // Show typing indicator
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'message ai typing';
+                typingIndicator.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+                document.getElementById('chatMessages').appendChild(typingIndicator);
+                document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+                
+                try {
+                    // Generate intelligent AI response using LLM
+                    const aiResponse = await immigrationLLM.generateResponse(message, userProfile, currentLanguage);
+                    
+                    // Remove typing indicator
+                    typingIndicator.remove();
+                    
+                    // Add AI response
+                    addChatMessage(aiResponse, false);
+                    
+                    // Save AI response to chat history
+                    chatHistory[chatHistory.length - 1].messages.push({
+                        text: aiResponse,
+                        isUser: false,
+                        timestamp: new Date()
+                    });
+                    
+                    // Check if user is asking about forms and offer to help fill them
+                    if (message.toLowerCase().includes('form') || message.toLowerCase().includes('document') || message.toLowerCase().includes('i-821d') || message.toLowerCase().includes('i-765') || message.toLowerCase().includes('i-131')) {
+                        setTimeout(() => {
+                            const formHelpMessage = getTranslatedText('formHelpMessage') || "I can help you fill out immigration forms. Would you like me to open a specific form for you?";
+                            addChatMessage(formHelpMessage, false);
+                            
+                            chatHistory[chatHistory.length - 1].messages.push({
+                                text: formHelpMessage,
+                                isUser: false,
+                                timestamp: new Date()
+                            });
+                        }, 1000);
+                    }
+                    
+                    updateChatHistory();
+                    savePreferences();
+                    
+                } catch (error) {
+                    // Remove typing indicator
+                    typingIndicator.remove();
+                    
+                    // Fallback response
+                    const fallbackResponse = immigrationLLM.getFallbackResponse(message, currentLanguage);
+                    addChatMessage(fallbackResponse, false);
+                    
+                    // Save fallback response to chat history
+                    chatHistory[chatHistory.length - 1].messages.push({
+                        text: fallbackResponse,
+                        isUser: false,
+                        timestamp: new Date()
+                    });
+                    
+                    updateChatHistory();
+                    savePreferences();
+                }
+            }
+        }
+
+        function addChatMessage(message, isUser) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            messageDiv.textContent = message;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Save to chat history
+            if (!currentChatId) {
+                currentChatId = Date.now();
+                chatHistory.push({
+                    id: currentChatId,
+                    title: message.substring(0, 50) + (message.length > 50 ? '...' : ''),
+                    date: new Date(),
+                    messages: []
+                });
+            }
+            
+            chatHistory[chatHistory.length - 1].messages.push({
+                text: message,
+                isUser: isUser,
+                timestamp: new Date()
+            });
+            
+            savePreferences();
+        }
+
+        // Immigration LLM Class
+        class ImmigrationLLM {
+            constructor() {
+                this.apiKey = 'sk-proj-your-openai-api-key-here'; // Replace with actual API key
+                this.baseURL = 'https://api.openai.com/v1/chat/completions';
+                this.model = 'gpt-4';
+                this.context = this.buildImmigrationContext();
+            }
+            
+            buildImmigrationContext() {
+                return {
+                    role: "You are an expert immigration attorney and caseworker with 20+ years of experience. You specialize in DACA, TPS, asylum, and family-based immigration. You provide accurate, up-to-date legal guidance while being empathetic and supportive. Always remind users that you are not providing legal advice and they should consult with a qualified attorney for their specific case.",
+                    expertise: [
+                        "DACA applications and renewals",
+                        "TPS applications and extensions", 
+                        "Asylum applications and interviews",
+                        "Family-based immigration petitions",
+                        "Employment authorization documents",
+                        "Advance parole applications",
+                        "Immigration court proceedings",
+                        "Removal defense strategies"
+                    ],
+                    forms: [
+                        "I-821D (DACA)",
+                        "I-765 (Employment Authorization)",
+                        "I-131 (Advance Parole)",
+                        "I-589 (Asylum Application)",
+                        "I-130 (Petition for Alien Relative)",
+                        "I-485 (Adjustment of Status)",
+                        "I-601 (Waiver of Grounds of Inadmissibility)",
+                        "I-212 (Application for Permission to Reapply)"
+                    ]
+                };
+            }
+            
+            async generateResponse(userMessage, userProfile = null, currentLanguage = 'en') {
+                try {
+                    const systemPrompt = this.buildSystemPrompt(currentLanguage);
+                    const userPrompt = this.buildUserPrompt(userMessage, userProfile, currentLanguage);
+                    
+                    const response = await fetch(this.baseURL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${this.apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: this.model,
+                            messages: [
+                                { role: 'system', content: systemPrompt },
+                                { role: 'user', content: userPrompt }
+                            ],
+                            max_tokens: 1000,
+                            temperature: 0.7
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API Error: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    return data.choices[0].message.content;
+                    
+                } catch (error) {
+                    console.error('LLM Error:', error);
+                    return this.getFallbackResponse(userMessage, currentLanguage);
+                }
+            }
+            
+            buildSystemPrompt(language) {
+                const prompts = {
+                    en: `You are an expert immigration attorney and caseworker with 20+ years of experience. You specialize in DACA, TPS, asylum, and family-based immigration. You provide accurate, up-to-date legal guidance while being empathetic and supportive. Always remind users that you are not providing legal advice and they should consult with a qualified attorney for their specific case.`,
+                    es: `Eres un abogado de inmigración experto y trabajador social con más de 20 años de experiencia. Te especializas en DACA, TPS, asilo e inmigración basada en familia. Proporcionas orientación legal precisa y actualizada mientras eres empático y solidario. Siempre recuerda a los usuarios que no estás proporcionando asesoramiento legal y que deben consultar con un abogado calificado para su caso específico.`,
+                    zh: `您是一位拥有20多年经验的专家移民律师和案例工作者。您专门从事DACA、TPS、庇护和家庭移民。您提供准确、最新的法律指导，同时富有同理心和支持性。始终提醒用户您不提供法律建议，他们应该就具体案件咨询合格的律师。`,
+                    ar: `أنت محامي هجرة خبير وعامل اجتماعي مع أكثر من 20 عامًا من الخبرة. تتخصص في DACA و TPS واللجوء والهجرة القائمة على الأسرة. تقدم إرشادات قانونية دقيقة ومحدثة بينما تكون متعاطفًا وداعمًا. تذكر المستخدمين دائمًا أنك لا تقدم مشورة قانونية ويجب عليهم استشارة محامٍ مؤهل لحالتهم المحددة.`,
+                    hi: `आप एक विशेषज्ञ आप्रवासन वकील और केस वर्कर हैं जिनके पास 20+ वर्षों का अनुभव है। आप DACA, TPS, शरण और पारिवारिक आधारित आप्रवासन में विशेषज्ञता रखते हैं। आप सहानुभूतिपूर्ण और सहायक होते हुए सटीक, अद्यतन कानूनी मार्गदर्शन प्रदान करते हैं। हमेशा उपयोगकर्ताओं को याद दिलाएं कि आप कानूनी सलाह नहीं दे रहे हैं और उन्हें अपने विशिष्ट मामले के लिए योग्य वकील से परामर्श करना चाहिए।`,
+                    pt: `Você é um advogado de imigração especialista e assistente social com mais de 20 anos de experiência. Você se especializa em DACA, TPS, asilo e imigração baseada em família. Você fornece orientação legal precisa e atualizada enquanto é empático e solidário. Sempre lembre os usuários de que você não está fornecendo aconselhamento legal e eles devem consultar um advogado qualificado para seu caso específico.`,
+                    ru: `Вы эксперт по иммиграционному праву и социальный работник с более чем 20-летним опытом. Вы специализируетесь на DACA, TPS, убежище и семейной иммиграции. Вы предоставляете точные, актуальные юридические рекомендации, будучи при этом сочувствующими и поддерживающими. Всегда напоминайте пользователям, что вы не предоставляете юридические консультации, и они должны проконсультироваться с квалифицированным юристом по их конкретному делу.`,
+                    fr: `Vous êtes un avocat spécialisé en immigration et un travailleur social avec plus de 20 ans d'expérience. Vous vous spécialisez dans DACA, TPS, l'asile et l'immigration familiale. Vous fournissez des conseils juridiques précis et à jour tout en étant empathique et solidaire. Rappelez toujours aux utilisateurs que vous ne fournissez pas de conseils juridiques et qu'ils doivent consulter un avocat qualifié pour leur cas spécifique.`
+                };
+                
+                return prompts[language] || prompts.en;
+            }
+            
+            buildUserPrompt(userMessage, userProfile, language) {
+                let prompt = `User message: ${userMessage}\n\n`;
+                
+                if (userProfile) {
+                    prompt += `User Profile Information:\n`;
+                    prompt += `- Name: ${userProfile.firstName} ${userProfile.lastName}\n`;
+                    prompt += `- Country of Birth: ${userProfile.countryOfBirth}\n`;
+                    prompt += `- Current Address: ${userProfile.currentAddress}\n`;
+                    prompt += `- Entry Date: ${userProfile.entryDate}\n`;
+                    prompt += `- Phone: ${userProfile.phoneNumber}\n`;
+                    prompt += `- Email: ${userProfile.emailAddress}\n\n`;
+                }
+                
+                prompt += `Please provide helpful, accurate guidance in ${language}. Include specific form recommendations, next steps, and resources when appropriate.`;
+                
+                return prompt;
+            }
+            
+            getFallbackResponse(userMessage, language) {
+                const responses = {
+                    en: {
+                        daca: "I can help you with DACA applications. Based on your profile, I recommend starting with Form I-821D. Would you like me to guide you through the process?",
+                        work: "For employment authorization, you'll need Form I-765. I can help you understand the requirements and fill out the form using your profile information.",
+                        travel: "Form I-131 is for advance parole/travel documents. This allows you to travel outside the US and return legally.",
+                        asylum: "Asylum applications require Form I-589. This is a complex process that I can help guide you through step by step.",
+                        help: "I'm here to help with all your immigration needs. What specific form or process would you like assistance with?",
+                        default: "I can assist you with immigration forms, explain processes, and guide you through each step. How can I help you today?"
+                    },
+                    es: {
+                        daca: "Puedo ayudarte con las aplicaciones de DACA. Basándome en tu perfil, recomiendo comenzar con el Formulario I-821D. ¿Te gustaría que te guíe a través del proceso?",
+                        work: "Para autorización de empleo, necesitarás el Formulario I-765. Puedo ayudarte a entender los requisitos y llenar el formulario usando la información de tu perfil.",
+                        travel: "El Formulario I-131 es para documentos de permiso de viaje anticipado. Esto te permite viajar fuera de los EE.UU. y regresar legalmente.",
+                        asylum: "Las aplicaciones de asilo requieren el Formulario I-589. Este es un proceso complejo que puedo ayudarte a guiar paso a paso.",
+                        help: "Estoy aquí para ayudarte con todas tus necesidades de inmigración. ¿Con qué formulario o proceso específico te gustaría asistencia?",
+                        default: "Puedo asistirte con formularios de inmigración, explicar procesos y guiarte a través de cada paso. ¿Cómo puedo ayudarte hoy?"
+                    }
+                };
+                
+                const langResponses = responses[language] || responses.en;
+                const message = userMessage.toLowerCase();
+                
+                if (message.includes('daca')) return langResponses.daca;
+                if (message.includes('work') || message.includes('empleo')) return langResponses.work;
+                if (message.includes('travel') || message.includes('viaje')) return langResponses.travel;
+                if (message.includes('asylum') || message.includes('asilo')) return langResponses.asylum;
+                if (message.includes('help') || message.includes('ayuda')) return langResponses.help;
+                
+                return langResponses.default;
+            }
+            
+            async fillFormIntelligently(formType, userProfile) {
+                const formGuidance = {
+                    'I-821D': {
+                        title: 'DACA Application Form',
+                        sections: [
+                            'Personal Information',
+                            'Arrival Information', 
+                            'Education Information',
+                            'Criminal History',
+                            'Economic Necessity'
+                        ],
+                        guidance: 'I will help you fill out each section using your profile information. Let\'s start with personal information.'
+                    },
+                    'I-765': {
+                        title: 'Employment Authorization Document',
+                        sections: [
+                            'Personal Information',
+                            'Immigration Status',
+                            'Employment History',
+                            'Supporting Documents'
+                        ],
+                        guidance: 'This form allows you to work legally in the US. I\'ll guide you through each section.'
+                    },
+                    'I-131': {
+                        title: 'Advance Parole Document',
+                        sections: [
+                            'Personal Information',
+                            'Travel Purpose',
+                            'Travel Dates',
+                            'Supporting Evidence'
+                        ],
+                        guidance: 'This form allows you to travel outside the US and return legally. Let me help you complete it.'
+                    }
+                };
+                
+                return formGuidance[formType] || formGuidance['I-821D'];
+            }
+        }
+        
+        // Initialize LLM
+        const immigrationLLM = new ImmigrationLLM();
+        
+        function getTranslatedText(key) {
+            const t = translations[currentLanguage] || translations.en;
+            return t[key];
+        }
+        
+        function generateAIResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            const t = translations[currentLanguage] || translations.en;
+            
+            // Check for specific form mentions
+            if (message.includes('i-821d') || message.includes('daca')) {
+                return t.aiResponseDACA || "I can help you fill out Form I-821D (DACA). Based on your profile, I will guide you through each section. Let's start with your personal information.";
+            }
+            
+            if (message.includes('i-765') || message.includes('work permit')) {
+                return t.aiResponseWorkPermit || "For Form I-765 (Work Permit), you will need to provide your employment authorization details. I can help you complete this step by step.";
+            }
+            
+            if (message.includes('i-131') || message.includes('travel')) {
+                return t.aiResponseTravel || "Form I-131 is for advance parole/travel document. I can help you understand the requirements and fill out this form.";
+            }
+            
+            if (message.includes('help') || message.includes('assist')) {
+                return t.aiResponseHelp || "I can assist you with any immigration form. Just tell me which form you're working on and I'll help you fill it out using your profile information.";
+            }
+            
+            if (message.includes('status') || message.includes('check')) {
+                return t.aiResponseStatus || "Based on your profile, I can help you check your application status and guide you through the next steps in your immigration process.";
+            }
+            
+            if (message.includes('document') || message.includes('form')) {
+                return t.aiResponseDocuments || "I can help you understand the requirements for each document. Which document would you like me to explain or help you fill out?";
+            }
+            
+            // Default intelligent response
+            const responses = [
+                t.aiResponseDefault1 || "I can help you fill out Form I-821D. Based on your profile, I will guide you through each section. Let's start with your personal information.",
+                t.aiResponseDefault2 || "For Form I-765, you will need to provide your employment information. I can help you complete this section step by step.",
+                t.aiResponseDefault3 || "I notice you are working on your DACA renewal. I can help you fill out all the required forms using your profile information.",
+                t.aiResponseDefault4 || "Let me help you with the Economic Necessity Worksheet. I will guide you through the financial information needed.",
+                t.aiResponseDefault5 || "I can assist you with any immigration form. Just tell me which form you're working on and I will help you fill it out.",
+                t.aiResponseDefault6 || "Based on your information, I can help you complete all your immigration forms. Would you like to start with Form I-821D?",
+                t.aiResponseDefault7 || "I can explain any immigration process in detail. What specific question do you have about your application?",
+                t.aiResponseDefault8 || "I can help you understand the requirements for each document. Which document would you like me to explain?"
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Speech Recognition Functions
+        function initializeSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+                
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('chatInput').value = transcript;
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                };
+            }
+        }
+
+        function toggleVoiceRecording() {
+            if (!recognition) {
+                alert('Speech recognition not supported in this browser.');
+                return;
+            }
+            
+            const voiceBtn = document.getElementById('voiceBtn');
+            
+            if (isRecording) {
+                recognition.stop();
+                voiceBtn.classList.remove('recording');
+                voiceBtn.textContent = '🎤';
+                isRecording = false;
+            } else {
+                recognition.start();
+                voiceBtn.classList.add('recording');
+                voiceBtn.textContent = '⏹️';
+                isRecording = true;
+            }
+        }
+
+        // Progress Functions
+        function updateProgress() {
+            const completed = profileComplete ? 1 : 0;
+            const remaining = 3 - completed;
+            
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('remainingCount').textContent = remaining;
+        }
+
+        // Chat History Functions
+        function updateChatHistory() {
+            const container = document.getElementById('chatHistoryContainer');
+            
+            if (chatHistory.length === 0) {
+                container.innerHTML = '<p id="noChatHistory">No chat history yet. Start a conversation with the AI assistant!</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            chatHistory.forEach(chat => {
+                const chatCard = document.createElement('div');
+                chatCard.className = 'card';
+                chatCard.innerHTML = `
+                    <h3>${chat.title}</h3>
+                    <p>Date: ${chat.date.toLocaleDateString()}</p>
+                    <p>Messages: ${chat.messages.length}</p>
+                    <button class="btn btn-secondary" onclick="loadChatHistory(${chat.id})">Load Chat</button>
+                `;
+                container.appendChild(chatCard);
+            });
+        }
+
+        function loadChatHistory(chatId) {
+            const chat = chatHistory.find(c => c.id === chatId);
+            if (chat) {
+                showSection('chat');
+                const messagesContainer = document.getElementById('chatMessages');
+                messagesContainer.innerHTML = '';
+                
+                chat.messages.forEach(msg => {
+                    addChatMessage(msg.text, msg.isUser);
+                });
+            }
+        }
+
+        // Help Resources Functions
+        function populateHelpResources() {
+            const helpResources = {
+                emergency: [
+                    {
+                        name: 'National Immigration Hotline',
+                        type: 'Emergency Hotline',
+                        phone: '1-800-375-5283',
+                        services: ['Emergency Assistance', 'Legal Referrals'],
+                        languages: ['English', 'Spanish'],
+                        availability: '24/7'
+                    }
+                ],
+                legalAid: [
+                    {
+                        name: 'Legal Aid Society',
+                        type: 'Legal Services',
+                        phone: '1-800-LEGAL-AID',
+                        website: 'legalaid.org',
+                        services: ['Immigration Law', 'Family Law', 'Housing'],
+                        languages: ['English', 'Spanish', 'Chinese'],
+                        availability: 'Mon-Fri 9AM-5PM'
+                    }
+                ],
+                communityCenters: [
+                    {
+                        name: 'Community Immigration Center',
+                        type: 'Community Center',
+                        phone: '555-123-4567',
+                        website: 'communitycenter.org',
+                        services: ['ESL Classes', 'Job Training', 'Legal Clinics'],
+                        languages: ['English', 'Spanish', 'Arabic'],
+                        availability: 'Mon-Sat 8AM-8PM'
+                    }
+                ],
+                healthcare: [
+                    {
+                        name: 'Community Health Center',
+                        type: 'Healthcare',
+                        phone: '555-987-6543',
+                        website: 'communityhealth.org',
+                        services: ['Primary Care', 'Mental Health', 'Dental'],
+                        languages: ['English', 'Spanish', 'Portuguese'],
+                        availability: 'Mon-Fri 7AM-7PM'
+                    }
+                ],
+                employment: [
+                    {
+                        name: 'Workforce Development Center',
+                        type: 'Employment Services',
+                        phone: '555-456-7890',
+                        website: 'workforce.org',
+                        services: ['Job Placement', 'Resume Help', 'Skills Training'],
+                        languages: ['English', 'Spanish', 'French'],
+                        availability: 'Mon-Fri 8AM-6PM'
+                    }
+                ],
+                educational: [
+                    {
+                        name: 'Adult Education Center',
+                        type: 'Educational Services',
+                        phone: '555-321-0987',
+                        website: 'adulted.org',
+                        services: ['GED Prep', 'English Classes', 'Computer Skills'],
+                        languages: ['English', 'Spanish', 'Chinese', 'Arabic'],
+                        availability: 'Mon-Thu 9AM-9PM'
+                    }
+                ]
+            };
+            
+            Object.keys(helpResources).forEach(category => {
+                const container = document.getElementById(category + 'Container');
+                if (container) {
+                    container.innerHTML = '';
+                    helpResources[category].forEach(resource => {
+                        const resourceCard = createResourceCard(resource);
+                        container.appendChild(resourceCard);
+                    });
+                }
+            });
+        }
+
+        function createResourceCard(resource) {
+            const card = document.createElement('div');
+            card.className = 'resource-card';
+            
+            let servicesHtml = '';
+            if (resource.services) {
+                servicesHtml = `
+                    <div style="margin: 10px 0;">
+                        <strong>Services:</strong>
+                        ${resource.services.map(service => `<span class="service-tag">${service}</span>`).join('')}
+                    </div>
+                `;
+            }
+            
+            let languagesHtml = '';
+            if (resource.languages) {
+                languagesHtml = `
+                    <div style="margin: 10px 0;">
+                        <strong>Languages:</strong>
+                        ${resource.languages.map(lang => `<span class="language-tag">${lang}</span>`).join('')}
+                    </div>
+                `;
+            }
+            
+            card.innerHTML = `
+                <div class="resource-name">${resource.name}</div>
+                <div class="resource-type">${resource.type}</div>
+                ${resource.phone ? `<div class="resource-phone">📞 ${resource.phone}</div>` : ''}
+                ${resource.website ? `<a href="https://${resource.website}" target="_blank" class="resource-website">🌐 ${resource.website}</a>` : ''}
+                ${servicesHtml}
+                ${languagesHtml}
+                ${resource.availability ? `<div style="margin: 10px 0;"><strong>Hours:</strong> ${resource.availability}</div>` : ''}
+            `;
+            
+            return card;
+        }
+
+        // Translation System
+        const translations = {
+            en: {
+                // Navigation
+                dashboardNav: "📊 Dashboard",
+                profileNav: "👤 Profile",
+                documentsNav: "📄 Documents",
+                chatNav: "🤖 AI Assistant",
+                chatHistoryNav: "💬 AI Chats",
+                helpNav: "🆘 Help Resources",
+                
+                // Dashboard
+                dashboardTitle: "Dashboard - Immigr-Aid",
+                completedLabel: "Completed",
+                remainingLabel: "Remaining",
+                profileTitle: "Personal Information",
+                profileDescription: "Complete your profile to enable AI assistance with form filling and personalized guidance.",
+                completeProfileBtn: "Complete Profile",
+                documentsTitle: "Required Documents",
+                documentsDescription: "All documents needed to complete your immigration application process",
+                
+                // Profile
+                profileSectionTitle: "Personal Information",
+                firstNameLabel: "First Name",
+                lastNameLabel: "Last Name",
+                middleNameLabel: "Middle Name",
+                dateOfBirthLabel: "Date of Birth",
+                countryOfBirthLabel: "Country of Birth",
+                currentAddressLabel: "Current Address",
+                phoneNumberLabel: "Phone Number",
+                emailAddressLabel: "Email Address",
+                socialSecurityNumberLabel: "Social Security Number",
+                entryDateLabel: "Entry Date to US",
+                methodOfEntryLabel: "Method of Entry",
+                educationLevelLabel: "Education Level",
+                employmentStatusLabel: "Employment Status",
+                criminalHistoryLabel: "Criminal History",
+                saveProfileBtn: "Save Profile Information",
+                
+                // Documents
+                documentsSectionTitle: "Required Documents",
+                
+                // Chat
+                chatTitle: "AI Assistant - Immigr-Aid",
+                welcomeMessage: "Hello! I am your AI immigration assistant. I can help you fill out forms, answer questions about your immigration process, and guide you through each step. How can I assist you today?",
+                
+                // Chat History
+                chatHistoryTitle: "AI Chat History",
+                
+                // Help Resources
+                helpTitle: "Help Resources & Locations",
+                emergencyResources: "Emergency Resources",
+                legalAid: "Legal Aid",
+                communityCenters: "Community Centers",
+                healthcareResources: "Healthcare",
+                employmentResources: "Employment",
+                educationalResources: "Educational Resources",
+                
+                // AI Responses
+                aiResponseDACA: "I can help you fill out Form I-821D (DACA). Based on your profile, I will guide you through each section. Let's start with your personal information.",
+                aiResponseWorkPermit: "For Form I-765 (Work Permit), you will need to provide your employment authorization details. I can help you complete this step by step.",
+                aiResponseTravel: "Form I-131 is for advance parole/travel document. I can help you understand the requirements and fill out this form.",
+                aiResponseHelp: "I can assist you with any immigration form. Just tell me which form you're working on and I'll help you fill it out using your profile information.",
+                aiResponseStatus: "Based on your profile, I can help you check your application status and guide you through the next steps in your immigration process.",
+                aiResponseDocuments: "I can help you understand the requirements for each document. Which document would you like me to explain or help you fill out?",
+                aiResponseDefault1: "I can help you fill out Form I-821D. Based on your profile, I will guide you through each section. Let's start with your personal information.",
+                aiResponseDefault2: "For Form I-765, you will need to provide your employment information. I can help you complete this section step by step.",
+                aiResponseDefault3: "I notice you are working on your DACA renewal. I can help you fill out all the required forms using your profile information.",
+                aiResponseDefault4: "Let me help you with the Economic Necessity Worksheet. I will guide you through the financial information needed.",
+                aiResponseDefault5: "I can assist you with any immigration form. Just tell me which form you're working on and I will help you fill it out.",
+                aiResponseDefault6: "Based on your information, I can help you complete all your immigration forms. Would you like to start with Form I-821D?",
+                aiResponseDefault7: "I can explain any immigration process in detail. What specific question do you have about your application?",
+                aiResponseDefault8: "I can help you understand the requirements for each document. Which document would you like me to explain?",
+                formHelpMessage: "I can help you fill out immigration forms. Would you like me to open a specific form for you?"
+            },
+            es: {
+                // Navigation
+                dashboardNav: "📊 Panel de Control",
+                profileNav: "👤 Perfil",
+                documentsNav: "📄 Documentos",
+                chatNav: "🤖 Asistente IA",
+                chatHistoryNav: "💬 Chats IA",
+                helpNav: "🆘 Recursos de Ayuda",
+                
+                // Dashboard
+                dashboardTitle: "Panel de Control - Immigr-Aid",
+                completedLabel: "Completado",
+                remainingLabel: "Pendiente",
+                profileTitle: "Información Personal",
+                profileDescription: "Complete su perfil para habilitar la asistencia de IA con el llenado de formularios y orientación personalizada.",
+                completeProfileBtn: "Completar Perfil",
+                documentsTitle: "Documentos Requeridos",
+                documentsDescription: "Todos los documentos necesarios para completar su proceso de aplicación de inmigración",
+                
+                // Profile
+                profileSectionTitle: "Información Personal",
+                firstNameLabel: "Nombre",
+                lastNameLabel: "Apellido",
+                middleNameLabel: "Segundo Nombre",
+                dateOfBirthLabel: "Fecha de Nacimiento",
+                countryOfBirthLabel: "País de Nacimiento",
+                currentAddressLabel: "Dirección Actual",
+                phoneNumberLabel: "Número de Teléfono",
+                emailAddressLabel: "Dirección de Correo",
+                socialSecurityNumberLabel: "Número de Seguro Social",
+                entryDateLabel: "Fecha de Entrada a EE.UU.",
+                methodOfEntryLabel: "Método de Entrada",
+                educationLevelLabel: "Nivel de Educación",
+                employmentStatusLabel: "Estado de Empleo",
+                criminalHistoryLabel: "Historial Criminal",
+                saveProfileBtn: "Guardar Información del Perfil",
+                
+                // Documents
+                documentsSectionTitle: "Documentos Requeridos",
+                
+                // Chat
+                chatTitle: "Asistente IA - Immigr-Aid",
+                welcomeMessage: "¡Hola! Soy tu asistente de inmigración con IA. Puedo ayudarte a llenar formularios, responder preguntas sobre tu proceso de inmigración y guiarte a través de cada paso. ¿Cómo puedo ayudarte hoy?",
+                
+                // Chat History
+                chatHistoryTitle: "Historial de Chats IA",
+                
+                // Help Resources
+                helpTitle: "Recursos de Ayuda y Ubicaciones",
+                emergencyResources: "Recursos de Emergencia",
+                legalAid: "Ayuda Legal",
+                communityCenters: "Centros Comunitarios",
+                healthcareResources: "Atención Médica",
+                employmentResources: "Empleo",
+                educationalResources: "Recursos Educativos"
+            },
+            zh: {
+                // Navigation
+                dashboardNav: "📊 仪表板",
+                profileNav: "👤 个人资料",
+                documentsNav: "📄 文件",
+                chatNav: "🤖 AI助手",
+                chatHistoryNav: "💬 AI聊天记录",
+                helpNav: "🆘 帮助资源",
+                
+                // Dashboard
+                dashboardTitle: "仪表板 - Immigr-Aid",
+                completedLabel: "已完成",
+                remainingLabel: "待完成",
+                profileTitle: "个人信息",
+                profileDescription: "完成您的个人资料以启用AI助手帮助填写表格和提供个性化指导。",
+                completeProfileBtn: "完成个人资料",
+                documentsTitle: "所需文件",
+                documentsDescription: "完成移民申请流程所需的所有文件",
+                
+                // Profile
+                profileSectionTitle: "个人信息",
+                firstNameLabel: "名字",
+                lastNameLabel: "姓氏",
+                middleNameLabel: "中间名",
+                dateOfBirthLabel: "出生日期",
+                countryOfBirthLabel: "出生国家",
+                currentAddressLabel: "当前地址",
+                phoneNumberLabel: "电话号码",
+                emailAddressLabel: "电子邮件地址",
+                socialSecurityNumberLabel: "社会安全号码",
+                entryDateLabel: "入境美国日期",
+                methodOfEntryLabel: "入境方式",
+                educationLevelLabel: "教育水平",
+                employmentStatusLabel: "就业状况",
+                criminalHistoryLabel: "犯罪记录",
+                saveProfileBtn: "保存个人资料信息",
+                
+                // Documents
+                documentsSectionTitle: "所需文件",
+                
+                // Chat
+                chatTitle: "AI助手 - Immigr-Aid",
+                welcomeMessage: "你好！我是你的AI移民助手。我可以帮助你填写表格，回答关于你的移民过程的问题，并指导你完成每一步。我今天能如何帮助你？",
+                
+                // Chat History
+                chatHistoryTitle: "AI聊天记录",
+                
+                // Help Resources
+                helpTitle: "帮助资源和地点",
+                emergencyResources: "紧急资源",
+                legalAid: "法律援助",
+                communityCenters: "社区中心",
+                healthcareResources: "医疗保健",
+                employmentResources: "就业",
+                educationalResources: "教育资源"
+            },
+            ar: {
+                // Navigation
+                dashboardNav: "📊 لوحة التحكم",
+                profileNav: "👤 الملف الشخصي",
+                documentsNav: "📄 المستندات",
+                chatNav: "🤖 مساعد الذكاء الاصطناعي",
+                chatHistoryNav: "💬 محادثات الذكاء الاصطناعي",
+                helpNav: "🆘 موارد المساعدة",
+                
+                // Dashboard
+                dashboardTitle: "لوحة التحكم - Immigr-Aid",
+                completedLabel: "مكتمل",
+                remainingLabel: "متبقي",
+                profileTitle: "المعلومات الشخصية",
+                profileDescription: "أكمل ملفك الشخصي لتمكين مساعدة الذكاء الاصطناعي في ملء النماذج والتوجيه الشخصي.",
+                completeProfileBtn: "إكمال الملف الشخصي",
+                documentsTitle: "المستندات المطلوبة",
+                documentsDescription: "جميع المستندات اللازمة لإكمال عملية طلب الهجرة",
+                
+                // Profile
+                profileSectionTitle: "المعلومات الشخصية",
+                firstNameLabel: "الاسم الأول",
+                lastNameLabel: "اسم العائلة",
+                middleNameLabel: "الاسم الأوسط",
+                dateOfBirthLabel: "تاريخ الميلاد",
+                countryOfBirthLabel: "بلد الميلاد",
+                currentAddressLabel: "العنوان الحالي",
+                phoneNumberLabel: "رقم الهاتف",
+                emailAddressLabel: "عنوان البريد الإلكتروني",
+                socialSecurityNumberLabel: "رقم الضمان الاجتماعي",
+                entryDateLabel: "تاريخ الدخول إلى الولايات المتحدة",
+                methodOfEntryLabel: "طريقة الدخول",
+                educationLevelLabel: "مستوى التعليم",
+                employmentStatusLabel: "حالة التوظيف",
+                criminalHistoryLabel: "السجل الجنائي",
+                saveProfileBtn: "حفظ معلومات الملف الشخصي",
+                
+                // Documents
+                documentsSectionTitle: "المستندات المطلوبة",
+                
+                // Chat
+                chatTitle: "مساعد الذكاء الاصطناعي - Immigr-Aid",
+                welcomeMessage: "مرحباً! أنا مساعد الهجرة بالذكاء الاصطناعي. يمكنني مساعدتك في ملء النماذج والإجابة على أسئلة حول عملية الهجرة وتوجيهك خلال كل خطوة. كيف يمكنني مساعدتك اليوم؟",
+                
+                // Chat History
+                chatHistoryTitle: "تاريخ محادثات الذكاء الاصطناعي",
+                
+                // Help Resources
+                helpTitle: "موارد المساعدة والمواقع",
+                emergencyResources: "موارد الطوارئ",
+                legalAid: "المساعدة القانونية",
+                communityCenters: "المراكز المجتمعية",
+                healthcareResources: "الرعاية الصحية",
+                employmentResources: "التوظيف",
+                educationalResources: "الموارد التعليمية"
+            },
+            hi: {
+                // Navigation
+                dashboardNav: "📊 डैशबोर्ड",
+                profileNav: "👤 प्रोफ़ाइल",
+                documentsNav: "📄 दस्तावेज़",
+                chatNav: "🤖 AI सहायक",
+                chatHistoryNav: "💬 AI चैट्स",
+                helpNav: "🆘 सहायता संसाधन",
+                
+                // Dashboard
+                dashboardTitle: "डैशबोर्ड - Immigr-Aid",
+                completedLabel: "पूर्ण",
+                remainingLabel: "शेष",
+                profileTitle: "व्यक्तिगत जानकारी",
+                profileDescription: "फॉर्म भरने और व्यक्तिगत मार्गदर्शन के लिए AI सहायता सक्षम करने के लिए अपना प्रोफ़ाइल पूरा करें।",
+                completeProfileBtn: "प्रोफ़ाइल पूरा करें",
+                documentsTitle: "आवश्यक दस्तावेज़",
+                documentsDescription: "अपनी आप्रवासन आवेदन प्रक्रिया को पूरा करने के लिए आवश्यक सभी दस्तावेज़",
+                
+                // Profile
+                profileSectionTitle: "व्यक्तिगत जानकारी",
+                firstNameLabel: "पहला नाम",
+                lastNameLabel: "अंतिम नाम",
+                middleNameLabel: "मध्य नाम",
+                dateOfBirthLabel: "जन्म तिथि",
+                countryOfBirthLabel: "जन्म देश",
+                currentAddressLabel: "वर्तमान पता",
+                phoneNumberLabel: "फोन नंबर",
+                emailAddressLabel: "ईमेल पता",
+                socialSecurityNumberLabel: "सामाजिक सुरक्षा संख्या",
+                entryDateLabel: "अमेरिका में प्रवेश की तिथि",
+                methodOfEntryLabel: "प्रवेश का तरीका",
+                educationLevelLabel: "शिक्षा स्तर",
+                employmentStatusLabel: "रोजगार स्थिति",
+                criminalHistoryLabel: "आपराधिक इतिहास",
+                saveProfileBtn: "प्रोफ़ाइल जानकारी सहेजें",
+                
+                // Documents
+                documentsSectionTitle: "आवश्यक दस्तावेज़",
+                
+                // Chat
+                chatTitle: "AI सहायक - Immigr-Aid",
+                welcomeMessage: "नमस्ते! मैं आपका AI आप्रवासन सहायक हूं। मैं आपको फॉर्म भरने, आप्रवासन प्रक्रिया के बारे में प्रश्नों का उत्तर देने और हर कदम पर मार्गदर्शन करने में मदद कर सकता हूं। आज मैं आपकी कैसे मदद कर सकता हूं?",
+                
+                // Chat History
+                chatHistoryTitle: "AI चैट इतिहास",
+                
+                // Help Resources
+                helpTitle: "सहायता संसाधन और स्थान",
+                emergencyResources: "आपातकालीन संसाधन",
+                legalAid: "कानूनी सहायता",
+                communityCenters: "सामुदायिक केंद्र",
+                healthcareResources: "स्वास्थ्य सेवा",
+                employmentResources: "रोजगार",
+                educationalResources: "शैक्षिक संसाधन"
+            },
+            pt: {
+                // Navigation
+                dashboardNav: "📊 Painel",
+                profileNav: "👤 Perfil",
+                documentsNav: "📄 Documentos",
+                chatNav: "🤖 Assistente IA",
+                chatHistoryNav: "💬 Chats IA",
+                helpNav: "🆘 Recursos de Ajuda",
+                
+                // Dashboard
+                dashboardTitle: "Painel - Immigr-Aid",
+                completedLabel: "Concluído",
+                remainingLabel: "Restante",
+                profileTitle: "Informações Pessoais",
+                profileDescription: "Complete seu perfil para habilitar assistência de IA com preenchimento de formulários e orientação personalizada.",
+                completeProfileBtn: "Completar Perfil",
+                documentsTitle: "Documentos Necessários",
+                documentsDescription: "Todos os documentos necessários para completar seu processo de aplicação de imigração",
+                
+                // Profile
+                profileSectionTitle: "Informações Pessoais",
+                firstNameLabel: "Primeiro Nome",
+                lastNameLabel: "Sobrenome",
+                middleNameLabel: "Nome do Meio",
+                dateOfBirthLabel: "Data de Nascimento",
+                countryOfBirthLabel: "País de Nascimento",
+                currentAddressLabel: "Endereço Atual",
+                phoneNumberLabel: "Número de Telefone",
+                emailAddressLabel: "Endereço de Email",
+                socialSecurityNumberLabel: "Número do Seguro Social",
+                entryDateLabel: "Data de Entrada nos EUA",
+                methodOfEntryLabel: "Método de Entrada",
+                educationLevelLabel: "Nível de Educação",
+                employmentStatusLabel: "Status de Emprego",
+                criminalHistoryLabel: "Histórico Criminal",
+                saveProfileBtn: "Salvar Informações do Perfil",
+                
+                // Documents
+                documentsSectionTitle: "Documentos Necessários",
+                
+                // Chat
+                chatTitle: "Assistente IA - Immigr-Aid",
+                welcomeMessage: "Olá! Eu sou seu assistente de imigração com IA. Posso ajudá-lo a preencher formulários, responder perguntas sobre seu processo de imigração e guiá-lo através de cada etapa. Como posso ajudá-lo hoje?",
+                
+                // Chat History
+                chatHistoryTitle: "Histórico de Chats IA",
+                
+                // Help Resources
+                helpTitle: "Recursos de Ajuda e Localizações",
+                emergencyResources: "Recursos de Emergência",
+                legalAid: "Assistência Jurídica",
+                communityCenters: "Centros Comunitários",
+                healthcareResources: "Assistência Médica",
+                employmentResources: "Emprego",
+                educationalResources: "Recursos Educacionais"
+            },
+            ru: {
+                // Navigation
+                dashboardNav: "📊 Панель управления",
+                profileNav: "👤 Профиль",
+                documentsNav: "📄 Документы",
+                chatNav: "🤖 ИИ Помощник",
+                chatHistoryNav: "💬 ИИ Чаты",
+                helpNav: "🆘 Ресурсы помощи",
+                
+                // Dashboard
+                dashboardTitle: "Панель управления - Immigr-Aid",
+                completedLabel: "Завершено",
+                remainingLabel: "Осталось",
+                profileTitle: "Личная информация",
+                profileDescription: "Заполните свой профиль для включения помощи ИИ в заполнении форм и персонального руководства.",
+                completeProfileBtn: "Завершить профиль",
+                documentsTitle: "Необходимые документы",
+                documentsDescription: "Все документы, необходимые для завершения процесса иммиграционной заявки",
+                
+                // Profile
+                profileSectionTitle: "Личная информация",
+                firstNameLabel: "Имя",
+                lastNameLabel: "Фамилия",
+                middleNameLabel: "Отчество",
+                dateOfBirthLabel: "Дата рождения",
+                countryOfBirthLabel: "Страна рождения",
+                currentAddressLabel: "Текущий адрес",
+                phoneNumberLabel: "Номер телефона",
+                emailAddressLabel: "Адрес электронной почты",
+                socialSecurityNumberLabel: "Номер социального страхования",
+                entryDateLabel: "Дата въезда в США",
+                methodOfEntryLabel: "Способ въезда",
+                educationLevelLabel: "Уровень образования",
+                employmentStatusLabel: "Статус занятости",
+                criminalHistoryLabel: "Уголовная история",
+                saveProfileBtn: "Сохранить информацию профиля",
+                
+                // Documents
+                documentsSectionTitle: "Необходимые документы",
+                
+                // Chat
+                chatTitle: "ИИ Помощник - Immigr-Aid",
+                welcomeMessage: "Привет! Я ваш ИИ помощник по иммиграции. Я могу помочь вам заполнить формы, ответить на вопросы о вашем иммиграционном процессе и провести вас через каждый шаг. Как я могу помочь вам сегодня?",
+                
+                // Chat History
+                chatHistoryTitle: "История ИИ чатов",
+                
+                // Help Resources
+                helpTitle: "Ресурсы помощи и местоположения",
+                emergencyResources: "Экстренные ресурсы",
+                legalAid: "Юридическая помощь",
+                communityCenters: "Общественные центры",
+                healthcareResources: "Здравоохранение",
+                employmentResources: "Трудоустройство",
+                educationalResources: "Образовательные ресурсы"
+            },
+            fr: {
+                // Navigation
+                dashboardNav: "📊 Tableau de bord",
+                profileNav: "👤 Profil",
+                documentsNav: "📄 Documents",
+                chatNav: "🤖 Assistant IA",
+                chatHistoryNav: "💬 Chats IA",
+                helpNav: "🆘 Ressources d'aide",
+                
+                // Dashboard
+                dashboardTitle: "Tableau de bord - Immigr-Aid",
+                completedLabel: "Terminé",
+                remainingLabel: "Restant",
+                profileTitle: "Informations personnelles",
+                profileDescription: "Complétez votre profil pour activer l'assistance IA avec le remplissage de formulaires et l'orientation personnalisée.",
+                completeProfileBtn: "Compléter le profil",
+                documentsTitle: "Documents requis",
+                documentsDescription: "Tous les documents nécessaires pour compléter votre processus de demande d'immigration",
+                
+                // Profile
+                profileSectionTitle: "Informations personnelles",
+                firstNameLabel: "Prénom",
+                lastNameLabel: "Nom de famille",
+                middleNameLabel: "Deuxième prénom",
+                dateOfBirthLabel: "Date de naissance",
+                countryOfBirthLabel: "Pays de naissance",
+                currentAddressLabel: "Adresse actuelle",
+                phoneNumberLabel: "Numéro de téléphone",
+                emailAddressLabel: "Adresse e-mail",
+                socialSecurityNumberLabel: "Numéro de sécurité sociale",
+                entryDateLabel: "Date d'entrée aux États-Unis",
+                methodOfEntryLabel: "Méthode d'entrée",
+                educationLevelLabel: "Niveau d'éducation",
+                employmentStatusLabel: "Statut d'emploi",
+                criminalHistoryLabel: "Antécédents criminels",
+                saveProfileBtn: "Enregistrer les informations du profil",
+                
+                // Documents
+                documentsSectionTitle: "Documents requis",
+                
+                // Chat
+                chatTitle: "Assistant IA - Immigr-Aid",
+                welcomeMessage: "Bonjour ! Je suis votre assistant d'immigration IA. Je peux vous aider à remplir des formulaires, répondre à des questions sur votre processus d'immigration et vous guider à travers chaque étape. Comment puis-je vous aider aujourd'hui ?",
+                
+                // Chat History
+                chatHistoryTitle: "Historique des chats IA",
+                
+                // Help Resources
+                helpTitle: "Ressources d'aide et emplacements",
+                emergencyResources: "Ressources d'urgence",
+                legalAid: "Aide juridique",
+                communityCenters: "Centres communautaires",
+                healthcareResources: "Soins de santé",
+                employmentResources: "Emploi",
+                educationalResources: "Ressources éducatives"
+            }
+        };
+
+        function updateLanguage() {
+            const t = translations[currentLanguage] || translations.en;
+            
+            // Force complete page refresh
+            document.body.style.opacity = '0.8';
+            
+            setTimeout(() => {
+                // Update navigation
+                document.getElementById('dashboardNav').innerHTML = t.dashboardNav;
+                document.getElementById('profileNav').innerHTML = t.profileNav;
+                document.getElementById('documentsNav').innerHTML = t.documentsNav;
+                document.getElementById('chatNav').innerHTML = t.chatNav;
+                document.getElementById('chatHistoryNav').innerHTML = t.chatHistoryNav;
+                document.getElementById('helpNav').innerHTML = t.helpNav;
+                
+                // Update section titles
+                document.getElementById('dashboardTitle').textContent = t.dashboardTitle;
+                document.getElementById('profileSectionTitle').textContent = t.profileSectionTitle;
+                document.getElementById('documentsSectionTitle').textContent = t.documentsSectionTitle;
+                document.getElementById('chatTitle').textContent = t.chatTitle;
+                document.getElementById('chatHistoryTitle').textContent = t.chatHistoryTitle;
+                document.getElementById('helpTitle').textContent = t.helpTitle;
+                
+                // Update dashboard
+                document.getElementById('completedLabel').textContent = t.completedLabel;
+                document.getElementById('remainingLabel').textContent = t.remainingLabel;
+                document.getElementById('profileTitle').textContent = t.profileTitle;
+                document.getElementById('profileDescription').textContent = t.profileDescription;
+                document.getElementById('completeProfileBtn').textContent = t.completeProfileBtn;
+                document.getElementById('documentsTitle').textContent = t.documentsTitle;
+                document.getElementById('documentsDescription').textContent = t.documentsDescription;
+                
+                // Update profile form labels
+                document.getElementById('firstNameLabel').textContent = t.firstNameLabel + ' *';
+                document.getElementById('lastNameLabel').textContent = t.lastNameLabel + ' *';
+                document.getElementById('middleNameLabel').textContent = t.middleNameLabel;
+                document.getElementById('dateOfBirthLabel').textContent = t.dateOfBirthLabel + ' *';
+                document.getElementById('countryOfBirthLabel').textContent = t.countryOfBirthLabel + ' *';
+                document.getElementById('currentAddressLabel').textContent = t.currentAddressLabel + ' *';
+                document.getElementById('phoneNumberLabel').textContent = t.phoneNumberLabel + ' *';
+                document.getElementById('emailAddressLabel').textContent = t.emailAddressLabel + ' *';
+                document.getElementById('socialSecurityNumberLabel').textContent = t.socialSecurityNumberLabel;
+                document.getElementById('entryDateLabel').textContent = t.entryDateLabel + ' *';
+                document.getElementById('methodOfEntryLabel').textContent = t.methodOfEntryLabel + ' *';
+                document.getElementById('educationLevelLabel').textContent = t.educationLevelLabel + ' *';
+                document.getElementById('employmentStatusLabel').textContent = t.employmentStatusLabel + ' *';
+                document.getElementById('criminalHistoryLabel').textContent = t.criminalHistoryLabel + ' *';
+                document.getElementById('saveProfileBtn').textContent = t.saveProfileBtn;
+                
+                // Update chat
+                document.getElementById('welcomeMessage').textContent = t.welcomeMessage;
+                document.getElementById('chatInput').placeholder = "Type your message or use voice input...";
+                
+                // Update help resources
+                document.getElementById('emergencyResources').textContent = t.emergencyResources;
+                document.getElementById('legalAid').textContent = t.legalAid;
+                document.getElementById('communityCenters').textContent = t.communityCenters;
+                document.getElementById('healthcareResources').textContent = t.healthcareResources;
+                document.getElementById('employmentResources').textContent = t.employmentResources;
+                document.getElementById('educationalResources').textContent = t.educationalResources;
+                
+                // Restore opacity
+                document.body.style.opacity = '1';
+            }, 50);
+        }
+    </script>
+</body>
+</html>
