@@ -1534,26 +1534,148 @@
         // Document Functions
         function populateDocuments() {
             const documents = [
+                // Family-based Immigration
+                {
+                    id: 'i-130',
+                    name: 'Form I-130 - Petition for Alien Relative',
+                    description: 'Petition filed by U.S. citizen or LPR to establish family relationship for immigrant status',
+                    status: 'pending',
+                    fields: ['petitionerInfo', 'beneficiaryInfo', 'relationshipEvidence', 'supportingDocuments'],
+                    category: 'family',
+                    priority: 'high',
+                    stage: 'family-based'
+                },
+                {
+                    id: 'i-485',
+                    name: 'Form I-485 - Adjustment of Status',
+                    description: 'Application to register permanent residence or adjust status to lawful permanent resident',
+                    status: 'pending',
+                    fields: ['personalInfo', 'immigrationHistory', 'familyInfo', 'criminalHistory', 'medicalExam'],
+                    category: 'permanent_resident',
+                    priority: 'high',
+                    stage: 'family-based'
+                },
+                
+                // Employment-based Immigration
+                {
+                    id: 'i-140',
+                    name: 'Form I-140 - Immigrant Petition for Alien Worker',
+                    description: 'Petition filed by employer for foreign worker to obtain employment-based immigrant visa',
+                    status: 'pending',
+                    fields: ['employerInfo', 'workerInfo', 'jobOffer', 'qualifications', 'laborCertification'],
+                    category: 'employment',
+                    priority: 'high',
+                    stage: 'employment-based'
+                },
+                
+                // Naturalization
+                {
+                    id: 'n-400',
+                    name: 'Form N-400 - Application for Naturalization',
+                    description: 'Application for lawful permanent residents to become U.S. citizens',
+                    status: 'pending',
+                    fields: ['personalInfo', 'residenceHistory', 'employmentHistory', 'criminalHistory', 'englishTest', 'civicsTest'],
+                    category: 'citizenship',
+                    priority: 'high',
+                    stage: 'naturalization'
+                },
+                
+                // Maintenance of Status
+                {
+                    id: 'i-90',
+                    name: 'Form I-90 - Application to Replace Permanent Resident Card',
+                    description: 'Application for lawful permanent residents to renew or replace their green card',
+                    status: 'pending',
+                    fields: ['personalInfo', 'cardInfo', 'reasonForReplacement', 'supportingDocuments'],
+                    category: 'permanent_resident',
+                    priority: 'medium',
+                    stage: 'maintenance'
+                },
+                {
+                    id: 'i-751',
+                    name: 'Form I-751 - Petition to Remove Conditions on Residence',
+                    description: 'Petition for conditional green card holders to remove conditions after 2 years',
+                    status: 'pending',
+                    fields: ['personalInfo', 'marriageInfo', 'relationshipEvidence', 'supportingDocuments'],
+                    category: 'permanent_resident',
+                    priority: 'high',
+                    stage: 'maintenance'
+                },
+                
+                // Relief and Waivers
+                {
+                    id: 'i-601',
+                    name: 'Form I-601 - Application for Waiver of Grounds of Inadmissibility',
+                    description: 'Application for waiver for inadmissible individuals seeking to immigrate',
+                    status: 'pending',
+                    fields: ['personalInfo', 'inadmissibilityGrounds', 'hardshipEvidence', 'supportingDocuments'],
+                    category: 'waiver',
+                    priority: 'high',
+                    stage: 'relief'
+                },
+                {
+                    id: 'i-821',
+                    name: 'Form I-821 - Application for Temporary Protected Status',
+                    description: 'Application for nationals of designated countries for TPS due to conflict or disaster',
+                    status: 'pending',
+                    fields: ['personalInfo', 'countryOfOrigin', 'entryDate', 'supportingDocuments'],
+                    category: 'tps',
+                    priority: 'high',
+                    stage: 'relief'
+                },
+                
+                // Supportive Documents
+                {
+                    id: 'i-765',
+                    name: 'Form I-765 - Application for Employment Authorization Document',
+                    description: 'Application for certain non-citizens to request work permission while status is pending',
+                    status: 'pending',
+                    fields: ['personalInfo', 'immigrationStatus', 'employmentHistory', 'supportingDocuments'],
+                    category: 'employment',
+                    priority: 'high',
+                    stage: 'supportive'
+                },
+                {
+                    id: 'g-1145',
+                    name: 'Form G-1145 - E-Notification of Application/Petition Acceptance',
+                    description: 'Optional form to request electronic notification when USCIS accepts application',
+                    status: 'pending',
+                    fields: ['personalInfo', 'contactInfo', 'applicationDetails'],
+                    category: 'notification',
+                    priority: 'low',
+                    stage: 'supportive'
+                },
+                
+                // Additional Important Forms
                 {
                     id: 'i-821d',
                     name: 'Form I-821D - DACA Application',
                     description: 'Application for Deferred Action for Childhood Arrivals',
                     status: 'pending',
-                    fields: ['personalInfo', 'arrivalInfo', 'educationInfo', 'criminalHistory', 'economicNecessity']
-                },
-                {
-                    id: 'i-765',
-                    name: 'Form I-765 - Work Authorization',
-                    description: 'Application for Employment Authorization Document',
-                    status: 'pending',
-                    fields: ['personalInfo', 'immigrationStatus', 'employmentHistory', 'supportingDocuments']
+                    fields: ['personalInfo', 'arrivalInfo', 'educationInfo', 'criminalHistory', 'economicNecessity'],
+                    category: 'daca',
+                    priority: 'high',
+                    stage: 'relief'
                 },
                 {
                     id: 'i-131',
-                    name: 'Form I-131 - Advance Parole',
-                    description: 'Application for Travel Document',
+                    name: 'Form I-131 - Application for Travel Document',
+                    description: 'Application for advance parole or refugee travel document',
                     status: 'pending',
-                    fields: ['personalInfo', 'travelPurpose', 'travelDates', 'supportingEvidence']
+                    fields: ['personalInfo', 'travelPurpose', 'travelDates', 'supportingEvidence'],
+                    category: 'travel',
+                    priority: 'medium',
+                    stage: 'supportive'
+                },
+                {
+                    id: 'i-589',
+                    name: 'Form I-589 - Application for Asylum and Withholding of Removal',
+                    description: 'Application for asylum and withholding of removal',
+                    status: 'pending',
+                    fields: ['personalInfo', 'asylumReason', 'persecutionDetails', 'supportingEvidence'],
+                    category: 'asylum',
+                    priority: 'high',
+                    stage: 'relief'
                 }
             ];
             
@@ -1586,8 +1708,8 @@
             
             card.innerHTML = `
                 <div class="document-status ${statusClass}">${statusText}</div>
-                <div class="document-title">${doc.name}</div>
-                <div class="document-description">${doc.description}</div>
+                <div class="document-title" data-doc-id="${doc.id}">${doc.name}</div>
+                <div class="document-description" data-doc-id="${doc.id}">${doc.description}</div>
                 <div class="document-actions">
                     <button class="btn btn-secondary" onclick="viewDocument('${doc.id}')">View</button>
                     <button class="btn" onclick="fillDocument('${doc.id}')">Fill</button>
@@ -1600,6 +1722,269 @@
 
         function viewDocument(docId) {
             const documents = {
+                'i-130': {
+                    name: 'Form I-130 - Petition for Alien Relative',
+                    description: 'Petition filed by U.S. citizen or LPR to establish family relationship for immigrant status',
+                    fields: [
+                        { id: 'petitionerInfo', label: 'Petitioner Information', type: 'section' },
+                        { id: 'petitionerName', label: 'Petitioner Full Name', type: 'text', required: true },
+                        { id: 'petitionerCitizenship', label: 'Petitioner Citizenship Status', type: 'select', required: true, options: ['U.S. Citizen', 'Lawful Permanent Resident'] },
+                        { id: 'petitionerAddress', label: 'Petitioner Address', type: 'textarea', required: true },
+                        { id: 'beneficiaryInfo', label: 'Beneficiary Information', type: 'section' },
+                        { id: 'beneficiaryName', label: 'Beneficiary Full Name', type: 'text', required: true },
+                        { id: 'beneficiaryBirthDate', label: 'Beneficiary Date of Birth', type: 'date', required: true },
+                        { id: 'beneficiaryCountry', label: 'Beneficiary Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
+                        { id: 'relationshipInfo', label: 'Relationship Information', type: 'section' },
+                        { id: 'relationshipType', label: 'Relationship Type', type: 'select', required: true, options: ['Spouse', 'Parent', 'Child', 'Sibling', 'Other'] },
+                        { id: 'marriageDate', label: 'Marriage Date (if applicable)', type: 'date', required: false },
+                        { id: 'marriageLocation', label: 'Marriage Location (if applicable)', type: 'text', required: false },
+                        { id: 'supportingDocuments', label: 'Supporting Documents', type: 'section' },
+                        { id: 'birthCertificate', label: 'Birth Certificate Provided', type: 'checkbox', required: false },
+                        { id: 'marriageCertificate', label: 'Marriage Certificate Provided', type: 'checkbox', required: false },
+                        { id: 'passportPhotos', label: 'Passport Photos Provided', type: 'checkbox', required: false }
+                    ]
+                },
+                'i-140': {
+                    name: 'Form I-140 - Immigrant Petition for Alien Worker',
+                    description: 'Petition filed by employer for foreign worker to obtain employment-based immigrant visa',
+                    fields: [
+                        { id: 'employerInfo', label: 'Employer Information', type: 'section' },
+                        { id: 'employerName', label: 'Employer Company Name', type: 'text', required: true },
+                        { id: 'employerAddress', label: 'Employer Address', type: 'textarea', required: true },
+                        { id: 'employerPhone', label: 'Employer Phone Number', type: 'tel', required: true },
+                        { id: 'workerInfo', label: 'Worker Information', type: 'section' },
+                        { id: 'workerName', label: 'Worker Full Name', type: 'text', required: true },
+                        { id: 'workerBirthDate', label: 'Worker Date of Birth', type: 'date', required: true },
+                        { id: 'workerCountry', label: 'Worker Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
+                        { id: 'jobOffer', label: 'Job Offer Information', type: 'section' },
+                        { id: 'jobTitle', label: 'Job Title', type: 'text', required: true },
+                        { id: 'jobDescription', label: 'Job Description', type: 'textarea', required: true },
+                        { id: 'salary', label: 'Offered Salary', type: 'number', required: true },
+                        { id: 'qualifications', label: 'Worker Qualifications', type: 'section' },
+                        { id: 'educationLevel', label: 'Education Level', type: 'select', required: true, options: ['High School', 'Associate Degree', 'Bachelor Degree', 'Master Degree', 'Doctorate', 'Professional Degree'] },
+                        { id: 'workExperience', label: 'Years of Work Experience', type: 'number', required: true },
+                        { id: 'specialSkills', label: 'Special Skills or Certifications', type: 'textarea', required: false },
+                        { id: 'laborCertification', label: 'Labor Certification', type: 'section' },
+                        { id: 'laborCertProvided', label: 'Labor Certification Provided', type: 'checkbox', required: true },
+                        { id: 'laborCertNumber', label: 'Labor Certification Number', type: 'text', required: false }
+                    ]
+                },
+                'i-485': {
+                    name: 'Form I-485 - Adjustment of Status',
+                    description: 'Application to register permanent residence or adjust status to lawful permanent resident',
+                    fields: [
+                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
+                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
+                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
+                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
+                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
+                        { id: 'countryOfBirth', label: 'Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
+                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
+                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
+                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
+                        { id: 'immigrationHistory', label: 'Immigration History', type: 'section' },
+                        { id: 'currentStatus', label: 'Current Immigration Status', type: 'select', required: true, options: ['F-1 Student', 'H-1B Worker', 'L-1 Intracompany Transfer', 'K-1 Fiancé', 'Other'] },
+                        { id: 'entryDate', label: 'Date of Entry to US', type: 'date', required: true },
+                        { id: 'entryPort', label: 'Port of Entry', type: 'text', required: true },
+                        { id: 'familyInfo', label: 'Family Information', type: 'section' },
+                        { id: 'maritalStatus', label: 'Marital Status', type: 'select', required: true, options: ['Single', 'Married', 'Divorced', 'Widowed'] },
+                        { id: 'spouseName', label: 'Spouse Name (if married)', type: 'text', required: false },
+                        { id: 'childrenCount', label: 'Number of Children', type: 'number', required: false },
+                        { id: 'criminalHistory', label: 'Criminal History', type: 'section' },
+                        { id: 'criminalRecord', label: 'Criminal Record', type: 'select', required: true, options: ['None', 'Minor Offenses', 'Major Offenses'] },
+                        { id: 'criminalDetails', label: 'Criminal Details (if applicable)', type: 'textarea', required: false },
+                        { id: 'medicalExam', label: 'Medical Examination', type: 'section' },
+                        { id: 'medicalExamCompleted', label: 'Medical Examination Completed', type: 'checkbox', required: true },
+                        { id: 'vaccinationRecords', label: 'Vaccination Records Provided', type: 'checkbox', required: true }
+                    ]
+                },
+                'n-400': {
+                    name: 'Form N-400 - Application for Naturalization',
+                    description: 'Application for lawful permanent residents to become U.S. citizens',
+                    fields: [
+                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
+                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
+                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
+                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
+                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
+                        { id: 'countryOfBirth', label: 'Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
+                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
+                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
+                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
+                        { id: 'residenceHistory', label: 'Residence History', type: 'section' },
+                        { id: 'greenCardDate', label: 'Green Card Date', type: 'date', required: true },
+                        { id: 'greenCardNumber', label: 'Green Card Number', type: 'text', required: true },
+                        { id: 'residenceYears', label: 'Years of Permanent Residence', type: 'number', required: true },
+                        { id: 'employmentHistory', label: 'Employment History', type: 'section' },
+                        { id: 'currentEmployer', label: 'Current Employer', type: 'text', required: false },
+                        { id: 'jobTitle', label: 'Job Title', type: 'text', required: false },
+                        { id: 'employmentYears', label: 'Years of Employment', type: 'number', required: false },
+                        { id: 'criminalHistory', label: 'Criminal History', type: 'section' },
+                        { id: 'criminalRecord', label: 'Criminal Record', type: 'select', required: true, options: ['None', 'Minor Offenses', 'Major Offenses'] },
+                        { id: 'criminalDetails', label: 'Criminal Details (if applicable)', type: 'textarea', required: false },
+                        { id: 'englishTest', label: 'English Language Test', type: 'section' },
+                        { id: 'englishProficiency', label: 'English Proficiency Level', type: 'select', required: true, options: ['Native Speaker', 'Fluent', 'Conversational', 'Basic', 'Limited'] },
+                        { id: 'educationLevel', label: 'Education Level', type: 'select', required: true, options: ['Elementary', 'Middle School', 'High School', 'Some College', 'Associate Degree', 'Bachelor Degree', 'Master Degree', 'Doctorate'] },
+                        { id: 'civicsTest', label: 'Civics Test Preparation', type: 'section' },
+                        { id: 'civicsStudy', label: 'Civics Test Study Completed', type: 'checkbox', required: true },
+                        { id: 'civicsPractice', label: 'Civics Practice Tests Taken', type: 'number', required: false }
+                    ]
+                },
+                'i-90': {
+                    name: 'Form I-90 - Application to Replace Permanent Resident Card',
+                    description: 'Application for lawful permanent residents to renew or replace their green card',
+                    fields: [
+                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
+                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
+                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
+                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
+                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
+                        { id: 'countryOfBirth', label: 'Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
+                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
+                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
+                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
+                        { id: 'cardInfo', label: 'Current Green Card Information', type: 'section' },
+                        { id: 'cardNumber', label: 'Current Green Card Number', type: 'text', required: true },
+                        { id: 'cardExpiryDate', label: 'Card Expiry Date', type: 'date', required: true },
+                        { id: 'cardIssueDate', label: 'Card Issue Date', type: 'date', required: true },
+                        { id: 'reasonForReplacement', label: 'Reason for Replacement', type: 'section' },
+                        { id: 'replacementReason', label: 'Reason for Replacement', type: 'select', required: true, options: ['Card Lost', 'Card Stolen', 'Card Damaged', 'Card Expired', 'Name Change', 'Other'] },
+                        { id: 'replacementDetails', label: 'Replacement Details', type: 'textarea', required: false },
+                        { id: 'supportingDocuments', label: 'Supporting Documents', type: 'section' },
+                        { id: 'passportPhotos', label: 'Passport Photos Provided', type: 'checkbox', required: true },
+                        { id: 'identityDocument', label: 'Identity Document Provided', type: 'checkbox', required: true },
+                        { id: 'policeReport', label: 'Police Report (if stolen)', type: 'checkbox', required: false }
+                    ]
+                },
+                'i-751': {
+                    name: 'Form I-751 - Petition to Remove Conditions on Residence',
+                    description: 'Petition for conditional green card holders to remove conditions after 2 years',
+                    fields: [
+                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
+                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
+                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
+                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
+                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
+                        { id: 'countryOfBirth', label: 'Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
+                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
+                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
+                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
+                        { id: 'marriageInfo', label: 'Marriage Information', type: 'section' },
+                        { id: 'spouseName', label: 'Spouse Full Name', type: 'text', required: true },
+                        { id: 'marriageDate', label: 'Marriage Date', type: 'date', required: true },
+                        { id: 'marriageLocation', label: 'Marriage Location', type: 'text', required: true },
+                        { id: 'conditionalCardDate', label: 'Conditional Green Card Date', type: 'date', required: true },
+                        { id: 'relationshipEvidence', label: 'Relationship Evidence', type: 'section' },
+                        { id: 'jointBankAccount', label: 'Joint Bank Account', type: 'checkbox', required: false },
+                        { id: 'jointLease', label: 'Joint Lease/Mortgage', type: 'checkbox', required: false },
+                        { id: 'jointTaxReturns', label: 'Joint Tax Returns', type: 'checkbox', required: false },
+                        { id: 'childrenBirthCertificates', label: 'Children Birth Certificates', type: 'checkbox', required: false },
+                        { id: 'photosTogether', label: 'Photos Together', type: 'checkbox', required: false },
+                        { id: 'supportingDocuments', label: 'Supporting Documents', type: 'section' },
+                        { id: 'marriageCertificate', label: 'Marriage Certificate', type: 'checkbox', required: true },
+                        { id: 'passportPhotos', label: 'Passport Photos', type: 'checkbox', required: true },
+                        { id: 'affidavits', label: 'Affidavits from Friends/Family', type: 'checkbox', required: false }
+                    ]
+                },
+                'i-601': {
+                    name: 'Form I-601 - Application for Waiver of Grounds of Inadmissibility',
+                    description: 'Application for waiver for inadmissible individuals seeking to immigrate',
+                    fields: [
+                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
+                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
+                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
+                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
+                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
+                        { id: 'countryOfBirth', label: 'Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
+                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
+                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
+                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
+                        { id: 'inadmissibilityGrounds', label: 'Inadmissibility Grounds', type: 'section' },
+                        { id: 'inadmissibilityReason', label: 'Reason for Inadmissibility', type: 'select', required: true, options: ['Health-related', 'Criminal', 'Immigration Violation', 'Fraud', 'Security', 'Other'] },
+                        { id: 'inadmissibilityDetails', label: 'Inadmissibility Details', type: 'textarea', required: true },
+                        { id: 'hardshipEvidence', label: 'Hardship Evidence', type: 'section' },
+                        { id: 'qualifyingRelative', label: 'Qualifying Relative', type: 'text', required: true },
+                        { id: 'relationshipToRelative', label: 'Relationship to Qualifying Relative', type: 'select', required: true, options: ['Spouse', 'Parent', 'Child', 'Sibling'] },
+                        { id: 'hardshipDescription', label: 'Hardship Description', type: 'textarea', required: true },
+                        { id: 'medicalEvidence', label: 'Medical Evidence (if applicable)', type: 'textarea', required: false },
+                        { id: 'supportingDocuments', label: 'Supporting Documents', type: 'section' },
+                        { id: 'birthCertificate', label: 'Birth Certificate', type: 'checkbox', required: true },
+                        { id: 'passportPhotos', label: 'Passport Photos', type: 'checkbox', required: true },
+                        { id: 'medicalRecords', label: 'Medical Records (if applicable)', type: 'checkbox', required: false },
+                        { id: 'criminalRecords', label: 'Criminal Records (if applicable)', type: 'checkbox', required: false }
+                    ]
+                },
+                'i-821': {
+                    name: 'Form I-821 - Application for Temporary Protected Status',
+                    description: 'Application for nationals of designated countries for TPS due to conflict or disaster',
+                    fields: [
+                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
+                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
+                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
+                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
+                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
+                        { id: 'countryOfOrigin', label: 'Country of Origin', type: 'select', required: true, options: ['El Salvador', 'Haiti', 'Honduras', 'Nepal', 'Nicaragua', 'Somalia', 'South Sudan', 'Sudan', 'Syria', 'Venezuela', 'Yemen'] },
+                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
+                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
+                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
+                        { id: 'entryDate', label: 'Entry Information', type: 'section' },
+                        { id: 'entryDateUS', label: 'Date of Entry to US', type: 'date', required: true },
+                        { id: 'entryPort', label: 'Port of Entry', type: 'text', required: true },
+                        { id: 'lastDepartureDate', label: 'Last Departure Date from TPS Country', type: 'date', required: true },
+                        { id: 'supportingDocuments', label: 'Supporting Documents', type: 'section' },
+                        { id: 'passport', label: 'Passport from TPS Country', type: 'checkbox', required: true },
+                        { id: 'birthCertificate', label: 'Birth Certificate', type: 'checkbox', required: true },
+                        { id: 'passportPhotos', label: 'Passport Photos', type: 'checkbox', required: true },
+                        { id: 'entryDocument', label: 'Entry Document', type: 'checkbox', required: true }
+                    ]
+                },
+                'i-765': {
+                    name: 'Form I-765 - Application for Employment Authorization Document',
+                    description: 'Application for certain non-citizens to request work permission while status is pending',
+                    fields: [
+                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
+                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
+                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
+                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
+                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
+                        { id: 'countryOfBirth', label: 'Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
+                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
+                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
+                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
+                        { id: 'immigrationStatus', label: 'Immigration Status', type: 'section' },
+                        { id: 'currentStatus', label: 'Current Immigration Status', type: 'select', required: true, options: ['F-1 Student', 'H-1B Worker', 'L-1 Intracompany Transfer', 'K-1 Fiancé', 'Asylum Applicant', 'TPS', 'DACA', 'Other'] },
+                        { id: 'statusExpiryDate', label: 'Status Expiry Date', type: 'date', required: false },
+                        { id: 'employmentHistory', label: 'Employment History', type: 'section' },
+                        { id: 'previousEmployment', label: 'Previous Employment', type: 'textarea', required: false },
+                        { id: 'currentEmployer', label: 'Current Employer (if any)', type: 'text', required: false },
+                        { id: 'supportingDocuments', label: 'Supporting Documents', type: 'section' },
+                        { id: 'passportPhotos', label: 'Passport Photos', type: 'checkbox', required: true },
+                        { id: 'identityDocument', label: 'Identity Document', type: 'checkbox', required: true },
+                        { id: 'statusDocument', label: 'Immigration Status Document', type: 'checkbox', required: true }
+                    ]
+                },
+                'g-1145': {
+                    name: 'Form G-1145 - E-Notification of Application/Petition Acceptance',
+                    description: 'Optional form to request electronic notification when USCIS accepts application',
+                    fields: [
+                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
+                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
+                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
+                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
+                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
+                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
+                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
+                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
+                        { id: 'contactInfo', label: 'Contact Information', type: 'section' },
+                        { id: 'preferredContact', label: 'Preferred Contact Method', type: 'select', required: true, options: ['Email', 'Phone', 'Text Message'] },
+                        { id: 'alternatePhone', label: 'Alternate Phone Number', type: 'tel', required: false },
+                        { id: 'alternateEmail', label: 'Alternate Email Address', type: 'email', required: false },
+                        { id: 'applicationDetails', label: 'Application Details', type: 'section' },
+                        { id: 'formType', label: 'Form Type', type: 'select', required: true, options: ['I-130', 'I-140', 'I-485', 'I-765', 'I-131', 'N-400', 'I-821', 'I-821D', 'I-589', 'I-601', 'I-751', 'I-90', 'Other'] },
+                        { id: 'receiptNumber', label: 'Receipt Number (if known)', type: 'text', required: false },
+                        { id: 'filingDate', label: 'Filing Date', type: 'date', required: false }
+                    ]
+                },
                 'i-821d': {
                     name: 'Form I-821D - DACA Application',
                     description: 'Application for Deferred Action for Childhood Arrivals',
@@ -1631,36 +2016,9 @@
                         { id: 'economicHardship', label: 'Economic Hardship Explanation', type: 'textarea', required: false }
                     ]
                 },
-                'i-765': {
-                    name: 'Form I-765 - Work Authorization',
-                    description: 'Application for Employment Authorization Document',
-                    fields: [
-                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
-                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
-                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
-                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
-                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
-                        { id: 'countryOfBirth', label: 'Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
-                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
-                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
-                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
-                        { id: 'socialSecurityNumber', label: 'Social Security Number', type: 'text', required: false },
-                        { id: 'immigrationStatus', label: 'Immigration Status', type: 'section' },
-                        { id: 'currentStatus', label: 'Current Immigration Status', type: 'select', required: true, options: ['DACA', 'TPS', 'Asylum Pending', 'Family Petition Pending', 'Other'] },
-                        { id: 'alienNumber', label: 'Alien Number (if applicable)', type: 'text', required: false },
-                        { id: 'employmentHistory', label: 'Employment History', type: 'section' },
-                        { id: 'previousEmployer', label: 'Previous Employer', type: 'text', required: false },
-                        { id: 'employmentDates', label: 'Employment Dates', type: 'text', required: false },
-                        { id: 'jobTitle', label: 'Job Title', type: 'text', required: false },
-                        { id: 'supportingDocuments', label: 'Supporting Documents', type: 'section' },
-                        { id: 'passportPhoto', label: 'Passport Photo Required', type: 'checkbox', required: true },
-                        { id: 'identityDocument', label: 'Identity Document', type: 'checkbox', required: true },
-                        { id: 'employmentEvidence', label: 'Employment Evidence', type: 'checkbox', required: false }
-                    ]
-                },
                 'i-131': {
-                    name: 'Form I-131 - Advance Parole',
-                    description: 'Application for Travel Document',
+                    name: 'Form I-131 - Application for Travel Document',
+                    description: 'Application for advance parole or refugee travel document',
                     fields: [
                         { id: 'personalInfo', label: 'Personal Information', type: 'section' },
                         { id: 'firstName', label: 'First Name', type: 'text', required: true },
@@ -1671,7 +2029,6 @@
                         { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
                         { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
                         { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
-                        { id: 'socialSecurityNumber', label: 'Social Security Number', type: 'text', required: false },
                         { id: 'travelPurpose', label: 'Travel Purpose', type: 'section' },
                         { id: 'travelReason', label: 'Reason for Travel', type: 'select', required: true, options: ['Educational', 'Employment', 'Humanitarian', 'Family Emergency', 'Medical', 'Other'] },
                         { id: 'travelDestination', label: 'Travel Destination', type: 'text', required: true },
@@ -1679,9 +2036,37 @@
                         { id: 'departureDate', label: 'Departure Date', type: 'date', required: true },
                         { id: 'returnDate', label: 'Return Date', type: 'date', required: true },
                         { id: 'supportingEvidence', label: 'Supporting Evidence', type: 'section' },
+                        { id: 'passportPhotos', label: 'Passport Photos', type: 'checkbox', required: true },
                         { id: 'travelDocumentation', label: 'Travel Documentation', type: 'textarea', required: false },
                         { id: 'emergencyContact', label: 'Emergency Contact', type: 'text', required: true },
                         { id: 'emergencyPhone', label: 'Emergency Phone', type: 'tel', required: true }
+                    ]
+                },
+                'i-589': {
+                    name: 'Form I-589 - Application for Asylum and Withholding of Removal',
+                    description: 'Application for asylum and withholding of removal',
+                    fields: [
+                        { id: 'personalInfo', label: 'Personal Information', type: 'section' },
+                        { id: 'firstName', label: 'First Name', type: 'text', required: true },
+                        { id: 'lastName', label: 'Last Name', type: 'text', required: true },
+                        { id: 'middleName', label: 'Middle Name', type: 'text', required: false },
+                        { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', required: true },
+                        { id: 'countryOfBirth', label: 'Country of Birth', type: 'select', required: true, options: ['Mexico', 'China', 'India', 'Philippines', 'El Salvador', 'Guatemala', 'Honduras', 'Cuba', 'Dominican Republic', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Peru', 'Ecuador', 'Bolivia', 'Chile', 'Uruguay', 'Paraguay', 'Other'] },
+                        { id: 'currentAddress', label: 'Current Address', type: 'textarea', required: true },
+                        { id: 'phoneNumber', label: 'Phone Number', type: 'tel', required: true },
+                        { id: 'emailAddress', label: 'Email Address', type: 'email', required: true },
+                        { id: 'asylumReason', label: 'Asylum Reason', type: 'section' },
+                        { id: 'persecutionType', label: 'Type of Persecution', type: 'select', required: true, options: ['Political Opinion', 'Religion', 'Race', 'Nationality', 'Membership in Social Group', 'Other'] },
+                        { id: 'persecutionDetails', label: 'Persecution Details', type: 'section' },
+                        { id: 'persecutionDescription', label: 'Description of Persecution', type: 'textarea', required: true },
+                        { id: 'persecutionLocation', label: 'Location of Persecution', type: 'text', required: true },
+                        { id: 'persecutionDate', label: 'Date of Persecution', type: 'date', required: false },
+                        { id: 'supportingEvidence', label: 'Supporting Evidence', type: 'section' },
+                        { id: 'passportPhotos', label: 'Passport Photos', type: 'checkbox', required: true },
+                        { id: 'identityDocument', label: 'Identity Document', type: 'checkbox', required: true },
+                        { id: 'medicalRecords', label: 'Medical Records (if applicable)', type: 'checkbox', required: false },
+                        { id: 'policeReports', label: 'Police Reports (if applicable)', type: 'checkbox', required: false },
+                        { id: 'witnessStatements', label: 'Witness Statements', type: 'checkbox', required: false }
                     ]
                 }
             };
@@ -2378,16 +2763,23 @@
             }
 
             async extractQuestions(documentText) {
-                const prompt = `Analyze this immigration document and extract all questions. Return a JSON array where each question has:
-                - "text": the exact question text
-                - "type": "LEQ" for long essay questions, "SAQ" for short answer, "MCQ" for multiple choice, "BOOLEAN" for yes/no
-                - "field_id": a unique identifier for the field
-                - "complexity": "simple", "moderate", or "complex"
-                - "context": brief explanation of what the question is asking
+                const prompt = `You are an expert immigration attorney analyzing immigration forms. Extract all questions from this immigration document and categorize them properly.
 
-                Document text: "${documentText}"
+                IMMIGRATION FORM ANALYSIS:
+                Document: "${documentText}"
 
-                Return only valid JSON array.`;
+                Return a JSON array where each question has:
+                - "text": the exact question text as it appears
+                - "type": "LEQ" for long essay questions (explain, describe, provide details), "SAQ" for short answer (name, date, number), "MCQ" for multiple choice, "BOOLEAN" for yes/no questions
+                - "field_id": a unique identifier (use form field names like "firstName", "dateOfBirth", etc.)
+                - "complexity": "simple" (basic info), "moderate" (requires some thought), or "complex" (legal/technical)
+                - "context": what information this question is seeking
+                - "required": true/false based on asterisks or required indicators
+                - "category": "personal", "immigration", "criminal", "employment", "education", "travel", "family"
+
+                Focus on USCIS forms like I-821D, I-765, I-131, I-485, I-130, N-400, I-589, I-90.
+
+                Return only valid JSON array:`;
 
                 try {
                     const response = await this.callOllama(prompt);
@@ -2440,16 +2832,22 @@
             }
 
             async summarizeQuestion(questionText, language) {
-                const prompt = `Simplify this immigration form question to make it easier to understand for someone who may not read/write well. Keep the essential meaning but use simpler words and shorter sentences.
+                const prompt = `You are helping immigrants understand complex immigration form questions. Simplify this USCIS form question to make it clear for someone who may not read/write well or speak English fluently.
 
+                IMMIGRATION QUESTION SIMPLIFICATION:
                 Original question: "${questionText}"
                 
-                Provide a simplified version that:
-                - Uses simple, everyday words
-                - Has shorter sentences
-                - Explains what information is needed
-                - Is clear and direct
-
+                Create a simplified version that:
+                - Uses simple, everyday words (avoid legal jargon)
+                - Has shorter, clearer sentences
+                - Explains what specific information is needed
+                - Is direct and easy to understand
+                - Maintains the legal meaning but makes it accessible
+                
+                Examples:
+                "Provide a detailed explanation of your current immigration status" → "Tell us about your current immigration status in simple words"
+                "Describe the circumstances surrounding your entry into the United States" → "Tell us how you came to the United States"
+                
                 Simplified version:`;
 
                 try {
@@ -2519,9 +2917,16 @@
                     'fr': 'French'
                 };
 
-                const prompt = `Translate this text to ${languageNames[targetLanguage] || targetLanguage}. Keep the meaning clear and use simple words:
+                const prompt = `You are translating immigration form content for immigrants. Translate this USCIS form text to ${languageNames[targetLanguage] || targetLanguage}.
 
-                "${text}"
+                IMMIGRATION TRANSLATION GUIDELINES:
+                - Use simple, clear language that immigrants can understand
+                - Maintain legal accuracy but make it accessible
+                - Use common words instead of complex legal terms
+                - Keep the same meaning and context
+                - Make it culturally appropriate for ${languageNames[targetLanguage] || targetLanguage} speakers
+
+                Text to translate: "${text}"
 
                 Translation:`;
 
@@ -3008,6 +3413,191 @@
         function getTranslatedText(key) {
             const t = translations[currentLanguage] || translations.en;
             return t[key];
+        }
+
+        function updateLanguage() {
+            const t = translations[currentLanguage] || translations.en;
+            
+            // Force DOM refresh with fade effect
+            document.body.style.opacity = '0.7';
+            setTimeout(() => {
+                // Update navigation
+                document.getElementById('dashboardNav').textContent = t.dashboardNav || '📊 Dashboard';
+                document.getElementById('profileNav').textContent = t.profileNav || '👤 Profile';
+                document.getElementById('documentsNav').textContent = t.documentsNav || '📄 Documents';
+                document.getElementById('helpNav').textContent = t.helpNav || '🆘 Help Resources';
+                
+                // Update dashboard
+                document.getElementById('dashboardTitle').textContent = t.dashboardTitle || 'Dashboard - Immigr-Aid';
+                document.getElementById('completedLabel').textContent = t.completedLabel || 'Completed';
+                document.getElementById('remainingLabel').textContent = t.remainingLabel || 'Remaining';
+                document.getElementById('profileTitle').textContent = t.profileTitle || 'Personal Information';
+                document.getElementById('profileDescription').textContent = t.profileDescription || 'Complete your profile to enable AI assistance with form filling and personalized guidance.';
+                document.getElementById('completeProfileBtn').textContent = t.completeProfileBtn || 'Complete Profile';
+                document.getElementById('documentsTitle').textContent = t.documentsTitle || 'Required Documents';
+                document.getElementById('documentsDescription').textContent = t.documentsDescription || 'All documents needed to complete your immigration application process';
+                
+                // Update profile section
+                document.getElementById('profileSectionTitle').textContent = t.profileSectionTitle || 'Personal Information';
+                document.getElementById('firstNameLabel').textContent = t.firstNameLabel || 'First Name *';
+                document.getElementById('lastNameLabel').textContent = t.lastNameLabel || 'Last Name *';
+                document.getElementById('middleNameLabel').textContent = t.middleNameLabel || 'Middle Name';
+                document.getElementById('dateOfBirthLabel').textContent = t.dateOfBirthLabel || 'Date of Birth *';
+                document.getElementById('countryOfBirthLabel').textContent = t.countryOfBirthLabel || 'Country of Birth *';
+                document.getElementById('currentAddressLabel').textContent = t.currentAddressLabel || 'Current Address *';
+                document.getElementById('phoneNumberLabel').textContent = t.phoneNumberLabel || 'Phone Number *';
+                document.getElementById('emailAddressLabel').textContent = t.emailAddressLabel || 'Email Address *';
+                document.getElementById('socialSecurityNumberLabel').textContent = t.socialSecurityNumberLabel || 'Social Security Number';
+                document.getElementById('entryDateLabel').textContent = t.entryDateLabel || 'Entry Date to US *';
+                document.getElementById('methodOfEntryLabel').textContent = t.methodOfEntryLabel || 'Method of Entry *';
+                document.getElementById('educationLevelLabel').textContent = t.educationLevelLabel || 'Education Level *';
+                document.getElementById('employmentStatusLabel').textContent = t.employmentStatusLabel || 'Employment Status *';
+                document.getElementById('criminalHistoryLabel').textContent = t.criminalHistoryLabel || 'Criminal History';
+                document.getElementById('saveProfileBtn').textContent = t.saveProfileBtn || 'Save Profile Information';
+                
+                // Update AI sidebar
+                document.getElementById('aiSidebarSubtitle').textContent = t.aiSidebarSubtitle || "I'm here to help you with your immigration forms and questions. Ask me anything!";
+                document.getElementById('aiSidebarWelcomeMessage').textContent = t.aiSidebarWelcomeMessage || "Hello! I'm your AI immigration assistant. I can help you fill out forms, answer questions about your immigration process, and guide you through each step. How can I assist you today?";
+                document.getElementById('aiSidebarInput').placeholder = t.aiSidebarPlaceholder || "Ask me anything...";
+                
+                // Update help resources
+                document.getElementById('helpTitle').textContent = t.helpTitle || 'Help Resources and Locations';
+                document.getElementById('emergencyResources').textContent = t.emergencyResources || 'Emergency Resources';
+                document.getElementById('legalAid').textContent = t.legalAid || 'Legal Aid';
+                document.getElementById('communityCenters').textContent = t.communityCenters || 'Community Centers';
+                document.getElementById('healthcareResources').textContent = t.healthcareResources || 'Healthcare';
+                document.getElementById('employmentResources').textContent = t.employmentResources || 'Employment';
+                document.getElementById('educationalResources').textContent = t.educationalResources || 'Educational Resources';
+                
+                // Update all form placeholders and options
+                updateAllFormElements(t);
+                
+                // Force refresh of form fields
+                forceFormRefresh();
+                
+                // Restore opacity
+                document.body.style.opacity = '1';
+            }, 100);
+        }
+
+        function updateAllFormElements(t) {
+            // Update all input placeholders
+            const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="date"], textarea');
+            inputs.forEach(input => {
+                const fieldId = input.id;
+                const placeholder = getTranslatedPlaceholder(fieldId, t);
+                if (placeholder) {
+                    input.placeholder = placeholder;
+                    // Force browser refresh of placeholder
+                    const value = input.value;
+                    input.value = '';
+                    setTimeout(() => input.value = value, 10);
+                }
+            });
+
+            // Update all select options
+            const selects = document.querySelectorAll('select');
+            selects.forEach(select => {
+                const options = select.querySelectorAll('option');
+                options.forEach(option => {
+                    const translatedOption = getTranslatedOption(option.value, t);
+                    if (translatedOption && option.value !== '') {
+                        option.textContent = translatedOption;
+                    }
+                });
+            });
+
+            // Update document cards
+            updateDocumentCards(t);
+        }
+
+        function updateDocumentCards(t) {
+            const documentCards = document.querySelectorAll('.document-card');
+            documentCards.forEach(card => {
+                const titleElement = card.querySelector('.document-title');
+                const descriptionElement = card.querySelector('.document-description');
+                const buttons = card.querySelectorAll('.btn');
+                
+                if (titleElement) {
+                    const docId = titleElement.getAttribute('data-doc-id');
+                    const translatedTitle = getTranslatedDocumentTitle(docId, t);
+                    if (translatedTitle) titleElement.textContent = translatedTitle;
+                }
+                
+                if (descriptionElement) {
+                    const docId = descriptionElement.getAttribute('data-doc-id');
+                    const translatedDescription = getTranslatedDocumentDescription(docId, t);
+                    if (translatedDescription) descriptionElement.textContent = translatedDescription;
+                }
+                
+                buttons.forEach(button => {
+                    const buttonText = button.textContent.trim();
+                    const translatedButton = getTranslatedButtonText(buttonText, t);
+                    if (translatedButton) button.textContent = translatedButton;
+                });
+            });
+        }
+
+        function getTranslatedDocumentTitle(docId, t) {
+            const docTitles = {
+                'i-130': t.i130Title || 'Petition for Alien Relative (I-130)',
+                'i-140': t.i140Title || 'Immigrant Petition for Alien Worker (I-140)',
+                'i-485': t.i485Title || 'Adjustment of Status (I-485)',
+                'n-400': t.n400Title || 'Application for Naturalization (N-400)',
+                'i-90': t.i90Title || 'Application to Replace Permanent Resident Card (I-90)',
+                'i-751': t.i751Title || 'Petition to Remove Conditions on Residence (I-751)',
+                'i-601': t.i601Title || 'Application for Waiver of Grounds of Inadmissibility (I-601)',
+                'i-821': t.i821Title || 'Application for Temporary Protected Status (I-821)',
+                'i-765': t.i765Title || 'Application for Employment Authorization Document (I-765)',
+                'g-1145': t.g1145Title || 'E-Notification of Application/Petition Acceptance (G-1145)',
+                'i-821d': t.i821dTitle || 'DACA Application (I-821D)',
+                'i-131': t.i131Title || 'Application for Travel Document (I-131)',
+                'i-589': t.i589Title || 'Application for Asylum and Withholding of Removal (I-589)'
+            };
+            return docTitles[docId];
+        }
+
+        function getTranslatedDocumentDescription(docId, t) {
+            const docDescriptions = {
+                'i-130': t.i130Description || 'Petition filed by U.S. citizen or LPR to establish family relationship for immigrant status',
+                'i-140': t.i140Description || 'Petition filed by employer for foreign worker to obtain employment-based immigrant visa',
+                'i-485': t.i485Description || 'Application to register permanent residence or adjust status to lawful permanent resident',
+                'n-400': t.n400Description || 'Application for lawful permanent residents to become U.S. citizens',
+                'i-90': t.i90Description || 'Application for lawful permanent residents to renew or replace their green card',
+                'i-751': t.i751Description || 'Petition for conditional green card holders to remove conditions after 2 years',
+                'i-601': t.i601Description || 'Application for waiver for inadmissible individuals seeking to immigrate',
+                'i-821': t.i821Description || 'Application for nationals of designated countries for TPS due to conflict or disaster',
+                'i-765': t.i765Description || 'Application for certain non-citizens to request work permission while status is pending',
+                'g-1145': t.g1145Description || 'Optional form to request electronic notification when USCIS accepts application',
+                'i-821d': t.i821dDescription || 'Application for Deferred Action for Childhood Arrivals',
+                'i-131': t.i131Description || 'Application for advance parole or refugee travel document',
+                'i-589': t.i589Description || 'Application for asylum and withholding of removal'
+            };
+            return docDescriptions[docId];
+        }
+
+        function getTranslatedButtonText(buttonText, t) {
+            const buttonTranslations = {
+                'Fill': t.fillBtn || 'Fill',
+                'View': t.viewBtn || 'View',
+                'Download': t.downloadBtn || 'Download',
+                'Save': t.saveBtn || 'Save',
+                'Close': t.closeBtn || 'Close',
+                'Submit': t.submitBtn || 'Submit',
+                'Cancel': t.cancelBtn || 'Cancel',
+                'Edit': t.editBtn || 'Edit',
+                'Delete': t.deleteBtn || 'Delete'
+            };
+            return buttonTranslations[buttonText];
+        }
+
+        function forceFormRefresh() {
+            // Force refresh of all form elements
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                // Trigger change event to force browser refresh
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            });
         }
         
         function generateAIResponse(userMessage) {
