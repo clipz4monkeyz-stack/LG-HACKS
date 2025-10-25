@@ -14,14 +14,7 @@ This repository contains **both** a comprehensive web platform and a native iOS 
 - **Speech-to-text** and comprehensive help resources
 - **No installation required** - works in any modern browser
 
-### 📱 **iOS App** (`ALai/`)
-- **Native iOS application** with SwiftUI
-- **Advanced document analysis** using Vision framework
-- **Multi-language support** for 20+ languages
-- **Offline capabilities** for critical features
-- **Privacy-first design** with end-to-end encryption
 
----
 
 ## 💡 **The Concept**
 
@@ -57,7 +50,7 @@ NavigateHome AI serves as a 24/7 personal advocate for immigrants, guiding them 
 - **Cultural Sensitivity**: Appropriate translations for legal/immigration terms
 - **Form Field Translation**: Every form field, label, and option translated
 
-## 📱 **iOS App Features**
+## Features**
 
 ### 🧭 **Intelligent Document Assistant**
 - Upload immigration forms (I-485, I-130, N-400, etc.)
@@ -119,19 +112,7 @@ python3 -m http.server 3000
 # Open browser to http://localhost:3000/immigr-aid-platform.html
 ```
 
-### iOS App
-```bash
-# Clone the repository
-git clone https://github.com/clipz4monkeyz-stack/LG-HACKS.git
-cd LG-HACKS
 
-# Open the project in Xcode
-open ALai.xcodeproj
-
-# Build and run
-# Select your target device or simulator
-# Press Cmd+R to build and run
-```
 
 ## 🌍 **Supported Languages**
 
