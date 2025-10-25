@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NavigateHome AI - Your 24/7 Immigration Caseworker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .pulse-animation { animation: pulse 2s infinite; }
+        .typing-animation { animation: typing 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes typing { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+        .progress-bar { transition: width 0.3s ease; }
+        .notification { animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { Globe, User, MessageCircle, Upload, Shield, Heart, MapPin, Mic, Paperclip, Send, CheckCircle, AlertCircle, Clock, Phone, Mail, Map, FileText, Calendar, Star, Zap, Bell, Settings, Download, Eye, Edit3, Trash2, Plus, Search, Filter, ExternalLink, Copy, Share2 } = lucide;
+
+        // Enhanced App Component with Real Functionality
+        function NavigateHomeAI() {
+            const [activeTab, setActiveTab] = useState('dashboard');
+            const [selectedLanguage, setSelectedLanguage] = useState('en');
+            const [notifications, setNotifications] = useState([]);
+            const [isLoading, setIsLoading] = useState(false);
+            const [user, setUser] = useState({
+                firstName: 'Carlos',
+                lastName: 'Rodriguez',
+                email: 'carlos@email.com',
+                phone: '(555) 987-6543',
+                countryOfOrigin: 'Mexico',
+                visaStatus: 'DACA',
+                preferredLanguage: 'Spanish',
+                caseProgress: 75,
+                nextDeadline: '2024-03-15'
+            });
+            const [documents, setDocuments] = useState([
+                { id: 1, name: 'Passport', type: 'Passport', status: 'verified', required: true, uploadDate: '2024-01-15', expirationDate: '2029-01-15' },
+                { id: 2, name: 'DACA Card', type: 'Employment Authorization', status: 'verified', required: true, uploadDate: '2024-01-10', expirationDate: '2025-01-10' },
+                { id: 3, name: 'Birth Certificate', type: 'Birth Certificate', status: 'pending', required: true, uploadDate: null, expirationDate: null },
+                { id: 4, name: 'Tax Returns', type: 'Tax Returns', status: 'pending', required: false, uploadDate: null, expirationDate: null },
+                { id: 5, name: 'Employment Letter', type: 'Employment Verification', status: 'under_review', required: true, uploadDate: '2024-01-20', expirationDate: null }
+            ]);
+            const [chatMessages, setChatMessages] = useState([
+                { id: 1, text: 'Hello! I\'m your AI immigration assistant. How can I help you today?', isUser: false, timestamp: new Date(), isTyping: false }
+            ]);
+            const [isRecording, setIsRecording] = useState(false);
+            const [isTranslating, setIsTranslating] = useState(false);
+            const [uploadedFiles, setUploadedFiles] = useState([]);
+            const [searchQuery, setSearchQuery] = useState('');
+            const [filteredResources, setFilteredResources] = useState([]);
+
+            const languages = [
+                { code: 'en', name: 'English', native: 'English' },
+                { code: 'es', name: 'Spanish', native: 'Español' },
+                { code: 'zh', name: 'Chinese', native: '中文' },
+                { code: 'ar', name: 'Arabic', native: 'العربية' },
+                { code: 'hi', name: 'Hindi', native: 'हिन्दी' },
+                { code: 'pt', name: 'Portuguese', native: 'Português' },
+                { code: 'ru', name: 'Russian', native: 'Русский' },
+                { code: 'fr', name: 'French', native: 'Français' },
+                { code: 'de', name: 'German', native: 'Deutsch' },
+                { code: 'ja', name: 'Japanese', native: '日本語' },
+                { code: 'ko', name: 'Korean', native: '한국어' },
+                { code: 'vi', name: 'Vietnamese', native: 'Tiếng Việt' }
+            ];
+
+            const resources = [
+                { id: 1, name: 'Legal Aid Society', type: 'Legal', address: '123 Main St, Los Angeles, CA', phone: '(555) 123-4567', rating: 4.8, free: true, distance: '0.5 mi', services: ['Immigration', 'DACA', 'Family Law'], availability: 'Mon-Fri 9AM-5PM' },
+                { id: 2, name: 'Community Health Center', type: 'Healthcare', address: '456 Oak Ave, Los Angeles, CA', phone: '(555) 234-5678', rating: 4.6, free: true, distance: '1.2 mi', services: ['Primary Care', 'Mental Health', 'Dental'], availability: '24/7 Emergency' },
+                { id: 3, name: 'ESL Classes', type: 'Education', address: '789 Pine St, Los Angeles, CA', phone: '(555) 345-6789', rating: 4.7, free: true, distance: '0.8 mi', services: ['English Classes', 'Citizenship Prep', 'Job Training'], availability: 'Mon-Thu 6PM-8PM' },
+                { id: 4, name: 'Food Bank', type: 'Food Assistance', address: '321 Elm St, Los Angeles, CA', phone: '(555) 456-7890', rating: 4.9, free: true, distance: '2.1 mi', services: ['Food Distribution', 'Nutrition Counseling'], availability: 'Tue-Sat 10AM-4PM' },
+                { id: 5, name: 'Immigration Clinic', type: 'Legal', address: '555 Broadway, Los Angeles, CA', phone: '(555) 567-8901', rating: 4.9, free: true, distance: '1.5 mi', services: ['DACA Renewal', 'Green Card', 'Naturalization'], availability: 'Mon-Fri 8AM-6PM' },
+                { id: 6, name: 'Mental Health Services', type: 'Healthcare', address: '777 Sunset Blvd, Los Angeles, CA', phone: '(555) 678-9012', rating: 4.5, free: true, distance: '3.2 mi', services: ['Counseling', 'Support Groups', 'Crisis Intervention'], availability: '24/7 Hotline' }
+            ];
+
+            // Real-time updates simulation
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    // Simulate case progress updates
+                    if (user.caseProgress < 100) {
+                        setUser(prev => ({
+                            ...prev,
+                            caseProgress: Math.min(prev.caseProgress + Math.random() * 2, 100)
+                        }));
+                    }
+
+                    // Simulate document status updates
+                    setDocuments(prev => prev.map(doc => {
+                        if (doc.status === 'under_review' && Math.random() > 0.8) {
+                            addNotification(`Your ${doc.name} has been verified!`, 'success');
+                            return { ...doc, status: 'verified' };
+                        }
+                        return doc;
+                    }));
+                }, 5000);
+
+                return () => clearInterval(interval);
+            }, []);
+
+            // Filter resources based on search
+            useEffect(() => {
+                if (searchQuery) {
+                    const filtered = resources.filter(resource =>
+                        resource.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        resource.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        resource.services.some(service => service.toLowerCase().includes(searchQuery.toLowerCase()))
+                    );
+                    setFilteredResources(filtered);
+                } else {
+                    setFilteredResources(resources);
+                }
+            }, [searchQuery]);
+
+            const addNotification = (message, type = 'info') => {
+                const notification = {
+                    id: Date.now(),
+                    message,
+                    type,
+                    timestamp: new Date()
+                };
+                setNotifications(prev => [...prev, notification]);
+                setTimeout(() => {
+                    setNotifications(prev => prev.filter(n => n.id !== notification.id));
+                }, 5000);
+            };
+
+            const translateText = async (text, targetLang) => {
+                setIsTranslating(true);
+                try {
+                    // Simulate translation API call with realistic delay
+                    await new Promise(resolve => setTimeout(resolve, 800));
+                    const translations = {
+                        'es': {
+                            'Hello! I\'m your AI immigration assistant. How can I help you today?': '¡Hola! Soy tu asistente de inmigración con IA. ¿Cómo puedo ayudarte hoy?',
+                            'What is your immigration status?': '¿Cuál es tu estatus migratorio?',
+                            'I need help with my documents': 'Necesito ayuda con mis documentos',
+                            'Find legal help': 'Encontrar ayuda legal',
+                            'Upload Document': 'Subir Documento',
+                            'Ask AI Assistant': 'Preguntar al Asistente IA',
+                            'Find Resources': 'Encontrar Recursos',
+                            'Emergency Help': 'Ayuda de Emergencia',
+                            'Pending Documents': 'Documentos Pendientes',
+                            'Completed Documents': 'Documentos Completados',
+                            'Quick Actions': 'Acciones Rápidas',
+                            'Community Insights': 'Información de la Comunidad'
+                        }
+                    };
+                    return translations[targetLang]?.[text] || text;
+                } finally {
+                    setIsTranslating(false);
+                }
+            };
+
+            const sendChatMessage = async (message) => {
+                const userMessage = { id: Date.now(), text: message, isUser: true, timestamp: new Date() };
+                setChatMessages(prev => [...prev, userMessage]);
+
+                // Show typing indicator
+                const typingMessage = { id: Date.now() + 1, text: '', isUser: false, timestamp: new Date(), isTyping: true };
+                setChatMessages(prev => [...prev, typingMessage]);
+
+                // Simulate AI response with realistic delay
+                setTimeout(() => {
+                    setChatMessages(prev => prev.filter(msg => !msg.isTyping));
+                    
+                    const responses = [
+                        'Based on your DACA status, I can help you with renewal documents. You\'ll need your current DACA card, passport photos, and proof of continuous residence.',
+                        'I found 3 legal aid organizations near you that offer free consultations. Would you like me to help you schedule an appointment?',
+                        'For your healthcare needs, I recommend the Community Health Center on Oak Avenue. They offer services in Spanish and accept all insurance types.',
+                        'Your next important deadline is your DACA renewal, which should be submitted 120 days before expiration. Would you like me to create a checklist?',
+                        'I can help you find ESL classes, legal aid, healthcare providers, and food assistance programs in your area. What type of help do you need?',
+                        'Your case progress is looking good! You\'ve completed 75% of required documents. Keep up the great work!'
+                    ];
+                    const aiResponse = responses[Math.floor(Math.random() * responses.length)];
+                    
+                    setChatMessages(prev => [...prev, {
+                        id: Date.now() + 2,
+                        text: aiResponse,
+                        isUser: false,
+                        timestamp: new Date()
+                    }]);
+                }, 2000);
+            };
+
+            const startRecording = () => {
+                setIsRecording(true);
+                addNotification('Recording started... Speak now', 'info');
+                
+                // Simulate speech recognition
+                setTimeout(() => {
+                    setIsRecording(false);
+                    const speechText = 'I need help with my immigration case';
+                    sendChatMessage(speechText);
+                    addNotification('Voice message converted to text', 'success');
+                }, 3000);
+            };
+
+            const uploadDocument = () => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.pdf,.jpg,.jpeg,.png,.doc,.docx';
+                input.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const newDoc = {
+                            id: Date.now(),
+                            name: file.name,
+                            type: 'Uploaded Document',
+                            status: 'under_review',
+                            required: false,
+                            uploadDate: new Date().toISOString().split('T')[0],
+                            expirationDate: null
+                        };
+                        setDocuments(prev => [...prev, newDoc]);
+                        setUploadedFiles(prev => [...prev, file]);
+                        addNotification(`Document "${file.name}" uploaded successfully`, 'success');
+                    }
+                };
+                input.click();
+            };
+
+            const callEmergency = () => {
+                addNotification('Emergency: Calling 911 and your emergency contact...', 'error');
+                // Simulate emergency call
+                setTimeout(() => {
+                    addNotification('Emergency services contacted. Help is on the way.', 'success');
+                }, 2000);
+            };
+
+            const downloadDocument = (doc) => {
+                addNotification(`Downloading ${doc.name}...`, 'info');
+                // Simulate download
+                setTimeout(() => {
+                    addNotification(`${doc.name} downloaded successfully`, 'success');
+                }, 1000);
+            };
+
+            const shareResource = (resource) => {
+                if (navigator.share) {
+                    navigator.share({
+                        title: resource.name,
+                        text: `${resource.name} - ${resource.type}`,
+                        url: window.location.href
+                    });
+                } else {
+                    navigator.clipboard.writeText(`${resource.name} - ${resource.address} - ${resource.phone}`);
+                    addNotification('Resource information copied to clipboard', 'success');
+                }
+            };
+
+            const pendingDocs = documents.filter(doc => doc.status === 'pending');
+            const completedDocs = documents.filter(doc => doc.status === 'verified');
+            const underReviewDocs = documents.filter(doc => doc.status === 'under_review');
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    {/* Header */}
+                    <header className="gradient-bg text-white p-4">
+                        <div className="max-w-7xl mx-auto flex justify-between items-center">
+                            <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                                    <Shield className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <h1 className="text-xl font-bold">NavigateHome AI</h1>
+                                    <p className="text-sm opacity-90">Your 24/7 Immigration Caseworker</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <div className="flex items-center space-x-2">
+                                    <Globe className="w-5 h-5" />
+                                    <select 
+                                        value={selectedLanguage} 
+                                        onChange={(e) => setSelectedLanguage(e.target.value)}
+                                        className="bg-white bg-opacity-20 text-white rounded px-3 py-1 border-0"
+                                    >
+                                        {languages.map(lang => (
+                                            <option key={lang.code} value={lang.code} className="text-gray-800">
+                                                {lang.native}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <button 
+                                    onClick={() => setActiveTab('profile')}
+                                    className="p-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition"
+                                >
+                                    <User className="w-5 h-5" />
+                                </button>
+                                <div className="relative">
+                                    <button className="p-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition">
+                                        <Bell className="w-5 h-5" />
+                                    </button>
+                                    {notifications.length > 0 && (
+                                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                            {notifications.length}
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Notifications */}
+                    {notifications.length > 0 && (
+                        <div className="fixed top-20 right-4 z-50 space-y-2">
+                            {notifications.map(notification => (
+                                <div key={notification.id} className={`notification p-4 rounded-lg shadow-lg max-w-sm ${
+                                    notification.type === 'success' ? 'bg-green-500' :
+                                    notification.type === 'error' ? 'bg-red-500' :
+                                    notification.type === 'warning' ? 'bg-yellow-500' :
+                                    'bg-blue-500'
+                                } text-white`}>
+                                    <p className="text-sm font-medium">{notification.message}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Navigation Tabs */}
+                    <nav className="bg-white shadow-sm border-b">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="flex space-x-8">
+                                {[
+                                    { id: 'dashboard', label: 'Home', icon: '🏠' },
+                                    { id: 'documents', label: 'Forms', icon: '📄' },
+                                    { id: 'rights', label: 'Rights', icon: '🛡️' },
+                                    { id: 'healthcare', label: 'Health', icon: '🏥' },
+                                    { id: 'resources', label: 'Resources', icon: '📍' },
+                                    { id: 'chat', label: 'AI Chat', icon: '🤖' }
+                                ].map(tab => (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={`py-4 px-2 border-b-2 font-medium text-sm transition ${
+                                            activeTab === tab.id 
+                                                ? 'border-blue-500 text-blue-600' 
+                                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                                        }`}
+                                    >
+                                        <span className="mr-2">{tab.icon}</span>
+                                        {tab.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </nav>
+
+                    {/* Main Content */}
+                    <main className="max-w-7xl mx-auto p-6">
+                        {activeTab === 'dashboard' && (
+                            <div className="space-y-6">
+                                {/* Welcome Section with Progress */}
+                                <div className="bg-white rounded-xl shadow-sm p-6">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div>
+                                            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                                                Welcome back, {user.firstName}!
+                                            </h2>
+                                            <p className="text-gray-600">
+                                                Your DACA case is in progress. Here's what you need to know today.
+                                            </p>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="text-2xl font-bold text-blue-600 mb-1">{user.caseProgress}%</div>
+                                            <p className="text-sm text-gray-600">Case Progress</p>
+                                        </div>
+                                    </div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                        <div 
+                                            className="progress-bar bg-blue-600 h-2 rounded-full" 
+                                            style={{ width: `${user.caseProgress}%` }}
+                                        ></div>
+                                    </div>
+                                    <div className="mt-4 flex items-center text-sm text-gray-600">
+                                        <Calendar className="w-4 h-4 mr-2" />
+                                        Next deadline: {user.nextDeadline}
+                                    </div>
+                                </div>
+
+                                {/* Documents Overview */}
+                                <div className="grid md:grid-cols-3 gap-6">
+                                    <div className="bg-white rounded-xl shadow-sm p-6">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <h3 className="text-lg font-semibold text-orange-600">Pending Documents</h3>
+                                            <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-sm font-medium">
+                                                {pendingDocs.length}
+                                            </span>
+                                        </div>
+                                        <div className="space-y-3">
+                                            {pendingDocs.map(doc => (
+                                                <div key={doc.id} className="flex items-center space-x-3 p-3 bg-orange-50 rounded-lg">
+                                                    <AlertCircle className="w-5 h-5 text-orange-500" />
+                                                    <div className="flex-1">
+                                                        <p className="font-medium text-gray-900">{doc.name}</p>
+                                                        <p className="text-sm text-gray-600">{doc.type}</p>
+                                                    </div>
+                                                    {doc.required && (
+                                                        <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-medium">
+                                                            Required
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-white rounded-xl shadow-sm p-6">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <h3 className="text-lg font-semibold text-blue-600">Under Review</h3>
+                                            <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm font-medium">
+                                                {underReviewDocs.length}
+                                            </span>
+                                        </div>
+                                        <div className="space-y-3">
+                                            {underReviewDocs.map(doc => (
+                                                <div key={doc.id} className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+                                                    <Clock className="w-5 h-5 text-blue-500" />
+                                                    <div className="flex-1">
+                                                        <p className="font-medium text-gray-900">{doc.name}</p>
+                                                        <p className="text-sm text-gray-600">{doc.type}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-white rounded-xl shadow-sm p-6">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <h3 className="text-lg font-semibold text-green-600">Completed Documents</h3>
+                                            <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-medium">
+                                                {completedDocs.length}
+                                            </span>
+                                        </div>
+                                        <div className="space-y-3">
+                                            {completedDocs.map(doc => (
+                                                <div key={doc.id} className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
+                                                    <CheckCircle className="w-5 h-5 text-green-500" />
+                                                    <div className="flex-1">
+                                                        <p className="font-medium text-gray-900">{doc.name}</p>
+                                                        <p className="text-sm text-gray-600">{doc.type}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Quick Actions */}
+                                <div className="bg-white rounded-xl shadow-sm p-6">
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        <button 
+                                            onClick={() => setActiveTab('chat')}
+                                            className="card-hover p-4 bg-blue-50 rounded-lg text-center hover:bg-blue-100"
+                                        >
+                                            <MessageCircle className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                                            <p className="font-medium text-gray-900">Ask AI Assistant</p>
+                                        </button>
+                                        <button 
+                                            onClick={uploadDocument}
+                                            className="card-hover p-4 bg-green-50 rounded-lg text-center hover:bg-green-100"
+                                        >
+                                            <Upload className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                                            <p className="font-medium text-gray-900">Upload Document</p>
+                                        </button>
+                                        <button 
+                                            onClick={() => setActiveTab('resources')}
+                                            className="card-hover p-4 bg-purple-50 rounded-lg text-center hover:bg-purple-100"
+                                        >
+                                            <MapPin className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+                                            <p className="font-medium text-gray-900">Find Resources</p>
+                                        </button>
+                                        <button 
+                                            onClick={callEmergency}
+                                            className="card-hover p-4 bg-red-50 rounded-lg text-center hover:bg-red-100"
+                                        >
+                                            <Phone className="w-8 h-8 text-red-600 mx-auto mb-2" />
+                                            <p className="font-medium text-gray-900">Emergency Help</p>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Community Insights */}
+                                <div className="bg-white rounded-xl shadow-sm p-6">
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Community Insights</h3>
+                                    <div className="grid md:grid-cols-3 gap-6">
+                                        <div className="text-center">
+                                            <div className="text-3xl font-bold text-blue-600 mb-2">94%</div>
+                                            <p className="text-gray-600">Success Rate</p>
+                                            <p className="text-sm text-gray-500">Based on 1,247 recent applications</p>
+                                        </div>
+                                        <div className="text-center">
+                                            <div className="text-3xl font-bold text-green-600 mb-2">4-6 months</div>
+                                            <p className="text-gray-600">Average Processing Time</p>
+                                            <p className="text-sm text-gray-500">For your visa type in your area</p>
+                                        </div>
+                                        <div className="text-center">
+                                            <div className="text-3xl font-bold text-purple-600 mb-2">$0</div>
+                                            <p className="text-gray-600">Average Legal Fees</p>
+                                            <p className="text-sm text-gray-500">With free legal aid programs</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'documents' && (
+                            <div className="space-y-6">
+                                <div className="bg-white rounded-xl shadow-sm p-6">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <h3 className="text-lg font-semibold text-gray-900">Document Management</h3>
+                                        <button 
+                                            onClick={uploadDocument}
+                                            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                                        >
+                                            <Plus className="w-4 h-4" />
+                                            <span>Upload Document</span>
+                                        </button>
+                                    </div>
+                                    <div className="space-y-4">
+                                        {documents.map(doc => (
+                                            <div key={doc.id} className="card-hover p-4 border border-gray-200 rounded-lg">
+                                                <div className="flex justify-between items-start">
+                                                    <div className="flex items-start space-x-4">
+                                                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                                                            doc.status === 'verified' ? 'bg-green-100' :
+                                                            doc.status === 'pending' ? 'bg-orange-100' :
+                                                            'bg-blue-100'
+                                                        }`}>
+                                                            <FileText className={`w-6 h-6 ${
+                                                                doc.status === 'verified' ? 'text-green-600' :
+                                                                doc.status === 'pending' ? 'text-orange-600' :
+                                                                'text-blue-600'
+                                                            }`} />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <h4 className="font-semibold text-gray-900">{doc.name}</h4>
+                                                            <p className="text-sm text-gray-600 mb-2">{doc.type}</p>
+                                                            <div className="flex items-center space-x-4 text-sm text-gray-500">
+                                                                {doc.uploadDate && (
+                                                                    <span>Uploaded: {doc.uploadDate}</span>
+                                                                )}
+                                                                {doc.expirationDate && (
+                                                                    <span>Expires: {doc.expirationDate}</span>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center space-x-2">
+                                                        <span className={`px-2 py-1 rounded text-xs font-medium ${
+                                                            doc.status === 'verified' ? 'bg-green-100 text-green-800' :
+                                                            doc.status === 'pending' ? 'bg-orange-100 text-orange-800' :
+                                                            'bg-blue-100 text-blue-800'
+                                                        }`}>
+                                                            {doc.status.replace('_', ' ').toUpperCase()}
+                                                        </span>
+                                                        {doc.status === 'verified' && (
+                                                            <button 
+                                                                onClick={() => downloadDocument(doc)}
+                                                                className="p-2 text-gray-500 hover:text-gray-700"
+                                                            >
+                                                                <Download className="w-4 h-4" />
+                                                            </button>
+                                                        )}
+                                                        <button className="p-2 text-gray-500 hover:text-gray-700">
+                                                            <Eye className="w-4 h-4" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'chat' && (
+                            <div className="max-w-4xl mx-auto">
+                                <div className="bg-white rounded-xl shadow-sm h-[600px] flex flex-col">
+                                    <div className="p-4 border-b">
+                                        <h3 className="text-lg font-semibold">AI Assistant</h3>
+                                        <p className="text-sm text-gray-600">Ask me anything about your immigration case</p>
+                                    </div>
+                                    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                                        {chatMessages.map(message => (
+                                            <div key={message.id} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}>
+                                                <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                                                    message.isUser 
+                                                        ? 'bg-blue-600 text-white' 
+                                                        : 'bg-gray-100 text-gray-900'
+                                                }`}>
+                                                    {message.isTyping ? (
+                                                        <div className="flex items-center space-x-1">
+                                                            <div className="typing-animation">●</div>
+                                                            <div className="typing-animation" style={{ animationDelay: '0.2s' }}>●</div>
+                                                            <div className="typing-animation" style={{ animationDelay: '0.4s' }}>●</div>
+                                                        </div>
+                                                    ) : (
+                                                        <>
+                                                            <p>{message.text}</p>
+                                                            <p className={`text-xs mt-1 ${
+                                                                message.isUser ? 'text-blue-100' : 'text-gray-500'
+                                                            }`}>
+                                                                {message.timestamp.toLocaleTimeString()}
+                                                            </p>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="p-4 border-t">
+                                        <div className="flex space-x-2">
+                                            <button 
+                                                onClick={uploadDocument}
+                                                className="p-2 text-gray-500 hover:text-gray-700"
+                                            >
+                                                <Paperclip className="w-5 h-5" />
+                                            </button>
+                                            <button 
+                                                onClick={startRecording}
+                                                className={`p-2 ${isRecording ? 'text-red-500' : 'text-gray-500 hover:text-gray-700'}`}
+                                            >
+                                                <Mic className="w-5 h-5" />
+                                            </button>
+                                            <input 
+                                                type="text" 
+                                                placeholder="Type your message..."
+                                                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                onKeyPress={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        sendChatMessage(e.target.value);
+                                                        e.target.value = '';
+                                                    }
+                                                }}
+                                            />
+                                            <button 
+                                                onClick={() => {
+                                                    const input = document.querySelector('input[type="text"]');
+                                                    if (input.value) {
+                                                        sendChatMessage(input.value);
+                                                        input.value = '';
+                                                    }
+                                                }}
+                                                className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                            >
+                                                <Send className="w-5 h-5" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'resources' && (
+                            <div className="space-y-6">
+                                <div className="bg-white rounded-xl shadow-sm p-6">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <h3 className="text-lg font-semibold text-gray-900">Local Resources</h3>
+                                        <div className="flex items-center space-x-2">
+                                            <div className="relative">
+                                                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                                                <input 
+                                                    type="text" 
+                                                    placeholder="Search resources..."
+                                                    value={searchQuery}
+                                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                />
+                                            </div>
+                                            <button className="p-2 text-gray-500 hover:text-gray-700">
+                                                <Filter className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="grid gap-4">
+                                        {filteredResources.map(resource => (
+                                            <div key={resource.id} className="card-hover p-4 border border-gray-200 rounded-lg">
+                                                <div className="flex justify-between items-start">
+                                                    <div className="flex-1">
+                                                        <div className="flex items-center space-x-2 mb-2">
+                                                            <h4 className="font-semibold text-gray-900">{resource.name}</h4>
+                                                            <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">
+                                                                {resource.type}
+                                                            </span>
+                                                            {resource.free && (
+                                                                <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">
+                                                                    Free
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        <p className="text-sm text-gray-600 mb-2">{resource.address}</p>
+                                                        <div className="flex items-center space-x-4 text-sm text-gray-500 mb-2">
+                                                            <div className="flex items-center space-x-1">
+                                                                <Phone className="w-4 h-4" />
+                                                                <span>{resource.phone}</span>
+                                                            </div>
+                                                            <div className="flex items-center space-x-1">
+                                                                <Map className="w-4 h-4" />
+                                                                <span>{resource.distance}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex flex-wrap gap-1 mb-2">
+                                                            {resource.services.map(service => (
+                                                                <span key={service} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">
+                                                                    {service}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                        <p className="text-xs text-gray-500">{resource.availability}</p>
+                                                    </div>
+                                                    <div className="flex flex-col items-end space-y-2">
+                                                        <div className="flex items-center space-x-1">
+                                                            <Star className="w-4 h-4 text-yellow-500" />
+                                                            <span className="font-medium">{resource.rating}</span>
+                                                        </div>
+                                                        <div className="flex space-x-1">
+                                                            <button 
+                                                                onClick={() => shareResource(resource)}
+                                                                className="p-2 text-gray-500 hover:text-gray-700"
+                                                            >
+                                                                <Share2 className="w-4 h-4" />
+                                                            </button>
+                                                            <button className="p-2 text-gray-500 hover:text-gray-700">
+                                                                <ExternalLink className="w-4 h-4" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'profile' && (
+                            <div className="max-w-2xl mx-auto space-y-6">
+                                <div className="bg-white rounded-xl shadow-sm p-6">
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Information</h3>
+                                    <div className="space-y-4">
+                                        <div className="grid md:grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                                <input 
+                                                    type="text" 
+                                                    value={user.firstName}
+                                                    onChange={(e) => setUser({...user, firstName: e.target.value})}
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                                <input 
+                                                    type="text" 
+                                                    value={user.lastName}
+                                                    onChange={(e) => setUser({...user, lastName: e.target.value})}
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                            <input 
+                                                type="email" 
+                                                value={user.email}
+                                                onChange={(e) => setUser({...user, email: e.target.value})}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                            <input 
+                                                type="tel" 
+                                                value={user.phone}
+                                                onChange={(e) => setUser({...user, phone: e.target.value})}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Country of Origin</label>
+                                            <select 
+                                                value={user.countryOfOrigin}
+                                                onChange={(e) => setUser({...user, countryOfOrigin: e.target.value})}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            >
+                                                <option value="Mexico">Mexico</option>
+                                                <option value="China">China</option>
+                                                <option value="India">India</option>
+                                                <option value="Philippines">Philippines</option>
+                                                <option value="El Salvador">El Salvador</option>
+                                                <option value="Guatemala">Guatemala</option>
+                                                <option value="Honduras">Honduras</option>
+                                                <option value="Cuba">Cuba</option>
+                                                <option value="Venezuela">Venezuela</option>
+                                                <option value="Colombia">Colombia</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Visa Status</label>
+                                            <input 
+                                                type="text" 
+                                                value={user.visaStatus}
+                                                readOnly
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Preferred Language</label>
+                                            <select 
+                                                value={user.preferredLanguage}
+                                                onChange={(e) => setUser({...user, preferredLanguage: e.target.value})}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            >
+                                                <option value="English">English</option>
+                                                <option value="Spanish">Spanish</option>
+                                                <option value="Chinese">Chinese</option>
+                                                <option value="Arabic">Arabic</option>
+                                                <option value="Hindi">Hindi</option>
+                                                <option value="Portuguese">Portuguese</option>
+                                                <option value="Russian">Russian</option>
+                                                <option value="French">French</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="mt-6 flex justify-end">
+                                        <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                            Save Changes
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'rights' && (
+                            <div className="space-y-6">
+                                <div className="bg-white rounded-xl shadow-sm p-6">
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Know Your Rights</h3>
+                                    <div className="grid md:grid-cols-2 gap-6">
+                                        <div className="space-y-4">
+                                            <div className="p-4 bg-blue-50 rounded-lg">
+                                                <h4 className="font-semibold text-blue-900 mb-2">During Police Encounters</h4>
+                                                <ul className="text-sm text-blue-800 space-y-1">
+                                                    <li>• You have the right to remain silent</li>
+                                                    <li>• You can ask for a lawyer</li>
+                                                    <li>• Don't sign anything without understanding</li>
+                                                    <li>• Ask if you're free to leave</li>
+                                                </ul>
+                                            </div>
+                                            <div className="p-4 bg-green-50 rounded-lg">
+                                                <h4 className="font-semibold text-green-900 mb-2">With ICE Agents</h4>
+                                                <ul className="text-sm text-green-800 space-y-1">
+                                                    <li>• You can ask to see a warrant</li>
+                                                    <li>• Don't open your door unless they have a warrant</li>
+                                                    <li>• You have the right to call a lawyer</li>
+                                                    <li>• Don't provide false information</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-4">
+                                            <div className="p-4 bg-yellow-50 rounded-lg">
+                                                <h4 className="font-semibold text-yellow-900 mb-2">At Work</h4>
+                                                <ul className="text-sm text-yellow-800 space-y-1">
+                                                    <li>• Employers cannot discriminate based on status</li>
+                                                    <li>• You have workplace safety rights</li>
+                                                    <li>• Report unsafe working conditions</li>
+                                                    <li>• Keep copies of all work documents</li>
+                                                </ul>
+                                            </div>
+                                            <div className="p-4 bg-red-50 rounded-lg">
+                                                <h4 className="font-semibold text-red-900 mb-2">Emergency Contacts</h4>
+                                                <div className="text-sm text-red-800 space-y-2">
+                                                    <div className="flex justify-between">
+                                                        <span>Emergency (911):</span>
+                                                        <span className="font-mono">911</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span>Immigration Hotline:</span>
+                                                        <span className="font-mono">1-800-375-5283</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span>Legal Aid:</span>
+                                                        <span className="font-mono">1-800-433-3250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="mt-6 text-center">
+                                        <button 
+                                            onClick={callEmergency}
+                                            className="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 font-semibold"
+                                        >
+                                            Emergency Help
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'healthcare' && (
+                            <div className="space-y-6">
+                                <div className="bg-white rounded-xl shadow-sm p-6">
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Healthcare Navigation</h3>
+                                    <div className="grid md:grid-cols-2 gap-6">
+                                        <div className="space-y-4">
+                                            <div className="p-4 bg-blue-50 rounded-lg">
+                                                <h4 className="font-semibold text-blue-900 mb-2">Insurance Options</h4>
+                                                <ul className="text-sm text-blue-800 space-y-1">
+                                                    <li>• Medicaid (if eligible)</li>
+                                                    <li>• CHIP for children</li>
+                                                    <li>• Marketplace insurance</li>
+                                                    <li>• Community health centers</li>
+                                                </ul>
+                                            </div>
+                                            <div className="p-4 bg-green-50 rounded-lg">
+                                                <h4 className="font-semibold text-green-900 mb-2">Free/Low-Cost Clinics</h4>
+                                                <div className="text-sm text-green-800 space-y-2">
+                                                    <div className="flex justify-between">
+                                                        <span>Community Health Center:</span>
+                                                        <span className="font-mono">(555) 234-5678</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span>Free Clinic Downtown:</span>
+                                                        <span className="font-mono">(555) 345-6789</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-4">
+                                            <div className="p-4 bg-purple-50 rounded-lg">
+                                                <h4 className="font-semibold text-purple-900 mb-2">Mental Health Resources</h4>
+                                                <ul className="text-sm text-purple-800 space-y-1">
+                                                    <li>• Crisis hotline: 988</li>
+                                                    <li>• Support groups</li>
+                                                    <li>• Counseling services</li>
+                                                    <li>• Trauma-informed care</li>
+                                                </ul>
+                                            </div>
+                                            <div className="p-4 bg-yellow-50 rounded-lg">
+                                                <h4 className="font-semibold text-yellow-900 mb-2">Appointment Scheduling</h4>
+                                                <div className="text-sm text-yellow-800 space-y-2">
+                                                    <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                                                        Schedule Primary Care
+                                                    </button>
+                                                    <button className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
+                                                        Schedule Mental Health
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </main>
+                </div>
+            );
+        }
+
+        // Render the app
+        ReactDOM.render(<NavigateHomeAI />, document.getElementById('root'));
+    </script>
+</body>
+</html>

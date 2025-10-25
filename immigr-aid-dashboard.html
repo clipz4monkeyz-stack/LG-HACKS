@@ -1,0 +1,3932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immigr-Aid - Your 24/7 Immigration Caseworker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #000000;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        body.dark-mode {
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .login-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            color: white;
+        }
+        
+        .login-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .ai-emphasis {
+            color: #00ff88;
+            text-shadow: 0 0 10px #00ff88;
+        }
+        
+        .login-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .login-language-selector {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .login-language-selector label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: white;
+            opacity: 0.9;
+        }
+        
+        .login-language-selector select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-language-selector select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .login-language-selector option {
+            background: #333;
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .login-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .demo-login {
+            background: rgba(0, 255, 136, 0.3);
+            border: 2px solid rgba(0, 255, 136, 0.5);
+        }
+        
+        .demo-login:hover {
+            background: rgba(0, 255, 136, 0.5);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Navigation Bar */
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 0 20px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .dark-mode .navbar {
+            background: #000000;
+            border-bottom: 1px solid #333333;
+        }
+        
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #000000;
+        }
+        
+        .dark-mode .logo {
+            color: #ffffff;
+        }
+        
+        .ai-emphasis-nav {
+            color: #00ff88;
+            text-shadow: 0 0 5px #00ff88;
+        }
+        
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .nav-button {
+            padding: 10px 15px;
+            background: transparent;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            color: #000000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .dark-mode .nav-button {
+            border-color: #333333;
+            color: #ffffff;
+        }
+        
+        .nav-button:hover {
+            background: #f5f5f5;
+        }
+        
+        .dark-mode .nav-button:hover {
+            background: #333333;
+        }
+        
+        .nav-button.active {
+            background: #00ff88;
+            color: #000000;
+            border-color: #00ff88;
+        }
+        
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            color: #000000;
+        }
+        
+        .dark-mode .theme-toggle {
+            border-color: #333333;
+            color: #ffffff;
+        }
+        
+        .language-selector {
+            background: transparent;
+            border: none;
+            color: #000000;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .language-selector {
+            color: #ffffff;
+        }
+        
+        .language-selector:hover {
+            background: #f5f5f5;
+        }
+        
+        .dark-mode .language-selector:hover {
+            background: #333333;
+        }
+        
+        .language-selector option {
+            background: #ffffff;
+            color: #000000;
+        }
+        
+        .dark-mode .language-selector option {
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        /* Immigration Form Styles */
+        .document-form-container {
+            padding: 20px;
+        }
+        
+        .form-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .form-header h3 {
+            color: #000000;
+            margin-bottom: 10px;
+        }
+        
+        .dark-mode .form-header h3 {
+            color: #ffffff;
+        }
+        
+        .form-description {
+            color: #666666;
+            font-size: 0.9rem;
+        }
+        
+        .dark-mode .form-description {
+            color: #999999;
+        }
+        
+        .immigration-form {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-field label {
+            font-weight: bold;
+            color: #000000;
+            font-size: 0.9rem;
+        }
+        
+        .dark-mode .form-field label {
+            color: #ffffff;
+        }
+        
+        .form-field input,
+        .form-field select,
+        .form-field textarea {
+            padding: 12px;
+            border: 2px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #ffffff;
+            color: #000000;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .form-field input,
+        .dark-mode .form-field select,
+        .dark-mode .form-field textarea {
+            background: #2a2a2a;
+            border-color: #444444;
+            color: #ffffff;
+        }
+        
+        .form-field input:focus,
+        .form-field select:focus,
+        .form-field textarea:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+        }
+        
+        .form-field textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .required {
+            color: #ef4444;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        
+        .field-help {
+            font-size: 0.8rem;
+            color: #666666;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        .dark-mode .field-help {
+            color: #999999;
+        }
+        
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-label,
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: normal;
+        }
+        
+        .checkbox-label input,
+        .radio-label input {
+            margin: 0;
+            width: auto;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: #00ff88;
+            color: #000000;
+        }
+        
+        .btn-primary:hover {
+            background: #00cc6a;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: #ffffff;
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6b7280;
+            color: #ffffff;
+        }
+        
+        .btn-secondary:hover {
+            background: #4b5563;
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .content-section {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 30px;
+        }
+        
+        .dark-mode .content-section {
+            background: #000000;
+            border-color: #333333;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #000000;
+        }
+        
+        .dark-mode .section-title {
+            color: #ffffff;
+        }
+        
+        .ai-emphasis-title {
+            color: #00ff88;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-card {
+            background: #f8f9fa;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 25px;
+        }
+        
+        .dark-mode .dashboard-card {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #000000;
+        }
+        
+        .dark-mode .card-title {
+            color: #ffffff;
+        }
+        
+        /* Progress Section */
+        .progress-section {
+            background: #f8f9fa;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .dark-mode .progress-section {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .progress-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #000000;
+        }
+        
+        .dark-mode .progress-title {
+            color: #ffffff;
+        }
+        
+        .progress-percentage {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #e5e5e5;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .dark-mode .progress-bar {
+            background: #333333;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            border-radius: 15px;
+            transition: width 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .progress-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .progress-item {
+            text-align: center;
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 1px solid #e5e5e5;
+        }
+        
+        .dark-mode .progress-item {
+            background: #2a2a2a;
+            border-color: #444444;
+        }
+        
+        .progress-item-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff88;
+            margin-bottom: 5px;
+        }
+        
+        .progress-item-label {
+            font-size: 0.9rem;
+            color: #666666;
+        }
+        
+        .dark-mode .progress-item-label {
+            color: #999999;
+        }
+        
+        /* Profile Section */
+        .profile-section {
+            background: #f8f9fa;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .dark-mode .profile-section {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #000000;
+        }
+        
+        .dark-mode .profile-title {
+            color: #ffffff;
+        }
+        
+        .profile-status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .profile-status.complete {
+            background: #00ff88;
+            color: #000000;
+        }
+        
+        .profile-status.incomplete {
+            background: #f59e0b;
+            color: #ffffff;
+        }
+        
+        .profile-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #000000;
+        }
+        
+        .dark-mode .form-label {
+            color: #ffffff;
+        }
+        
+        .form-input {
+            padding: 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #000000;
+            font-size: 1rem;
+        }
+        
+        .dark-mode .form-input {
+            border-color: #333333;
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+        
+        .form-input::placeholder {
+            color: #999999;
+        }
+        
+        .dark-mode .form-input::placeholder {
+            color: #666666;
+        }
+        
+        .required-field {
+            color: #ef4444;
+        }
+        
+        /* Documents Overview */
+        .documents-overview {
+            background: #f8f9fa;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .dark-mode .documents-overview {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .document-card {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .document-card {
+            background: #2a2a2a;
+            border-color: #444444;
+        }
+        
+        .document-card:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        .dark-mode .document-card:hover {
+            background: #333333;
+        }
+        
+        .document-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .document-icon {
+            font-size: 1.5rem;
+        }
+        
+        .document-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-completed {
+            background: #00ff88;
+            color: #000000;
+        }
+        
+        .status-in-progress {
+            background: #f59e0b;
+            color: #ffffff;
+        }
+        
+        .status-pending {
+            background: #e5e5e5;
+            color: #666666;
+        }
+        
+        .dark-mode .status-pending {
+            background: #333333;
+            color: #999999;
+        }
+        
+        .document-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .document-description {
+            color: #666666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .dark-mode .document-description {
+            color: #999999;
+        }
+        
+        .document-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .document-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .document-btn.view {
+            background: #3b82f6;
+            color: #ffffff;
+        }
+        
+        .document-btn.fill {
+            background: #00ff88;
+            color: #000000;
+        }
+        
+        .document-btn.download {
+            background: #10b981;
+            color: #ffffff;
+        }
+        
+        /* AI Chat */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .dark-mode .chat-messages {
+            background: #1a1a1a;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 80%;
+        }
+        
+        .message.user {
+            background: #e5e5e5;
+            color: #000000;
+            margin-left: auto;
+        }
+        
+        .dark-mode .message.user {
+            background: #333333;
+            color: #ffffff;
+        }
+        
+        .message.ai {
+            background: #00ff88;
+            color: #000000;
+        }
+        
+        .message.typing {
+            background: #e5e5e5;
+            color: #666666;
+        }
+        
+        .dark-mode .message.typing {
+            background: #333333;
+            color: #999999;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #666666;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .dark-mode .typing-dots span {
+            background: #999999;
+        }
+        
+        .typing-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        
+        .typing-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .message.system {
+            background: #f59e0b;
+            color: #ffffff;
+            text-align: center;
+            margin: 10px auto;
+            max-width: 60%;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 25px;
+            outline: none;
+            background: #ffffff;
+            color: #000000;
+        }
+        
+        .dark-mode .chat-input input {
+            border-color: #333333;
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        .chat-input input:focus {
+            border-color: #00ff88;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #00ff88;
+            color: #000000;
+        }
+        
+        .btn-secondary {
+            background: #e5e5e5;
+            color: #000000;
+        }
+        
+        .dark-mode .btn-secondary {
+            background: #333333;
+            color: #ffffff;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+        
+        .speech-btn {
+            background: #f59e0b;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .speech-btn.recording {
+            background: #ef4444;
+            animation: pulse 1s infinite;
+        }
+        
+        /* Chat History */
+        .chat-history {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .chat-item {
+            padding: 15px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .chat-item {
+            border-color: #333333;
+        }
+        
+        .chat-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .dark-mode .chat-item:hover {
+            background: #1a1a1a;
+        }
+        
+        .chat-item-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .chat-item-date {
+            font-size: 0.9rem;
+            color: #666666;
+        }
+        
+        .dark-mode .chat-item-date {
+            color: #999999;
+        }
+        
+        .chat-item-preview {
+            font-size: 0.9rem;
+            color: #888888;
+            margin-top: 5px;
+        }
+        
+        .dark-mode .chat-item-preview {
+            color: #777777;
+        }
+        
+        /* Help Resources */
+        .help-resources-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .help-category {
+            background: #f8f9fa;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 25px;
+        }
+        
+        .dark-mode .help-category {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .help-category h3 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dark-mode .help-category h3 {
+            color: #ffffff;
+        }
+        
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .resource-card {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .resource-card {
+            background: #2a2a2a;
+            border-color: #444444;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark-mode .resource-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .resource-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 8px;
+        }
+        
+        .dark-mode .resource-name {
+            color: #ffffff;
+        }
+        
+        .resource-type {
+            font-size: 0.9rem;
+            color: #666666;
+            margin-bottom: 10px;
+        }
+        
+        .dark-mode .resource-type {
+            color: #999999;
+        }
+        
+        .resource-phone {
+            font-size: 0.9rem;
+            color: #007bff;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .resource-website {
+            font-size: 0.9rem;
+            color: #007bff;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        
+        .resource-website:hover {
+            text-decoration: underline;
+        }
+        
+        .resource-services {
+            margin-bottom: 10px;
+        }
+        
+        .resource-services h4 {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 5px;
+        }
+        
+        .dark-mode .resource-services h4 {
+            color: #ffffff;
+        }
+        
+        .service-tag {
+            display: inline-block;
+            background: #e9ecef;
+            color: #495057;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+        
+        .dark-mode .service-tag {
+            background: #444444;
+            color: #cccccc;
+        }
+        
+        .resource-languages {
+            margin-bottom: 10px;
+        }
+        
+        .resource-languages h4 {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 5px;
+        }
+        
+        .dark-mode .resource-languages h4 {
+            color: #ffffff;
+        }
+        
+        .language-tag {
+            display: inline-block;
+            background: #d4edda;
+            color: #155724;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+        
+        .dark-mode .language-tag {
+            background: #2d5a2d;
+            color: #90ee90;
+        }
+        
+        .resource-locations {
+            font-size: 0.9rem;
+            color: #666666;
+        }
+        
+        .dark-mode .resource-locations {
+            color: #999999;
+        }
+        
+        .resource-locations strong {
+            color: #000000;
+        }
+        
+        .dark-mode .resource-locations strong {
+            color: #ffffff;
+        }
+        
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .modal-content {
+            background: #ffffff;
+            color: #000000;
+            width: 90%;
+            max-width: 1000px;
+            height: 90%;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .dark-mode .modal-content {
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        .modal-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dark-mode .modal-header {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .modal-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .dark-mode .modal-footer {
+            border-color: #333333;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #000000;
+        }
+        
+        .dark-mode .close-btn {
+            color: #ffffff;
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            background: #00ff88;
+            color: #000000;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+            max-width: 300px;
+        }
+        
+        .notification.error {
+            background: #ef4444;
+            color: #ffffff;
+        }
+        
+        .notification.warning {
+            background: #f59e0b;
+            color: #ffffff;
+        }
+        
+        .notification.info {
+            background: #3b82f6;
+            color: #ffffff;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .navbar {
+                padding: 0 10px;
+            }
+            
+            .navbar-right {
+                gap: 10px;
+            }
+            
+            .nav-button {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .documents-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chat-container {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Application -->
+    <div id="mainApp">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="navbar-left">
+                <div class="logo">
+                    <span class="ai-emphasis-nav">Immigr-Aid</span>
+                </div>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="nav-button" onclick="showSection('dashboard')" id="dashboardNav">
+                    📊 Dashboard
+                </button>
+                <button class="nav-button" onclick="showSection('ai-chat')" id="aiChatNav">
+                    🤖 AI Assistant
+                </button>
+                <button class="nav-button" onclick="showSection('chat-history')" id="chatHistoryNav">
+                    💬 AI Chats
+                </button>
+                <button class="nav-button" onclick="showSection('help-resources')" id="helpResourcesNav">
+                    🆘 Help Resources
+                </button>
+                <select class="language-selector" id="languageSelect" onchange="changeLanguage()">
+                    <option value="en">🇺🇸 English</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="zh">🇨🇳 中文</option>
+                    <option value="ar">🇸🇦 العربية</option>
+                    <option value="hi">🇮🇳 हिन्दी</option>
+                    <option value="pt">🇧🇷 Português</option>
+                    <option value="ru">🇷🇺 Русский</option>
+                    <option value="fr">🇫🇷 Français</option>
+                </select>
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+                    🌙
+                </button>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="main-content">
+                <!-- Dashboard Section -->
+                <div id="dashboardSection" class="content-section">
+                    <h2 class="section-title">Dashboard - <span class="ai-emphasis-title">Immigr-AId</span></h2>
+                    
+                    <!-- Progress Section -->
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <h3 class="progress-title" id="progressTitle">Application Progress</h3>
+                            <div class="progress-percentage" id="progressPercentage">65%</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 65%"></div>
+                        </div>
+                        <div class="progress-details">
+                            <div class="progress-item">
+                                <div class="progress-item-number" id="completedCount">3</div>
+                                <div class="progress-item-label" id="completedLabel">Completed</div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-item-number" id="remainingCount">2</div>
+                                <div class="progress-item-label" id="remainingLabel">Remaining</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Profile Section -->
+                    <div class="profile-section">
+                        <div class="profile-header">
+                            <h3 class="profile-title" id="profileTitle">Personal Information</h3>
+                            <div class="profile-status incomplete" id="profileStatus">Incomplete</div>
+                        </div>
+                        <form class="profile-form" id="profileForm">
+                            <div class="form-group">
+                                <label class="form-label">First Name <span class="required-field">*</span></label>
+                                <input type="text" class="form-input" id="firstName" placeholder="Enter your first name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name <span class="required-field">*</span></label>
+                                <input type="text" class="form-input" id="lastName" placeholder="Enter your last name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date of Birth <span class="required-field">*</span></label>
+                                <input type="date" class="form-input" id="dateOfBirth" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Country of Birth <span class="required-field">*</span></label>
+                                <select class="form-input" id="countryOfBirth" required>
+                                    <option value="">Select Country</option>
+                                    <option value="Mexico">Mexico</option>
+                                    <option value="China">China</option>
+                                    <option value="India">India</option>
+                                    <option value="Philippines">Philippines</option>
+                                    <option value="El Salvador">El Salvador</option>
+                                    <option value="Guatemala">Guatemala</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Current Address <span class="required-field">*</span></label>
+                                <input type="text" class="form-input" id="currentAddress" placeholder="Enter your current address" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone Number <span class="required-field">*</span></label>
+                                <input type="tel" class="form-input" id="phoneNumber" placeholder="Enter your phone number" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address <span class="required-field">*</span></label>
+                                <input type="email" class="form-input" id="emailAddress" placeholder="Enter your email address" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Entry Date to US <span class="required-field">*</span></label>
+                                <input type="date" class="form-input" id="entryDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Current Immigration Status <span class="required-field">*</span></label>
+                                <select class="form-input" id="immigrationStatus" required>
+                                    <option value="">Select Status</option>
+                                    <option value="DACA">DACA</option>
+                                    <option value="TPS">TPS</option>
+                                    <option value="Asylum">Asylum</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Emergency Contact Name <span class="required-field">*</span></label>
+                                <input type="text" class="form-input" id="emergencyContact" placeholder="Enter emergency contact name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Emergency Contact Phone <span class="required-field">*</span></label>
+                                <input type="tel" class="form-input" id="emergencyPhone" placeholder="Enter emergency contact phone" required>
+                            </div>
+                        </form>
+                        <button class="btn btn-primary" onclick="saveProfile()" style="margin-top: 20px;">Save Profile Information</button>
+                    </div>
+                    
+                    <!-- Documents Overview -->
+                    <div class="documents-overview">
+                        <h3 class="card-title" id="documentsTitle">Required Documents</h3>
+                        <p id="documentsDescription">All documents needed to complete your immigration application process</p>
+                        <div class="documents-grid" id="documentsGrid">
+                            <!-- Documents will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Chat Section -->
+                <div id="aiChatSection" class="content-section hidden">
+                    <h2 class="section-title">AI Assistant - <span class="ai-emphasis-title">Immigr-AId</span></h2>
+                    
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message ai">
+                                <div id="welcomeMessage">Hello! I am your AI immigration assistant. I can help you fill out forms, answer questions about your immigration process, and guide you through each step. How can I assist you today?</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input">
+                            <input type="text" id="chatInput" placeholder="Type your message or use voice input..." onkeypress="handleChatKeyPress(event)">
+                            <button class="speech-btn" id="speechBtn" onclick="toggleSpeechRecognition()" title="Click to speak">
+                                🎤
+                            </button>
+                            <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat History Section -->
+                <div id="chatHistorySection" class="content-section hidden">
+                    <h2 class="section-title">AI Chat History</h2>
+                    
+                    <div class="chat-history" id="chatHistoryList">
+                        <!-- Chat history will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Help Resources Section -->
+                <div id="helpResourcesSection" class="content-section hidden">
+                    <h2 class="section-title">Help Resources & Locations</h2>
+                    <div class="help-resources-container">
+                        <div class="help-category">
+                            <h3>🆘 Emergency Resources</h3>
+                            <div id="emergencyResources" class="resource-grid">
+                                <!-- Emergency resources will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="help-category">
+                            <h3>⚖️ Legal Aid</h3>
+                            <div id="legalAidResources" class="resource-grid">
+                                <!-- Legal aid resources will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="help-category">
+                            <h3>🏢 Community Centers</h3>
+                            <div id="communityCenters" class="resource-grid">
+                                <!-- Community centers will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="help-category">
+                            <h3>🏥 Healthcare</h3>
+                            <div id="healthcareResources" class="resource-grid">
+                                <!-- Healthcare resources will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="help-category">
+                            <h3>💼 Employment</h3>
+                            <div id="employmentResources" class="resource-grid">
+                                <!-- Employment resources will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="help-category">
+                            <h3>📚 Educational Resources</h3>
+                            <div id="educationalResources" class="resource-grid">
+                                <!-- Educational resources will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentLanguage = 'en';
+        let isDarkMode = false;
+        let isRecording = false;
+        let recognition = null;
+        let chatHistory = [];
+        let currentChatId = null;
+        let userProfile = {};
+        let profileComplete = false;
+
+        // Language translations
+        const translations = {
+            en: {
+                // Navigation
+                dashboardNav: "📊 Dashboard",
+                aiChatNav: "🤖 AI Assistant",
+                chatHistoryNav: "💬 AI Chats",
+                
+                // Dashboard
+                dashboardTitle: "Dashboard - Immigr-Aid",
+                progressTitle: "Application Progress",
+                completedLabel: "Completed",
+                remainingLabel: "Remaining",
+                
+                // Profile
+                profileTitle: "Personal Information",
+                firstName: "First Name",
+                lastName: "Last Name",
+                middleName: "Middle Name",
+                dateOfBirth: "Date of Birth",
+                countryOfBirth: "Country of Birth",
+                currentAddress: "Current Address",
+                phoneNumber: "Phone Number",
+                emailAddress: "Email Address",
+                socialSecurityNumber: "Social Security Number",
+                entryDate: "Entry Date to US",
+                methodOfEntry: "Method of Entry",
+                educationLevel: "Education Level",
+                employmentStatus: "Employment Status",
+                criminalHistory: "Criminal History",
+                economicNecessity: "Economic Necessity",
+                employmentCategory: "Employment Category",
+                previousWorkAuthorization: "Previous Work Authorization",
+                travelPurpose: "Travel Purpose",
+                travelDestination: "Travel Destination",
+                proposedTravelDates: "Proposed Travel Dates",
+                detailedTravelReason: "Detailed Travel Reason",
+                
+                // Placeholder translations
+                enterFirstName: "Enter your first name",
+                enterLastName: "Enter your last name",
+                enterMiddleName: "Enter your middle name (optional)",
+                enterDateOfBirth: "Select your date of birth",
+                selectCountry: "Select your country",
+                enterCurrentAddress: "Enter your current address",
+                enterPhoneNumber: "Enter your phone number",
+                enterEmailAddress: "Enter your email address",
+                enterSSN: "Enter your SSN (if applicable)",
+                enterDateOfEntry: "Select your date of entry",
+                selectMethod: "Select method of entry",
+                selectEducation: "Select your education level",
+                selectEmployment: "Select your employment status",
+                selectCriminalHistory: "Select criminal history",
+                explainEconomicNecessity: "Explain your economic necessity",
+                selectEmploymentCategory: "Select employment category",
+                selectPreviousWorkAuth: "Select previous work authorization",
+                selectTravelPurpose: "Select travel purpose",
+                enterTravelDestination: "Enter travel destination",
+                enterProposedTravelDates: "Enter proposed travel dates",
+                explainTravelReason: "Explain your travel reason in detail",
+                
+                // Country options
+                mexico: "Mexico",
+                guatemala: "Guatemala",
+                elSalvador: "El Salvador",
+                honduras: "Honduras",
+                nicaragua: "Nicaragua",
+                cuba: "Cuba",
+                haiti: "Haiti",
+                dominicanRepublic: "Dominican Republic",
+                other: "Other",
+                
+                // Entry method options
+                visitorVisa: "Visitor Visa",
+                studentVisa: "Student Visa",
+                workVisa: "Work Visa",
+                familyVisa: "Family Visa",
+                otherMethod: "Other Method",
+                
+                // Education options
+                noFormalEducation: "No Formal Education",
+                elementarySchool: "Elementary School",
+                middleSchool: "Middle School",
+                highSchool: "High School",
+                someCollege: "Some College",
+                collegeDegree: "College Degree",
+                graduateDegree: "Graduate Degree",
+                
+                // Employment options
+                employed: "Employed",
+                unemployed: "Unemployed",
+                student: "Student",
+                selfEmployed: "Self-Employed",
+                
+                // Criminal history options
+                noCriminalHistory: "No Criminal History",
+                hasCriminalHistory: "Has Criminal History",
+                
+                // Employment category options
+                dacaRecipient: "DACA Recipient",
+                pendingAdjustment: "Pending Adjustment",
+                pendingAsylum: "Pending Asylum",
+                tpsRecipient: "TPS Recipient",
+                
+                // Work authorization options
+                noPreviousWorkAuth: "No Previous Work Authorization",
+                hasPreviousWorkAuth: "Has Previous Work Authorization",
+                
+                // Travel purpose options
+                educationalPurpose: "Educational Purpose",
+                humanitarianPurpose: "Humanitarian Purpose",
+                employmentPurpose: "Employment Purpose",
+                familyPurpose: "Family Purpose",
+                
+                // Help text
+                firstNameHelp: "Enter your legal first name as it appears on official documents",
+                lastNameHelp: "Enter your legal last name as it appears on official documents",
+                economicNecessityHelp: "Explain why you need employment authorization for economic necessity",
+                
+                // Form actions
+                save: "Save",
+                download: "Download",
+                close: "Close",
+                fillForm: "Fill Form",
+                openingForm: "Opening form",
+                documentSaved: "Document saved successfully!",
+                documentDownloaded: "Document downloaded successfully!",
+                noDataToDownload: "No data to download. Please fill out the form first.",
+                formType: "Form Type",
+                instructions: "Instructions",
+                documentInstructions: "Please fill out all required fields accurately. Use your profile information to help complete the form.",
+                formHelpMessage: "I can help you fill out immigration forms. Would you like me to open a specific form for you?",
+                immigrationStatus: "Current Immigration Status",
+                emergencyContact: "Emergency Contact Name",
+                emergencyPhone: "Emergency Contact Phone",
+                saveProfile: "Save Profile Information",
+                
+                // Documents
+                documentsTitle: "Required Documents",
+                documentsDescription: "All documents needed to complete your immigration application process",
+                
+                // AI Chat
+                aiTitle: "AI Assistant - Immigr-Aid",
+                welcomeMessage: "Hello! I am your AI immigration assistant. I can help you fill out forms, answer questions about your immigration process, and guide you through each step. How can I assist you today?",
+                chatPlaceholder: "Type your message or use voice input...",
+                
+                // Chat History
+                chatHistoryTitle: "AI Chat History",
+                
+                // Help Resources
+                helpResourcesNav: "🆘 Help Resources",
+                helpResourcesTitle: "Help Resources & Locations",
+                emergencyResources: "Emergency Resources",
+                legalAid: "Legal Aid",
+                communityCenters: "Community Centers",
+                healthcare: "Healthcare",
+                employment: "Employment",
+                educationalResources: "Educational Resources",
+                services: "Services:",
+                languages: "Languages:",
+                locations: "Locations:",
+                availability: "Availability:"
+                
+                // Document Actions
+                view: "View",
+                fill: "Fill",
+                download: "Download",
+                
+                // Status
+                completed: "Completed",
+                "in-progress": "In Progress",
+                pending: "Pending",
+                
+                // Countries
+                selectCountry: "Select Country",
+                selectStatus: "Select Status",
+                
+                // Placeholders
+                firstNamePlaceholder: "Enter your first name",
+                lastNamePlaceholder: "Enter your last name",
+                addressPlaceholder: "Enter your current address",
+                phonePlaceholder: "Enter your phone number",
+                emailPlaceholder: "Enter your email address",
+                emergencyNamePlaceholder: "Enter emergency contact name",
+                emergencyPhonePlaceholder: "Enter emergency contact phone",
+                
+                // AI Responses
+                aiResponseDACA: "I can help you fill out Form I-821D (DACA). Based on your profile, I will guide you through each section. Let's start with your personal information.",
+                aiResponseWorkPermit: "For Form I-765 (Work Permit), you will need to provide your employment authorization details. I can help you complete this step by step.",
+                aiResponseTravel: "Form I-131 is for advance parole/travel document. I can help you understand the requirements and fill out this form.",
+                aiResponseHelp: "I can assist you with any immigration form. Just tell me which form you're working on and I'll help you fill it out using your profile information.",
+                aiResponseStatus: "Based on your profile, I can help you check your application status and guide you through the next steps in your immigration process.",
+                aiResponseDocuments: "I can help you understand the requirements for each document. Which document would you like me to explain or help you fill out?",
+                aiResponseDefault1: "I can help you fill out Form I-821D. Based on your profile, I will guide you through each section. Let's start with your personal information.",
+                aiResponseDefault2: "For Form I-765, you will need to provide your employment information. I can help you complete this section step by step.",
+                aiResponseDefault3: "I notice you are working on your DACA renewal. I can help you fill out all the required forms using your profile information.",
+                aiResponseDefault4: "Let me help you with the Economic Necessity Worksheet. I will guide you through the financial information needed.",
+                aiResponseDefault5: "I can assist you with any immigration form. Just tell me which form you're working on and I will help you fill it out.",
+                aiResponseDefault6: "Based on your information, I can help you complete all your immigration forms. Would you like to start with Form I-821D?",
+                aiResponseDefault7: "I can explain any immigration process in detail. What specific question do you have about your application?",
+                aiResponseDefault8: "I can help you understand the requirements for each document. Which document would you like me to explain?",
+                
+                // Login Page
+                loginSubtitle: "Your 24/7 Immigration Caseworker",
+                loginLanguageLabel: "Language / Idioma:",
+                password: "Password",
+                passwordPlaceholder: "Enter your password",
+                loginButton: "Login"
+            },
+            es: {
+                // Navigation
+                dashboardNav: "📊 Panel de Control",
+                aiChatNav: "🤖 Asistente IA",
+                chatHistoryNav: "💬 Chats IA",
+                
+                // Dashboard
+                dashboardTitle: "Panel de Control - Immigr-Aid",
+                progressTitle: "Progreso de la Aplicación",
+                completedLabel: "Completado",
+                remainingLabel: "Restante",
+                
+                // Profile
+                profileTitle: "Información Personal",
+                firstName: "Nombre",
+                lastName: "Apellido",
+                dateOfBirth: "Fecha de Nacimiento",
+                countryOfBirth: "País de Nacimiento",
+                currentAddress: "Dirección Actual",
+                phoneNumber: "Número de Teléfono",
+                emailAddress: "Dirección de Correo",
+                entryDate: "Fecha de Entrada a EE.UU.",
+                immigrationStatus: "Estado de Inmigración Actual",
+                emergencyContact: "Nombre de Contacto de Emergencia",
+                emergencyPhone: "Teléfono de Contacto de Emergencia",
+                saveProfile: "Guardar Información del Perfil",
+                
+                // Documents
+                documentsTitle: "Documentos Requeridos",
+                documentsDescription: "Todos los documentos necesarios para completar tu proceso de aplicación de inmigración",
+                
+                // AI Chat
+                aiTitle: "Asistente IA - Immigr-Aid",
+                welcomeMessage: "¡Hola! Soy tu asistente de inmigración con IA. Puedo ayudarte a llenar formularios, responder preguntas sobre tu proceso de inmigración, y guiarte a través de cada paso. ¿Cómo puedo ayudarte hoy?",
+                chatPlaceholder: "Escribe tu mensaje o usa entrada de voz...",
+                
+                // Chat History
+                chatHistoryTitle: "Historial de Chats IA",
+                
+                // Help Resources
+                helpResourcesNav: "🆘 Recursos de Ayuda",
+                helpResourcesTitle: "Recursos de Ayuda y Ubicaciones",
+                emergencyResources: "Recursos de Emergencia",
+                legalAid: "Ayuda Legal",
+                communityCenters: "Centros Comunitarios",
+                healthcare: "Atención Médica",
+                employment: "Empleo",
+                educationalResources: "Recursos Educativos",
+                services: "Servicios:",
+                languages: "Idiomas:",
+                locations: "Ubicaciones:",
+                availability: "Disponibilidad:"
+                
+                // Document Actions
+                view: "Ver",
+                fill: "Llenar",
+                download: "Descargar",
+                
+                // Status
+                completed: "Completado",
+                "in-progress": "En Progreso",
+                pending: "Pendiente",
+                
+                // Countries
+                selectCountry: "Seleccionar País",
+                selectStatus: "Seleccionar Estado",
+                
+                // Placeholders
+                firstNamePlaceholder: "Ingresa tu nombre",
+                lastNamePlaceholder: "Ingresa tu apellido",
+                addressPlaceholder: "Ingresa tu dirección actual",
+                phonePlaceholder: "Ingresa tu número de teléfono",
+                emailPlaceholder: "Ingresa tu dirección de correo",
+                emergencyNamePlaceholder: "Ingresa el nombre del contacto de emergencia",
+                emergencyPhonePlaceholder: "Ingresa el teléfono del contacto de emergencia",
+                
+                // AI Responses
+                aiResponseDACA: "Puedo ayudarte a llenar el Formulario I-821D (DACA). Basándome en tu perfil, te guiaré a través de cada sección. Comencemos con tu información personal.",
+                aiResponseWorkPermit: "Para el Formulario I-765 (Permiso de Trabajo), necesitarás proporcionar los detalles de tu autorización de empleo. Puedo ayudarte a completar esto paso a paso.",
+                aiResponseTravel: "El Formulario I-131 es para el permiso de viaje anticipado. Puedo ayudarte a entender los requisitos y llenar este formulario.",
+                aiResponseHelp: "Puedo asistirte con cualquier formulario de inmigración. Solo dime en qué formulario estás trabajando y te ayudaré a llenarlo usando la información de tu perfil.",
+                aiResponseStatus: "Basándome en tu perfil, puedo ayudarte a verificar el estado de tu aplicación y guiarte a través de los próximos pasos en tu proceso de inmigración.",
+                aiResponseDocuments: "Puedo ayudarte a entender los requisitos para cada documento. ¿Qué documento te gustaría que explique o te ayude a llenar?",
+                aiResponseDefault1: "Puedo ayudarte a llenar el Formulario I-821D. Basándome en tu perfil, te guiaré a través de cada sección. Comencemos con tu información personal.",
+                aiResponseDefault2: "Para el Formulario I-765, necesitarás proporcionar tu información de empleo. Puedo ayudarte a completar esta sección paso a paso.",
+                aiResponseDefault3: "Noto que estás trabajando en tu renovación de DACA. Puedo ayudarte a llenar todos los formularios requeridos usando la información de tu perfil.",
+                aiResponseDefault4: "Déjame ayudarte con la Hoja de Trabajo de Necesidad Económica. Te guiaré a través de la información financiera necesaria.",
+                aiResponseDefault5: "Puedo asistirte con cualquier formulario de inmigración. Solo dime en qué formulario estás trabajando y te ayudaré a llenarlo.",
+                aiResponseDefault6: "Basándome en tu información, puedo ayudarte a completar todos tus formularios de inmigración. ¿Te gustaría comenzar con el Formulario I-821D?",
+                aiResponseDefault7: "Puedo explicar cualquier proceso de inmigración en detalle. ¿Qué pregunta específica tienes sobre tu aplicación?",
+                aiResponseDefault8: "Puedo ayudarte a entender los requisitos para cada documento. ¿Qué documento te gustaría que explique?",
+                
+                // Login Page
+                loginSubtitle: "Tu Trabajador de Casos de Inmigración 24/7",
+                loginLanguageLabel: "Idioma / Language:",
+                password: "Contraseña",
+                passwordPlaceholder: "Ingresa tu contraseña",
+                loginButton: "Iniciar Sesión"
+            },
+            zh: {
+                // Navigation
+                dashboardNav: "📊 仪表板",
+                aiChatNav: "🤖 AI助手",
+                chatHistoryNav: "💬 AI聊天",
+                
+                // Dashboard
+                dashboardTitle: "仪表板 - Immigr-Aid",
+                progressTitle: "申请进度",
+                completedLabel: "已完成",
+                remainingLabel: "剩余",
+                
+                // Profile
+                profileTitle: "个人信息",
+                firstName: "名字",
+                lastName: "姓氏",
+                dateOfBirth: "出生日期",
+                countryOfBirth: "出生国家",
+                currentAddress: "当前地址",
+                phoneNumber: "电话号码",
+                emailAddress: "电子邮件地址",
+                entryDate: "入境美国日期",
+                immigrationStatus: "当前移民状态",
+                emergencyContact: "紧急联系人姓名",
+                emergencyPhone: "紧急联系人电话",
+                saveProfile: "保存个人资料信息",
+                
+                // Documents
+                documentsTitle: "所需文件",
+                documentsDescription: "完成移民申请流程所需的所有文件",
+                
+                // AI Chat
+                aiTitle: "AI助手 - Immigr-Aid",
+                welcomeMessage: "您好！我是您的AI移民助手。我可以帮助您填写表格，回答关于移民过程的问题，并指导您完成每个步骤。今天我能为您做些什么？",
+                chatPlaceholder: "输入您的消息或使用语音输入...",
+                
+                // Chat History
+                chatHistoryTitle: "AI聊天历史",
+                
+                // Document Actions
+                view: "查看",
+                fill: "填写",
+                download: "下载",
+                
+                // Status
+                completed: "已完成",
+                "in-progress": "进行中",
+                pending: "待处理",
+                
+                // Countries
+                selectCountry: "选择国家",
+                selectStatus: "选择状态",
+                
+                // Placeholders
+                firstNamePlaceholder: "输入您的名字",
+                lastNamePlaceholder: "输入您的姓氏",
+                addressPlaceholder: "输入您的当前地址",
+                phonePlaceholder: "输入您的电话号码",
+                emailPlaceholder: "输入您的电子邮件地址",
+                emergencyNamePlaceholder: "输入紧急联系人姓名",
+                emergencyPhonePlaceholder: "输入紧急联系人电话",
+                
+                // AI Responses
+                aiResponseDACA: "我可以帮助您填写I-821D表格（DACA）。根据您的个人资料，我将指导您完成每个部分。让我们从您的个人信息开始。",
+                aiResponseWorkPermit: "对于I-765表格（工作许可），您需要提供就业授权详情。我可以帮助您逐步完成此过程。",
+                aiResponseTravel: "I-131表格用于提前假释/旅行证件。我可以帮助您了解要求并填写此表格。",
+                aiResponseHelp: "我可以协助您处理任何移民表格。只需告诉我您正在处理哪个表格，我将使用您的个人资料信息帮助您填写。",
+                aiResponseStatus: "根据您的个人资料，我可以帮助您检查申请状态并指导您完成移民过程的下一步。",
+                aiResponseDocuments: "我可以帮助您了解每个文件的要求。您希望我解释或帮助填写哪个文件？",
+                aiResponseDefault1: "我可以帮助您填写I-821D表格。根据您的个人资料，我将指导您完成每个部分。让我们从您的个人信息开始。",
+                aiResponseDefault2: "对于I-765表格，您需要提供就业信息。我可以帮助您逐步完成此部分。",
+                aiResponseDefault3: "我注意到您正在处理DACA续期。我可以使用您的个人资料信息帮助您填写所有必需表格。",
+                aiResponseDefault4: "让我帮助您处理经济必要性工作表。我将指导您完成所需的财务信息。",
+                aiResponseDefault5: "我可以协助您处理任何移民表格。只需告诉我您正在处理哪个表格，我将帮助您填写。",
+                aiResponseDefault6: "根据您的信息，我可以帮助您完成所有移民表格。您想从I-821D表格开始吗？",
+                aiResponseDefault7: "我可以详细解释任何移民过程。您对申请有什么具体问题？",
+                aiResponseDefault8: "我可以帮助您了解每个文件的要求。您希望我解释哪个文件？",
+                
+                // Login Page
+                loginSubtitle: "您的24/7移民案例工作者",
+                loginLanguageLabel: "语言 / Language:",
+                password: "密码",
+                passwordPlaceholder: "输入您的密码",
+                loginButton: "登录"
+            },
+            ar: {
+                // Navigation
+                dashboardNav: "📊 لوحة التحكم",
+                aiChatNav: "🤖 المساعد الذكي",
+                chatHistoryNav: "💬 محادثات الذكاء الاصطناعي",
+                
+                // Dashboard
+                dashboardTitle: "لوحة التحكم - Immigr-Aid",
+                progressTitle: "تقدم الطلب",
+                completedLabel: "مكتمل",
+                remainingLabel: "متبقي",
+                
+                // Profile
+                profileTitle: "المعلومات الشخصية",
+                firstName: "الاسم الأول",
+                lastName: "اسم العائلة",
+                dateOfBirth: "تاريخ الميلاد",
+                countryOfBirth: "بلد الميلاد",
+                currentAddress: "العنوان الحالي",
+                phoneNumber: "رقم الهاتف",
+                emailAddress: "عنوان البريد الإلكتروني",
+                entryDate: "تاريخ الدخول إلى أمريكا",
+                immigrationStatus: "حالة الهجرة الحالية",
+                emergencyContact: "اسم جهة الاتصال في الطوارئ",
+                emergencyPhone: "هاتف جهة الاتصال في الطوارئ",
+                saveProfile: "حفظ معلومات الملف الشخصي",
+                
+                // Documents
+                documentsTitle: "الوثائق المطلوبة",
+                documentsDescription: "جميع الوثائق اللازمة لإكمال عملية طلب الهجرة",
+                
+                // AI Chat
+                aiTitle: "المساعد الذكي - Immigr-Aid",
+                welcomeMessage: "مرحباً! أنا مساعدك الذكي للهجرة. يمكنني مساعدتك في ملء النماذج والإجابة على أسئلتك حول عملية الهجرة وتوجيهك خلال كل خطوة. كيف يمكنني مساعدتك اليوم؟",
+                chatPlaceholder: "اكتب رسالتك أو استخدم الإدخال الصوتي...",
+                
+                // Chat History
+                chatHistoryTitle: "تاريخ محادثات الذكاء الاصطناعي",
+                
+                // Document Actions
+                view: "عرض",
+                fill: "ملء",
+                download: "تحميل",
+                
+                // Status
+                completed: "مكتمل",
+                "in-progress": "قيد التقدم",
+                pending: "في الانتظار",
+                
+                // Countries
+                selectCountry: "اختر البلد",
+                selectStatus: "اختر الحالة",
+                
+                // Placeholders
+                firstNamePlaceholder: "أدخل اسمك الأول",
+                lastNamePlaceholder: "أدخل اسم عائلتك",
+                addressPlaceholder: "أدخل عنوانك الحالي",
+                phonePlaceholder: "أدخل رقم هاتفك",
+                emailPlaceholder: "أدخل عنوان بريدك الإلكتروني",
+                emergencyNamePlaceholder: "أدخل اسم جهة الاتصال في الطوارئ",
+                emergencyPhonePlaceholder: "أدخل هاتف جهة الاتصال في الطوارئ",
+                
+                // Login Page
+                loginSubtitle: "عامل قضايا الهجرة الخاص بك على مدار 24/7",
+                loginLanguageLabel: "اللغة / Language:",
+                password: "كلمة المرور",
+                passwordPlaceholder: "أدخل كلمة المرور",
+                loginButton: "تسجيل الدخول"
+            },
+            hi: {
+                // Navigation
+                dashboardNav: "📊 डैशबोर्ड",
+                aiChatNav: "🤖 AI सहायक",
+                chatHistoryNav: "💬 AI चैट",
+                
+                // Dashboard
+                dashboardTitle: "डैशबोर्ड - Immigr-Aid",
+                progressTitle: "आवेदन प्रगति",
+                completedLabel: "पूर्ण",
+                remainingLabel: "शेष",
+                
+                // Profile
+                profileTitle: "व्यक्तिगत जानकारी",
+                firstName: "पहला नाम",
+                lastName: "अंतिम नाम",
+                dateOfBirth: "जन्म तिथि",
+                countryOfBirth: "जन्म देश",
+                currentAddress: "वर्तमान पता",
+                phoneNumber: "फोन नंबर",
+                emailAddress: "ईमेल पता",
+                entryDate: "अमेरिका में प्रवेश की तिथि",
+                immigrationStatus: "वर्तमान आप्रवासन स्थिति",
+                emergencyContact: "आपातकालीन संपर्क का नाम",
+                emergencyPhone: "आपातकालीन संपर्क फोन",
+                saveProfile: "प्रोफ़ाइल जानकारी सहेजें",
+                
+                // Documents
+                documentsTitle: "आवश्यक दस्तावेज",
+                documentsDescription: "अपनी आप्रवासन आवेदन प्रक्रिया को पूरा करने के लिए आवश्यक सभी दस्तावेज",
+                
+                // AI Chat
+                aiTitle: "AI सहायक - Immigr-Aid",
+                welcomeMessage: "नमस्ते! मैं आपका AI आप्रवासन सहायक हूं। मैं आपकी फॉर्म भरने में, आप्रवासन प्रक्रिया के बारे में सवालों के जवाब देने में और हर कदम पर मार्गदर्शन करने में मदद कर सकता हूं। आज मैं आपकी कैसे मदद कर सकता हूं?",
+                chatPlaceholder: "अपना संदेश टाइप करें या वॉइस इनपुट का उपयोग करें...",
+                
+                // Chat History
+                chatHistoryTitle: "AI चैट इतिहास",
+                
+                // Document Actions
+                view: "देखें",
+                fill: "भरें",
+                download: "डाउनलोड",
+                
+                // Status
+                completed: "पूर्ण",
+                "in-progress": "प्रगति में",
+                pending: "लंबित",
+                
+                // Countries
+                selectCountry: "देश चुनें",
+                selectStatus: "स्थिति चुनें",
+                
+                // Placeholders
+                firstNamePlaceholder: "अपना पहला नाम दर्ज करें",
+                lastNamePlaceholder: "अपना अंतिम नाम दर्ज करें",
+                addressPlaceholder: "अपना वर्तमान पता दर्ज करें",
+                phonePlaceholder: "अपना फोन नंबर दर्ज करें",
+                emailPlaceholder: "अपना ईमेल पता दर्ज करें",
+                emergencyNamePlaceholder: "आपातकालीन संपर्क का नाम दर्ज करें",
+                emergencyPhonePlaceholder: "आपातकालीन संपर्क फोन दर्ज करें",
+                
+                // Login Page
+                loginSubtitle: "आपका 24/7 आप्रवासन केस वर्कर",
+                loginLanguageLabel: "भाषा / Language:",
+                password: "पासवर्ड",
+                passwordPlaceholder: "अपना पासवर्ड दर्ज करें",
+                loginButton: "लॉगिन"
+            },
+            pt: {
+                // Navigation
+                dashboardNav: "📊 Painel",
+                aiChatNav: "🤖 Assistente IA",
+                chatHistoryNav: "💬 Chats IA",
+                
+                // Dashboard
+                dashboardTitle: "Painel - Immigr-Aid",
+                progressTitle: "Progresso da Aplicação",
+                completedLabel: "Concluído",
+                remainingLabel: "Restante",
+                
+                // Profile
+                profileTitle: "Informações Pessoais",
+                firstName: "Primeiro Nome",
+                lastName: "Sobrenome",
+                dateOfBirth: "Data de Nascimento",
+                countryOfBirth: "País de Nascimento",
+                currentAddress: "Endereço Atual",
+                phoneNumber: "Número de Telefone",
+                emailAddress: "Endereço de Email",
+                entryDate: "Data de Entrada nos EUA",
+                immigrationStatus: "Status de Imigração Atual",
+                emergencyContact: "Nome do Contato de Emergência",
+                emergencyPhone: "Telefone do Contato de Emergência",
+                saveProfile: "Salvar Informações do Perfil",
+                
+                // Documents
+                documentsTitle: "Documentos Necessários",
+                documentsDescription: "Todos os documentos necessários para completar seu processo de aplicação de imigração",
+                
+                // AI Chat
+                aiTitle: "Assistente IA - Immigr-Aid",
+                welcomeMessage: "Olá! Sou seu assistente de imigração com IA. Posso ajudá-lo a preencher formulários, responder perguntas sobre seu processo de imigração e guiá-lo através de cada etapa. Como posso ajudá-lo hoje?",
+                chatPlaceholder: "Digite sua mensagem ou use entrada de voz...",
+                
+                // Chat History
+                chatHistoryTitle: "Histórico de Chats IA",
+                
+                // Document Actions
+                view: "Ver",
+                fill: "Preencher",
+                download: "Baixar",
+                
+                // Status
+                completed: "Concluído",
+                "in-progress": "Em Progresso",
+                pending: "Pendente",
+                
+                // Countries
+                selectCountry: "Selecionar País",
+                selectStatus: "Selecionar Status",
+                
+                // Placeholders
+                firstNamePlaceholder: "Digite seu primeiro nome",
+                lastNamePlaceholder: "Digite seu sobrenome",
+                addressPlaceholder: "Digite seu endereço atual",
+                phonePlaceholder: "Digite seu número de telefone",
+                emailPlaceholder: "Digite seu endereço de email",
+                emergencyNamePlaceholder: "Digite o nome do contato de emergência",
+                emergencyPhonePlaceholder: "Digite o telefone do contato de emergência",
+                
+                // Login Page
+                loginSubtitle: "Seu Trabalhador de Casos de Imigração 24/7",
+                loginLanguageLabel: "Idioma / Language:",
+                password: "Senha",
+                passwordPlaceholder: "Digite sua senha",
+                loginButton: "Entrar"
+            },
+            ru: {
+                // Navigation
+                dashboardNav: "📊 Панель управления",
+                aiChatNav: "🤖 ИИ Помощник",
+                chatHistoryNav: "💬 ИИ Чаты",
+                
+                // Dashboard
+                dashboardTitle: "Панель управления - Immigr-Aid",
+                progressTitle: "Прогресс заявления",
+                completedLabel: "Завершено",
+                remainingLabel: "Осталось",
+                
+                // Profile
+                profileTitle: "Личная информация",
+                firstName: "Имя",
+                lastName: "Фамилия",
+                dateOfBirth: "Дата рождения",
+                countryOfBirth: "Страна рождения",
+                currentAddress: "Текущий адрес",
+                phoneNumber: "Номер телефона",
+                emailAddress: "Адрес электронной почты",
+                entryDate: "Дата въезда в США",
+                immigrationStatus: "Текущий иммиграционный статус",
+                emergencyContact: "Имя контакта для экстренных случаев",
+                emergencyPhone: "Телефон контакта для экстренных случаев",
+                saveProfile: "Сохранить информацию профиля",
+                
+                // Documents
+                documentsTitle: "Необходимые документы",
+                documentsDescription: "Все документы, необходимые для завершения процесса иммиграционного заявления",
+                
+                // AI Chat
+                aiTitle: "ИИ Помощник - Immigr-Aid",
+                welcomeMessage: "Привет! Я ваш ИИ помощник по иммиграции. Я могу помочь вам заполнить формы, ответить на вопросы о вашем иммиграционном процессе и провести вас через каждый шаг. Как я могу помочь вам сегодня?",
+                chatPlaceholder: "Введите ваше сообщение или используйте голосовой ввод...",
+                
+                // Chat History
+                chatHistoryTitle: "История ИИ чатов",
+                
+                // Document Actions
+                view: "Просмотр",
+                fill: "Заполнить",
+                download: "Скачать",
+                
+                // Status
+                completed: "Завершено",
+                "in-progress": "В процессе",
+                pending: "Ожидает",
+                
+                // Countries
+                selectCountry: "Выберите страну",
+                selectStatus: "Выберите статус",
+                
+                // Placeholders
+                firstNamePlaceholder: "Введите ваше имя",
+                lastNamePlaceholder: "Введите вашу фамилию",
+                addressPlaceholder: "Введите ваш текущий адрес",
+                phonePlaceholder: "Введите ваш номер телефона",
+                emailPlaceholder: "Введите ваш адрес электронной почты",
+                emergencyNamePlaceholder: "Введите имя контакта для экстренных случаев",
+                emergencyPhonePlaceholder: "Введите телефон контакта для экстренных случаев",
+                
+                // Login Page
+                loginSubtitle: "Ваш работник иммиграционных дел 24/7",
+                loginLanguageLabel: "Язык / Language:",
+                password: "Пароль",
+                passwordPlaceholder: "Введите пароль",
+                loginButton: "Войти"
+            },
+            fr: {
+                // Navigation
+                dashboardNav: "📊 Tableau de bord",
+                aiChatNav: "🤖 Assistant IA",
+                chatHistoryNav: "💬 Chats IA",
+                
+                // Dashboard
+                dashboardTitle: "Tableau de bord - Immigr-Aid",
+                progressTitle: "Progrès de la demande",
+                completedLabel: "Terminé",
+                remainingLabel: "Restant",
+                
+                // Profile
+                profileTitle: "Informations personnelles",
+                firstName: "Prénom",
+                lastName: "Nom de famille",
+                dateOfBirth: "Date de naissance",
+                countryOfBirth: "Pays de naissance",
+                currentAddress: "Adresse actuelle",
+                phoneNumber: "Numéro de téléphone",
+                emailAddress: "Adresse e-mail",
+                entryDate: "Date d'entrée aux États-Unis",
+                immigrationStatus: "Statut d'immigration actuel",
+                emergencyContact: "Nom du contact d'urgence",
+                emergencyPhone: "Téléphone du contact d'urgence",
+                saveProfile: "Enregistrer les informations du profil",
+                
+                // Documents
+                documentsTitle: "Documents requis",
+                documentsDescription: "Tous les documents nécessaires pour compléter votre processus de demande d'immigration",
+                
+                // AI Chat
+                aiTitle: "Assistant IA - Immigr-Aid",
+                welcomeMessage: "Bonjour! Je suis votre assistant d'immigration IA. Je peux vous aider à remplir des formulaires, répondre à vos questions sur votre processus d'immigration et vous guider à travers chaque étape. Comment puis-je vous aider aujourd'hui?",
+                chatPlaceholder: "Tapez votre message ou utilisez la saisie vocale...",
+                
+                // Chat History
+                chatHistoryTitle: "Historique des chats IA",
+                
+                // Document Actions
+                view: "Voir",
+                fill: "Remplir",
+                download: "Télécharger",
+                
+                // Status
+                completed: "Terminé",
+                "in-progress": "En cours",
+                pending: "En attente",
+                
+                // Countries
+                selectCountry: "Sélectionner le pays",
+                selectStatus: "Sélectionner le statut",
+                
+                // Placeholders
+                firstNamePlaceholder: "Entrez votre prénom",
+                lastNamePlaceholder: "Entrez votre nom de famille",
+                addressPlaceholder: "Entrez votre adresse actuelle",
+                phonePlaceholder: "Entrez votre numéro de téléphone",
+                emailPlaceholder: "Entrez votre adresse e-mail",
+                emergencyNamePlaceholder: "Entrez le nom du contact d'urgence",
+                emergencyPhonePlaceholder: "Entrez le téléphone du contact d'urgence",
+                
+                // Login Page
+                loginSubtitle: "Votre Travailleur de Cas d'Immigration 24/7",
+                loginLanguageLabel: "Langue / Language:",
+                password: "Mot de passe",
+                passwordPlaceholder: "Entrez votre mot de passe",
+                loginButton: "Connexion"
+            }
+        };
+
+        // Comprehensive Help Resources and Locations
+        const helpResources = {
+            legalAid: [
+                {
+                    name: "Legal Aid Society",
+                    type: "Free Legal Services",
+                    phone: "1-800-LEGAL-AID",
+                    website: "www.legalaid.org",
+                    services: ["Immigration Law", "DACA Applications", "Asylum Cases"],
+                    languages: ["English", "Spanish", "Chinese", "Arabic"],
+                    locations: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"]
+                },
+                {
+                    name: "Catholic Charities Immigration Services",
+                    type: "Non-Profit Legal Aid",
+                    phone: "1-800-CATHOLIC",
+                    website: "www.catholiccharities.org",
+                    services: ["Family Reunification", "Citizenship", "TPS Applications"],
+                    languages: ["English", "Spanish", "Portuguese", "French"],
+                    locations: ["Miami", "San Antonio", "Denver", "Seattle", "Boston"]
+                },
+                {
+                    name: "American Immigration Lawyers Association (AILA)",
+                    type: "Professional Legal Network",
+                    phone: "1-800-AILA-USA",
+                    website: "www.aila.org",
+                    services: ["Attorney Referrals", "Legal Resources", "Case Consultation"],
+                    languages: ["English", "Spanish", "Multiple Languages"],
+                    locations: ["Nationwide Network"]
+                }
+            ],
+            communityCenters: [
+                {
+                    name: "Centro Hispano",
+                    type: "Community Center",
+                    phone: "1-800-CENTRO",
+                    website: "www.centrohispano.org",
+                    services: ["ESL Classes", "Job Training", "Immigration Workshops"],
+                    languages: ["Spanish", "English"],
+                    locations: ["Los Angeles", "Phoenix", "Las Vegas", "Albuquerque"]
+                },
+                {
+                    name: "Asian American Legal Center",
+                    type: "Community Legal Services",
+                    phone: "1-800-ASIAN-LEGAL",
+                    website: "www.aalc.org",
+                    services: ["Immigration Law", "Language Services", "Community Education"],
+                    languages: ["Chinese", "Korean", "Vietnamese", "English"],
+                    locations: ["San Francisco", "Los Angeles", "Seattle", "New York"]
+                },
+                {
+                    name: "African Community Center",
+                    type: "Community Support",
+                    phone: "1-800-AFRICAN",
+                    website: "www.africancommunity.org",
+                    services: ["Refugee Services", "Job Placement", "Cultural Integration"],
+                    languages: ["English", "French", "Arabic", "Swahili"],
+                    locations: ["Atlanta", "Minneapolis", "Washington DC", "Boston"]
+                }
+            ],
+            emergencyResources: [
+                {
+                    name: "National Immigration Hotline",
+                    type: "24/7 Emergency Support",
+                    phone: "1-800-IMMIGRATION",
+                    services: ["Emergency Legal Help", "Detention Support", "Family Reunification"],
+                    languages: ["English", "Spanish", "Multiple Languages"],
+                    availability: "24/7"
+                },
+                {
+                    name: "Immigration Detention Hotline",
+                    type: "Detention Support",
+                    phone: "1-800-DETENTION",
+                    services: ["Detention Visits", "Legal Representation", "Family Communication"],
+                    languages: ["English", "Spanish"],
+                    availability: "24/7"
+                },
+                {
+                    name: "RAICES (Refugee and Immigrant Center)",
+                    type: "Immigration Legal Services",
+                    phone: "1-800-RAICES",
+                    website: "www.raicestexas.org",
+                    services: ["Bond Assistance", "Legal Representation", "Family Reunification"],
+                    languages: ["English", "Spanish", "Arabic", "French"],
+                    locations: ["Texas", "California", "New York"]
+                }
+            ],
+            educationalResources: [
+                {
+                    name: "USCIS Educational Resources",
+                    type: "Government Resources",
+                    website: "www.uscis.gov",
+                    services: ["Form Instructions", "Policy Updates", "Educational Materials"],
+                    languages: ["English", "Spanish", "Chinese", "Arabic", "French", "Korean", "Portuguese", "Russian", "Vietnamese"]
+                },
+                {
+                    name: "Immigration Advocates Network",
+                    type: "Training and Resources",
+                    website: "www.immigrationadvocates.org",
+                    services: ["Legal Training", "Resource Library", "Best Practices"],
+                    languages: ["English", "Spanish"]
+                },
+                {
+                    name: "National Immigration Law Center",
+                    type: "Policy and Advocacy",
+                    website: "www.nilc.org",
+                    services: ["Policy Updates", "Legal Resources", "Advocacy Tools"],
+                    languages: ["English", "Spanish"]
+                }
+            ],
+            healthcare: [
+                {
+                    name: "Community Health Centers",
+                    type: "Low-Cost Healthcare",
+                    phone: "1-800-HEALTH",
+                    website: "www.communityhealthcenters.org",
+                    services: ["Primary Care", "Mental Health", "Dental Care"],
+                    languages: ["English", "Spanish", "Multiple Languages"],
+                    locations: ["Nationwide"]
+                },
+                {
+                    name: "Planned Parenthood",
+                    type: "Reproductive Health",
+                    phone: "1-800-PLANNED",
+                    website: "www.plannedparenthood.org",
+                    services: ["Reproductive Health", "STI Testing", "Family Planning"],
+                    languages: ["English", "Spanish"],
+                    locations: ["Nationwide"]
+                }
+            ],
+            employment: [
+                {
+                    name: "Department of Labor Career Centers",
+                    type: "Employment Services",
+                    phone: "1-800-JOB-HELP",
+                    website: "www.dol.gov",
+                    services: ["Job Search", "Resume Building", "Skills Training"],
+                    languages: ["English", "Spanish"],
+                    locations: ["Nationwide"]
+                },
+                {
+                    name: "Goodwill Industries",
+                    type: "Job Training",
+                    phone: "1-800-GOODWILL",
+                    website: "www.goodwill.org",
+                    services: ["Job Training", "Career Services", "Workplace Skills"],
+                    languages: ["English", "Spanish"],
+                    locations: ["Nationwide"]
+                }
+            ]
+        };
+        
+        // Required Documents Data
+        const requiredDocuments = [
+            {
+                id: 'i821d',
+                name: 'Form I-821D',
+                description: 'Application for Consideration of Deferred Action for Childhood Arrivals',
+                status: 'in-progress',
+                icon: '📋',
+                required: true
+            },
+            {
+                id: 'i765',
+                name: 'Form I-765',
+                description: 'Application for Employment Authorization Document',
+                status: 'pending',
+                icon: '💼',
+                required: true
+            },
+            {
+                id: 'i765ws',
+                name: 'Form I-765WS',
+                description: 'Economic Necessity Worksheet',
+                status: 'pending',
+                icon: '📊',
+                required: true
+            },
+            {
+                id: 'passport',
+                name: 'Passport',
+                description: 'Valid passport from country of origin',
+                status: 'completed',
+                icon: '🛂',
+                required: true
+            },
+            {
+                id: 'birth-certificate',
+                name: 'Birth Certificate',
+                description: 'Official birth certificate with translation',
+                status: 'in-progress',
+                icon: '📄',
+                required: true
+            },
+            {
+                id: 'photos',
+                name: 'Passport Photos',
+                description: 'Two identical passport-style photographs',
+                status: 'completed',
+                icon: '📸',
+                required: true
+            },
+            {
+                id: 'g1145',
+                name: 'Form G-1145',
+                description: 'Application for E-Notification',
+                status: 'completed',
+                icon: '📧',
+                required: false
+            },
+            {
+                id: 'evidence-identity',
+                name: 'Evidence of Identity',
+                description: 'Documents proving identity and age',
+                status: 'pending',
+                icon: '🆔',
+                required: true
+            },
+            {
+                id: 'evidence-entry',
+                name: 'Evidence of Entry',
+                description: 'Documents proving entry before age 16',
+                status: 'pending',
+                icon: '✈️',
+                required: true
+            }
+        ];
+
+        // Initialize speech recognition
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                isRecording = true;
+                document.getElementById('speechBtn').classList.add('recording');
+                showNotification('Listening... Speak now', 'info');
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('chatInput').value = transcript;
+                showNotification('Speech converted to text', 'success');
+            };
+
+            recognition.onerror = function(event) {
+                showNotification('Speech recognition error: ' + event.error, 'error');
+                isRecording = false;
+                document.getElementById('speechBtn').classList.remove('recording');
+            };
+
+            recognition.onend = function() {
+                isRecording = false;
+                document.getElementById('speechBtn').classList.remove('recording');
+            };
+        }
+
+        // Login functionality
+        function demoLogin() {
+            showNotification('Welcome to Immigr-AId!', 'success');
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            showSection('dashboard');
+            populateDocuments();
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            const password = this.querySelector('input[type="password"]').value;
+            
+            if (email && password) {
+                showNotification('Login successful!', 'success');
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+                showSection('dashboard');
+                populateDocuments();
+            } else {
+                showNotification('Please fill in all fields', 'error');
+            }
+        });
+
+        // Theme toggle
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            document.getElementById('themeToggle').textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        // Login language change
+        function changeLoginLanguage() {
+            const loginLanguage = document.getElementById('loginLanguageSelect').value;
+            currentLanguage = loginLanguage;
+            
+            // Update login page text
+            updateLoginLanguage();
+            
+            // Save language preference
+            localStorage.setItem('preferredLanguage', currentLanguage);
+        }
+        
+        function updateLoginLanguage() {
+            const t = translations[currentLanguage] || translations.en;
+            
+            // Update login page elements
+            document.querySelector('.login-subtitle').textContent = t.loginSubtitle || "Your 24/7 Immigration Caseworker";
+            document.querySelector('.login-language-selector label').textContent = t.loginLanguageLabel || "Language / Idioma:";
+            
+            // Update form labels
+            const emailLabel = document.querySelector('label[for="email"]');
+            if (emailLabel) emailLabel.textContent = t.emailAddress || "Email Address";
+            
+            const passwordLabel = document.querySelector('label[for="password"]');
+            if (passwordLabel) passwordLabel.textContent = t.password || "Password";
+            
+            // Update placeholders
+            const emailInput = document.querySelector('input[type="email"]');
+            if (emailInput) emailInput.placeholder = t.emailPlaceholder || "Enter your email";
+            
+            const passwordInput = document.querySelector('input[type="password"]');
+            if (passwordInput) passwordInput.placeholder = t.passwordPlaceholder || "Enter your password";
+            
+            // Update button
+            const loginButton = document.querySelector('.login-button');
+            if (loginButton) loginButton.textContent = t.loginButton || "Login";
+        }
+
+        // Language switching
+        function changeLanguage() {
+            currentLanguage = document.getElementById('languageSelect').value;
+            
+            // Force immediate update
+            updateLanguage();
+            
+            // Force DOM refresh for all elements
+            setTimeout(() => {
+                updateLanguage();
+                // Force re-render of all form elements
+                document.querySelectorAll('input, select, textarea').forEach(element => {
+                    element.style.display = 'none';
+                    element.offsetHeight; // Trigger reflow
+                    element.style.display = '';
+                });
+            }, 10);
+            
+            showNotification(`Language changed to ${getLanguageName(currentLanguage)}`, 'info');
+        }
+
+        function getLanguageName(code) {
+            const names = {
+                'en': 'English',
+                'es': 'Español',
+                'zh': '中文',
+                'ar': 'العربية',
+                'hi': 'हिन्दी',
+                'pt': 'Português',
+                'ru': 'Русский',
+                'fr': 'Français'
+            };
+            return names[code] || 'English';
+        }
+
+        function updateLanguage() {
+            const t = translations[currentLanguage] || translations.en;
+            
+            // Force complete page refresh
+            document.body.style.opacity = '0.8';
+            
+            // Update ALL text elements immediately
+            setTimeout(() => {
+                // Navigation
+                const dashboardNav = document.getElementById('dashboardNav');
+                if (dashboardNav) dashboardNav.innerHTML = t.dashboardNav;
+                
+                const aiChatNav = document.getElementById('aiChatNav');
+                if (aiChatNav) aiChatNav.innerHTML = t.aiChatNav;
+                
+                const chatHistoryNav = document.getElementById('chatHistoryNav');
+                if (chatHistoryNav) chatHistoryNav.innerHTML = t.chatHistoryNav;
+                
+                // Section titles
+                const dashboardTitle = document.querySelector('#dashboardSection .section-title');
+                if (dashboardTitle) dashboardTitle.innerHTML = t.dashboardTitle;
+                
+                const aiTitle = document.querySelector('#aiChatSection .section-title');
+                if (aiTitle) aiTitle.innerHTML = t.aiTitle;
+                
+                const chatHistoryTitle = document.querySelector('#chatHistorySection .section-title');
+                if (chatHistoryTitle) chatHistoryTitle.innerHTML = t.chatHistoryTitle;
+                
+                // Update help resources section
+                const helpResourcesNav = document.getElementById('helpResourcesNav');
+                if (helpResourcesNav) helpResourcesNav.innerHTML = t.helpResourcesNav;
+                
+                const helpResourcesTitle = document.querySelector('#helpResourcesSection .section-title');
+                if (helpResourcesTitle) helpResourcesTitle.innerHTML = t.helpResourcesTitle;
+                
+                // Update help category titles
+                const emergencyTitle = document.querySelector('#helpResourcesSection h3:nth-of-type(1)');
+                if (emergencyTitle) emergencyTitle.innerHTML = `🆘 ${t.emergencyResources}`;
+                
+                const legalAidTitle = document.querySelector('#helpResourcesSection h3:nth-of-type(2)');
+                if (legalAidTitle) legalAidTitle.innerHTML = `⚖️ ${t.legalAid}`;
+                
+                const communityTitle = document.querySelector('#helpResourcesSection h3:nth-of-type(3)');
+                if (communityTitle) communityTitle.innerHTML = `🏢 ${t.communityCenters}`;
+                
+                const healthcareTitle = document.querySelector('#helpResourcesSection h3:nth-of-type(4)');
+                if (healthcareTitle) healthcareTitle.innerHTML = `🏥 ${t.healthcare}`;
+                
+                const employmentTitle = document.querySelector('#helpResourcesSection h3:nth-of-type(5)');
+                if (employmentTitle) employmentTitle.innerHTML = `💼 ${t.employment}`;
+                
+                const educationalTitle = document.querySelector('#helpResourcesSection h3:nth-of-type(6)');
+                if (educationalTitle) educationalTitle.innerHTML = `📚 ${t.educationalResources}`;
+                
+                // Repopulate help resources with new language
+                populateHelpResources();
+                
+                // Progress section
+                const progressTitle = document.getElementById('progressTitle');
+                if (progressTitle) progressTitle.textContent = t.progressTitle;
+                
+                const completedLabel = document.getElementById('completedLabel');
+                if (completedLabel) completedLabel.textContent = t.completedLabel;
+                
+                const remainingLabel = document.getElementById('remainingLabel');
+                if (remainingLabel) remainingLabel.textContent = t.remainingLabel;
+                
+                // Profile section
+                const profileTitle = document.getElementById('profileTitle');
+                if (profileTitle) profileTitle.textContent = t.profileTitle;
+                
+                // Update ALL form labels
+                const labelMappings = [
+                    { id: 'firstName', text: t.firstName },
+                    { id: 'lastName', text: t.lastName },
+                    { id: 'dateOfBirth', text: t.dateOfBirth },
+                    { id: 'countryOfBirth', text: t.countryOfBirth },
+                    { id: 'currentAddress', text: t.currentAddress },
+                    { id: 'phoneNumber', text: t.phoneNumber },
+                    { id: 'emailAddress', text: t.emailAddress },
+                    { id: 'entryDate', text: t.entryDate },
+                    { id: 'immigrationStatus', text: t.immigrationStatus },
+                    { id: 'emergencyContact', text: t.emergencyContact },
+                    { id: 'emergencyPhone', text: t.emergencyPhone }
+                ];
+                
+                labelMappings.forEach(mapping => {
+                    const label = document.querySelector(`label[for="${mapping.id}"]`);
+                    if (label) {
+                        label.innerHTML = mapping.text + ' <span class="required-field">*</span>';
+                    }
+                });
+                
+                // Update save button
+                const saveButton = document.querySelector('button[onclick="saveProfile()"]');
+                if (saveButton) saveButton.textContent = t.saveProfile;
+                
+                // Update ALL placeholders with forced refresh
+                const placeholderMappings = [
+                    { id: 'firstName', placeholder: t.firstNamePlaceholder },
+                    { id: 'lastName', placeholder: t.lastNamePlaceholder },
+                    { id: 'currentAddress', placeholder: t.addressPlaceholder },
+                    { id: 'phoneNumber', placeholder: t.phonePlaceholder },
+                    { id: 'emailAddress', placeholder: t.emailPlaceholder },
+                    { id: 'emergencyContact', placeholder: t.emergencyNamePlaceholder },
+                    { id: 'emergencyPhone', placeholder: t.emergencyPhonePlaceholder }
+                ];
+                
+                placeholderMappings.forEach(mapping => {
+                    const element = document.getElementById(mapping.id);
+                    if (element) {
+                        // Force update placeholder
+                        element.setAttribute('placeholder', mapping.placeholder);
+                        element.placeholder = mapping.placeholder;
+                        
+                        // Force browser refresh
+                        const currentValue = element.value;
+                        element.value = '';
+                        setTimeout(() => {
+                            element.value = currentValue;
+                        }, 1);
+                    }
+                });
+                
+                // Update select options
+                const countrySelect = document.getElementById('countryOfBirth');
+                if (countrySelect) {
+                    const currentValue = countrySelect.value;
+                    countrySelect.innerHTML = `<option value="">${t.selectCountry}</option>
+                        <option value="Mexico">Mexico</option>
+                        <option value="China">China</option>
+                        <option value="India">India</option>
+                        <option value="Philippines">Philippines</option>
+                        <option value="El Salvador">El Salvador</option>
+                        <option value="Guatemala">Guatemala</option>`;
+                    countrySelect.value = currentValue;
+                }
+                
+                const statusSelect = document.getElementById('immigrationStatus');
+                if (statusSelect) {
+                    const currentValue = statusSelect.value;
+                    statusSelect.innerHTML = `<option value="">${t.selectStatus}</option>
+                        <option value="DACA">DACA</option>
+                        <option value="TPS">TPS</option>
+                        <option value="Asylum">Asylum</option>
+                        <option value="Other">Other</option>`;
+                    statusSelect.value = currentValue;
+                }
+                
+                // Update documents section
+                const documentsTitle = document.getElementById('documentsTitle');
+                if (documentsTitle) documentsTitle.textContent = t.documentsTitle;
+                
+                const documentsDescription = document.getElementById('documentsDescription');
+                if (documentsDescription) documentsDescription.textContent = t.documentsDescription;
+                
+                // Update chat elements
+                const chatInput = document.getElementById('chatInput');
+                if (chatInput) chatInput.placeholder = t.chatPlaceholder;
+                
+                const welcomeMessage = document.getElementById('welcomeMessage');
+                if (welcomeMessage) welcomeMessage.textContent = t.welcomeMessage;
+                
+                // Repopulate documents
+                populateDocuments();
+                
+                // Restore opacity
+                document.body.style.opacity = '1';
+            }, 50);
+        }
+        
+        function forceFormRefresh() {
+            // Force refresh all input elements
+            document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="date"]').forEach(input => {
+                const currentValue = input.value;
+                const currentPlaceholder = input.placeholder;
+                
+                // Temporarily clear and restore to force browser refresh
+                input.value = '';
+                input.placeholder = '';
+                setTimeout(() => {
+                    input.value = currentValue;
+                    input.placeholder = currentPlaceholder;
+                }, 1);
+            });
+            
+            // Force refresh all select elements
+            document.querySelectorAll('select').forEach(select => {
+                const currentValue = select.value;
+                select.style.display = 'none';
+                setTimeout(() => {
+                    select.style.display = '';
+                    select.value = currentValue;
+                }, 1);
+            });
+        }
+
+        // Section navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + 'Section').classList.remove('hidden');
+            document.getElementById(sectionName + 'Nav').classList.add('active');
+        }
+
+        // Populate documents
+        function populateDocuments() {
+            const t = translations[currentLanguage] || translations.en;
+            const container = document.getElementById('documentsGrid');
+            container.innerHTML = '';
+            
+            requiredDocuments.forEach(doc => {
+                const docCard = document.createElement('div');
+                docCard.className = 'document-card';
+                docCard.onclick = () => openDocument(doc);
+                
+                const statusClass = doc.status === 'completed' ? 'completed' : 
+                                  doc.status === 'in-progress' ? 'in-progress' : 'pending';
+                
+                const statusText = t[doc.status] || doc.status;
+                
+                docCard.innerHTML = `
+                    <div class="document-header">
+                        <div class="document-icon">${doc.icon}</div>
+                        <div class="document-status status-${statusClass}">${statusText}</div>
+                    </div>
+                    <div class="document-name">${doc.name}</div>
+                    <div class="document-description">${doc.description}</div>
+                    <div class="document-actions">
+                        <button class="document-btn view" onclick="event.stopPropagation(); viewDocument('${doc.id}')">${t.view}</button>
+                        <button class="document-btn fill" onclick="event.stopPropagation(); fillDocument('${doc.id}')">${t.fill}</button>
+                        ${doc.status === 'completed' ? `<button class="document-btn download" onclick="event.stopPropagation(); downloadDocument('${doc.id}')">${t.download}</button>` : ''}
+                    </div>
+                `;
+                
+                container.appendChild(docCard);
+            });
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const completed = requiredDocuments.filter(doc => doc.status === 'completed').length;
+            const total = requiredDocuments.length;
+            const percentage = Math.round((completed / total) * 100);
+            
+            document.getElementById('progressPercentage').textContent = percentage + '%';
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('remainingCount').textContent = total - completed;
+        }
+
+        function openDocument(doc) {
+            window.currentDocumentId = doc.id;
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${doc.name}</h2>
+                        <button class="close-btn" onclick="closeModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="document-form-container">
+                            <div class="form-header">
+                                <h3>${doc.name}</h3>
+                                <p class="form-description">${doc.description}</p>
+                            </div>
+                            <form id="documentForm" class="immigration-form">
+                                ${generateFormFields(doc.id)}
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="saveDocumentForm()" class="btn btn-primary">${getTranslatedText('save')}</button>
+                        <button onclick="downloadFilledDocument()" class="btn btn-success">${getTranslatedText('download')}</button>
+                        <button onclick="closeModal()" class="btn btn-secondary">${getTranslatedText('close')}</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Load saved form data
+            loadFormData(doc.id);
+        }
+
+        function viewDocument(docId) {
+            const doc = requiredDocuments.find(d => d.id === docId);
+            if (doc) {
+                window.currentDocumentId = docId;
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>${doc.name}</h2>
+                            <button class="close-btn" onclick="closeModal()">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="document-viewer">
+                                <h3>${doc.name}</h3>
+                                <p>${doc.description}</p>
+                                <div class="document-preview">
+                                    <p><strong>${getTranslatedText('formType')}:</strong> ${doc.type}</p>
+                                    <p><strong>${getTranslatedText('status')}:</strong> ${getTranslatedText(doc.status)}</p>
+                                    <p><strong>${getTranslatedText('dueDate')}:</strong> ${doc.dueDate}</p>
+                                </div>
+                                <div class="document-instructions">
+                                    <h4>${getTranslatedText('instructions')}</h4>
+                                    <p>${getTranslatedText('documentInstructions')}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button onclick="fillDocument('${docId}')" class="btn btn-primary">${getTranslatedText('fillForm')}</button>
+                            <button onclick="closeModal()" class="btn btn-secondary">${getTranslatedText('close')}</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+            }
+        }
+
+        function fillDocument(docId) {
+            const doc = requiredDocuments.find(d => d.id === docId);
+            if (doc) {
+                // Update document status to in-progress
+                doc.status = 'in-progress';
+                updateProgress();
+                
+                // Open the document for filling
+                openDocument(doc);
+                
+                showNotification(`${getTranslatedText('openingForm')} ${doc.name}...`, 'success');
+            }
+        }
+
+        function generateFormFields(documentId) {
+            const fields = getDocumentFields(documentId);
+            let html = '';
+            
+            fields.forEach(field => {
+                const translatedLabel = getTranslatedText(field.label);
+                const translatedPlaceholder = getTranslatedText(field.placeholder);
+                
+                html += `
+                    <div class="form-field">
+                        <label for="${field.id}">${translatedLabel}</label>
+                        ${generateFieldInput(field, translatedPlaceholder)}
+                        ${field.required ? '<span class="required">*</span>' : ''}
+                        ${field.helpText ? `<div class="field-help">${getTranslatedText(field.helpText)}</div>` : ''}
+                    </div>
+                `;
+            });
+            
+            return html;
+        }
+        
+        function generateFieldInput(field, placeholder) {
+            switch (field.type) {
+                case 'text':
+                    return `<input type="text" id="${field.id}" name="${field.name}" placeholder="${placeholder}" ${field.required ? 'required' : ''}>`;
+                case 'email':
+                    return `<input type="email" id="${field.id}" name="${field.name}" placeholder="${placeholder}" ${field.required ? 'required' : ''}>`;
+                case 'date':
+                    return `<input type="date" id="${field.id}" name="${field.name}" ${field.required ? 'required' : ''}>`;
+                case 'select':
+                    return `
+                        <select id="${field.id}" name="${field.name}" ${field.required ? 'required' : ''}>
+                            <option value="">${placeholder}</option>
+                            ${field.options.map(option => `<option value="${option.value}">${getTranslatedText(option.label)}</option>`).join('')}
+                        </select>
+                    `;
+                case 'textarea':
+                    return `<textarea id="${field.id}" name="${field.name}" placeholder="${placeholder}" rows="4" ${field.required ? 'required' : ''}></textarea>`;
+                case 'checkbox':
+                    return `
+                        <div class="checkbox-group">
+                            ${field.options.map(option => `
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="${field.name}" value="${option.value}">
+                                    ${getTranslatedText(option.label)}
+                                </label>
+                            `).join('')}
+                        </div>
+                    `;
+                case 'radio':
+                    return `
+                        <div class="radio-group">
+                            ${field.options.map(option => `
+                                <label class="radio-label">
+                                    <input type="radio" name="${field.name}" value="${option.value}" ${field.required ? 'required' : ''}>
+                                    ${getTranslatedText(option.label)}
+                                </label>
+                            `).join('')}
+                        </div>
+                    `;
+                default:
+                    return `<input type="text" id="${field.id}" name="${field.name}" placeholder="${placeholder}" ${field.required ? 'required' : ''}>`;
+            }
+        }
+        
+        function getDocumentFields(documentId) {
+            const fieldSets = {
+                'i-821d': [
+                    { id: 'first_name', name: 'first_name', type: 'text', label: 'firstName', placeholder: 'enterFirstName', required: true, helpText: 'firstNameHelp' },
+                    { id: 'last_name', name: 'last_name', type: 'text', label: 'lastName', placeholder: 'enterLastName', required: true, helpText: 'lastNameHelp' },
+                    { id: 'middle_name', name: 'middle_name', type: 'text', label: 'middleName', placeholder: 'enterMiddleName', required: false },
+                    { id: 'date_of_birth', name: 'date_of_birth', type: 'date', label: 'dateOfBirth', placeholder: 'enterDateOfBirth', required: true },
+                    { id: 'country_of_birth', name: 'country_of_birth', type: 'select', label: 'countryOfBirth', placeholder: 'selectCountry', required: true, options: [
+                        { value: 'MX', label: 'mexico' },
+                        { value: 'GT', label: 'guatemala' },
+                        { value: 'SV', label: 'elSalvador' },
+                        { value: 'HN', label: 'honduras' },
+                        { value: 'NI', label: 'nicaragua' },
+                        { value: 'CU', label: 'cuba' },
+                        { value: 'HT', label: 'haiti' },
+                        { value: 'DO', label: 'dominicanRepublic' },
+                        { value: 'OTHER', label: 'other' }
+                    ]},
+                    { id: 'address', name: 'address', type: 'textarea', label: 'currentAddress', placeholder: 'enterCurrentAddress', required: true },
+                    { id: 'phone', name: 'phone', type: 'text', label: 'phoneNumber', placeholder: 'enterPhoneNumber', required: true },
+                    { id: 'email', name: 'email', type: 'email', label: 'emailAddress', placeholder: 'enterEmailAddress', required: true },
+                    { id: 'ssn', name: 'ssn', type: 'text', label: 'socialSecurityNumber', placeholder: 'enterSSN', required: false },
+                    { id: 'entry_date', name: 'entry_date', type: 'date', label: 'dateOfEntry', placeholder: 'enterDateOfEntry', required: true },
+                    { id: 'entry_method', name: 'entry_method', type: 'select', label: 'methodOfEntry', placeholder: 'selectMethod', required: true, options: [
+                        { value: 'visitor', label: 'visitorVisa' },
+                        { value: 'student', label: 'studentVisa' },
+                        { value: 'work', label: 'workVisa' },
+                        { value: 'family', label: 'familyVisa' },
+                        { value: 'other', label: 'otherMethod' }
+                    ]},
+                    { id: 'education', name: 'education', type: 'select', label: 'educationLevel', placeholder: 'selectEducation', required: true, options: [
+                        { value: 'none', label: 'noFormalEducation' },
+                        { value: 'elementary', label: 'elementarySchool' },
+                        { value: 'middle', label: 'middleSchool' },
+                        { value: 'high_school', label: 'highSchool' },
+                        { value: 'some_college', label: 'someCollege' },
+                        { value: 'college', label: 'collegeDegree' },
+                        { value: 'graduate', label: 'graduateDegree' }
+                    ]},
+                    { id: 'employment_status', name: 'employment_status', type: 'select', label: 'employmentStatus', placeholder: 'selectEmployment', required: true, options: [
+                        { value: 'employed', label: 'employed' },
+                        { value: 'unemployed', label: 'unemployed' },
+                        { value: 'student', label: 'student' },
+                        { value: 'self_employed', label: 'selfEmployed' },
+                        { value: 'other', label: 'other' }
+                    ]},
+                    { id: 'criminal_history', name: 'criminal_history', type: 'radio', label: 'criminalHistory', placeholder: 'selectCriminalHistory', required: true, options: [
+                        { value: 'no', label: 'noCriminalHistory' },
+                        { value: 'yes', label: 'hasCriminalHistory' }
+                    ]},
+                    { id: 'economic_necessity', name: 'economic_necessity', type: 'textarea', label: 'economicNecessity', placeholder: 'explainEconomicNecessity', required: true, helpText: 'economicNecessityHelp' }
+                ],
+                'i-765': [
+                    { id: 'first_name', name: 'first_name', type: 'text', label: 'firstName', placeholder: 'enterFirstName', required: true },
+                    { id: 'last_name', name: 'last_name', type: 'text', label: 'lastName', placeholder: 'enterLastName', required: true },
+                    { id: 'date_of_birth', name: 'date_of_birth', type: 'date', label: 'dateOfBirth', placeholder: 'enterDateOfBirth', required: true },
+                    { id: 'country_of_birth', name: 'country_of_birth', type: 'select', label: 'countryOfBirth', placeholder: 'selectCountry', required: true, options: [
+                        { value: 'MX', label: 'mexico' },
+                        { value: 'GT', label: 'guatemala' },
+                        { value: 'SV', label: 'elSalvador' },
+                        { value: 'OTHER', label: 'other' }
+                    ]},
+                    { id: 'address', name: 'address', type: 'textarea', label: 'currentAddress', placeholder: 'enterCurrentAddress', required: true },
+                    { id: 'phone', name: 'phone', type: 'text', label: 'phoneNumber', placeholder: 'enterPhoneNumber', required: true },
+                    { id: 'email', name: 'email', type: 'email', label: 'emailAddress', placeholder: 'enterEmailAddress', required: true },
+                    { id: 'employment_category', name: 'employment_category', type: 'select', label: 'employmentCategory', placeholder: 'selectEmploymentCategory', required: true, options: [
+                        { value: 'c33', label: 'dacaRecipient' },
+                        { value: 'c09', label: 'pendingAdjustment' },
+                        { value: 'c08', label: 'pendingAsylum' },
+                        { value: 'c14', label: 'tpsRecipient' }
+                    ]},
+                    { id: 'previous_work_auth', name: 'previous_work_auth', type: 'radio', label: 'previousWorkAuthorization', placeholder: 'selectPreviousWorkAuth', required: true, options: [
+                        { value: 'no', label: 'noPreviousWorkAuth' },
+                        { value: 'yes', label: 'hasPreviousWorkAuth' }
+                    ]}
+                ],
+                'i-131': [
+                    { id: 'first_name', name: 'first_name', type: 'text', label: 'firstName', placeholder: 'enterFirstName', required: true },
+                    { id: 'last_name', name: 'last_name', type: 'text', label: 'lastName', placeholder: 'enterLastName', required: true },
+                    { id: 'date_of_birth', name: 'date_of_birth', type: 'date', label: 'dateOfBirth', placeholder: 'enterDateOfBirth', required: true },
+                    { id: 'address', name: 'address', type: 'textarea', label: 'currentAddress', placeholder: 'enterCurrentAddress', required: true },
+                    { id: 'phone', name: 'phone', type: 'text', label: 'phoneNumber', placeholder: 'enterPhoneNumber', required: true },
+                    { id: 'email', name: 'email', type: 'email', label: 'emailAddress', placeholder: 'enterEmailAddress', required: true },
+                    { id: 'travel_purpose', name: 'travel_purpose', type: 'select', label: 'travelPurpose', placeholder: 'selectTravelPurpose', required: true, options: [
+                        { value: 'educational', label: 'educationalPurpose' },
+                        { value: 'humanitarian', label: 'humanitarianPurpose' },
+                        { value: 'employment', label: 'employmentPurpose' },
+                        { value: 'family', label: 'familyPurpose' }
+                    ]},
+                    { id: 'travel_destination', name: 'travel_destination', type: 'text', label: 'travelDestination', placeholder: 'enterTravelDestination', required: true },
+                    { id: 'travel_dates', name: 'travel_dates', type: 'text', label: 'proposedTravelDates', placeholder: 'enterProposedTravelDates', required: true },
+                    { id: 'travel_reason', name: 'travel_reason', type: 'textarea', label: 'detailedTravelReason', placeholder: 'explainTravelReason', required: true }
+                ]
+            };
+            
+            return fieldSets[documentId] || [];
+        }
+        
+        function saveDocumentForm() {
+            const form = document.getElementById('documentForm');
+            const formData = new FormData(form);
+            const data = {};
+            
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            // Save to localStorage
+            const documentId = window.currentDocumentId;
+            localStorage.setItem(`document_${documentId}`, JSON.stringify(data));
+            
+            // Update document status to completed
+            const doc = requiredDocuments.find(d => d.id === documentId);
+            if (doc) {
+                doc.status = 'completed';
+                updateProgress();
+            }
+            
+            showNotification(getTranslatedText('documentSaved'), 'success');
+        }
+        
+        function downloadFilledDocument() {
+            const documentId = window.currentDocumentId;
+            const savedData = localStorage.getItem(`document_${documentId}`);
+            
+            if (!savedData) {
+                showNotification(getTranslatedText('noDataToDownload'), 'error');
+                return;
+            }
+            
+            const data = JSON.parse(savedData);
+            const doc = requiredDocuments.find(d => d.id === documentId);
+            
+            // Generate PDF content (simplified version)
+            const pdfContent = generatePDFContent(doc, data);
+            
+            // Create and download file
+            const blob = new Blob([pdfContent], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${doc.name}_filled.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification(getTranslatedText('documentDownloaded'), 'success');
+        }
+        
+        function generatePDFContent(document, data) {
+            // This is a simplified PDF generation - in a real app, you'd use a proper PDF library
+            let content = `%PDF-1.4\n`;
+            content += `1 0 obj\n<<\n/Type /Catalog\n/Pages 2 0 R\n>>\nendobj\n`;
+            content += `2 0 obj\n<<\n/Type /Pages\n/Kids [3 0 R]\n/Count 1\n>>\nendobj\n`;
+            content += `3 0 obj\n<<\n/Type /Page\n/Parent 2 0 R\n/MediaBox [0 0 612 792]\n/Contents 4 0 R\n>>\nendobj\n`;
+            
+            let streamContent = `BT\n/F1 12 Tf\n72 720 Td\n(${document.name}) Tj\nET\n`;
+            
+            let y = 680;
+            Object.entries(data).forEach(([key, value]) => {
+                if (value) {
+                    streamContent += `BT\n/F1 10 Tf\n72 ${y} Td\n(${key}: ${value}) Tj\nET\n`;
+                    y -= 20;
+                }
+            });
+            
+            content += `4 0 obj\n<<\n/Length ${streamContent.length}\n>>\nstream\n${streamContent}\nendstream\nendobj\n`;
+            content += `xref\n0 5\n0000000000 65535 f \n0000000009 00000 n \n0000000058 00000 n \n0000000115 00000 n \n0000000204 00000 n \ntrailer\n<<\n/Size 5\n/Root 1 0 R\n>>\nstartxref\n${content.length - 1}\n%%EOF`;
+            
+            return content;
+        }
+        
+        function loadFormData(documentId) {
+            const savedData = localStorage.getItem(`document_${documentId}`);
+            if (!savedData) return;
+            
+            const data = JSON.parse(savedData);
+            Object.entries(data).forEach(([key, value]) => {
+                const element = document.getElementById(key);
+                if (element) {
+                    if (element.type === 'checkbox' || element.type === 'radio') {
+                        element.checked = value === 'true' || value === true;
+                    } else {
+                        element.value = value;
+                    }
+                }
+            });
+        }
+        
+        function closeModal() {
+            const modal = document.querySelector('.modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function downloadDocument(docId) {
+            const doc = requiredDocuments.find(d => d.id === docId);
+            if (doc) {
+                // Create downloadable content
+                const fileName = `${doc.name.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.txt`;
+                const content = `${doc.name}\n${doc.description}\n\nGenerated on: ${new Date().toLocaleDateString()}\n\nStatus: ${doc.status}\nRequired: ${doc.required ? 'Yes' : 'No'}`;
+                
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                
+                showNotification(`${doc.name} downloaded successfully`, 'success');
+            }
+        }
+
+        // Profile functionality
+        function saveProfile() {
+            const profileData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                dateOfBirth: document.getElementById('dateOfBirth').value,
+                countryOfBirth: document.getElementById('countryOfBirth').value,
+                currentAddress: document.getElementById('currentAddress').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                emailAddress: document.getElementById('emailAddress').value,
+                entryDate: document.getElementById('entryDate').value,
+                immigrationStatus: document.getElementById('immigrationStatus').value,
+                emergencyContact: document.getElementById('emergencyContact').value,
+                emergencyPhone: document.getElementById('emergencyPhone').value
+            };
+            
+            // Check if all required fields are filled
+            const requiredFields = ['firstName', 'lastName', 'dateOfBirth', 'countryOfBirth', 'currentAddress', 'phoneNumber', 'emailAddress', 'entryDate', 'immigrationStatus', 'emergencyContact', 'emergencyPhone'];
+            const allFilled = requiredFields.every(field => profileData[field] && profileData[field].trim() !== '');
+            
+            if (allFilled) {
+                profileComplete = true;
+                document.getElementById('profileStatus').textContent = 'Complete';
+                document.getElementById('profileStatus').className = 'profile-status complete';
+                
+                // Save to localStorage
+                localStorage.setItem('profileData', JSON.stringify(profileData));
+                userProfile = profileData;
+                
+                showNotification('Profile saved successfully! AI can now use this information to help you.', 'success');
+            } else {
+                showNotification('Please fill in all required fields', 'error');
+            }
+        }
+
+        // Speech recognition
+        function toggleSpeechRecognition() {
+            if (!recognition) {
+                showNotification('Speech recognition not supported in this browser', 'error');
+                return;
+            }
+
+            if (isRecording) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        }
+
+        // Advanced LLM Integration for Immigration Assistance
+        class ImmigrationLLM {
+            constructor() {
+                this.apiKey = 'sk-proj-your-openai-api-key-here'; // Replace with actual API key
+                this.baseURL = 'https://api.openai.com/v1/chat/completions';
+                this.model = 'gpt-4';
+                this.context = this.buildImmigrationContext();
+            }
+            
+            buildImmigrationContext() {
+                return {
+                    role: "You are an expert immigration attorney and caseworker with 20+ years of experience. You specialize in DACA, TPS, asylum, and family-based immigration. You provide accurate, up-to-date legal guidance while being empathetic and supportive. Always remind users that you are not providing legal advice and they should consult with a qualified attorney for their specific case.",
+                    expertise: [
+                        "DACA applications and renewals",
+                        "TPS applications and extensions", 
+                        "Asylum applications and interviews",
+                        "Family-based immigration petitions",
+                        "Employment authorization documents",
+                        "Advance parole applications",
+                        "Immigration court proceedings",
+                        "Removal defense strategies"
+                    ],
+                    forms: [
+                        "I-821D (DACA)",
+                        "I-765 (Employment Authorization)",
+                        "I-131 (Advance Parole)",
+                        "I-589 (Asylum Application)",
+                        "I-130 (Petition for Alien Relative)",
+                        "I-485 (Adjustment of Status)",
+                        "I-601 (Waiver of Grounds of Inadmissibility)",
+                        "I-212 (Application for Permission to Reapply)"
+                    ]
+                };
+            }
+            
+            async generateResponse(userMessage, userProfile = null, currentLanguage = 'en') {
+                try {
+                    const systemPrompt = this.buildSystemPrompt(currentLanguage);
+                    const userPrompt = this.buildUserPrompt(userMessage, userProfile, currentLanguage);
+                    
+                    const response = await fetch(this.baseURL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${this.apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: this.model,
+                            messages: [
+                                { role: 'system', content: systemPrompt },
+                                { role: 'user', content: userPrompt }
+                            ],
+                            max_tokens: 1000,
+                            temperature: 0.7
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API Error: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    return data.choices[0].message.content;
+                    
+                } catch (error) {
+                    console.error('LLM Error:', error);
+                    return this.getFallbackResponse(userMessage, currentLanguage);
+                }
+            }
+            
+            buildSystemPrompt(language) {
+                const prompts = {
+                    en: `You are an expert immigration attorney and caseworker. Provide accurate, empathetic guidance for immigration matters. Always remind users to consult with qualified attorneys for legal advice.`,
+                    es: `Eres un abogado de inmigración experto y trabajador social. Proporciona orientación precisa y empática para asuntos de inmigración. Siempre recuerda a los usuarios que consulten con abogados calificados para asesoramiento legal.`,
+                    zh: `您是一位专业的移民律师和案例工作者。为移民事务提供准确、富有同情心的指导。始终提醒用户咨询合格的律师以获得法律建议。`,
+                    ar: `أنت محامي هجرة خبير وعامل اجتماعي. قدم إرشادات دقيقة ومتعاطفة لشؤون الهجرة. تذكر دائماً المستخدمين بالتشاور مع محامين مؤهلين للحصول على المشورة القانونية.`,
+                    hi: `आप एक विशेषज्ञ आप्रवासन वकील और केस वर्कर हैं। आप्रवासन मामलों के लिए सटीक, सहानुभूतिपूर्ण मार्गदर्शन प्रदान करें। हमेशा उपयोगकर्ताओं को याद दिलाएं कि कानूनी सलाह के लिए योग्य वकीलों से परामर्श करें।`,
+                    pt: `Você é um advogado de imigração especialista e assistente social. Forneça orientação precisa e empática para questões de imigração. Sempre lembre os usuários de consultar advogados qualificados para aconselhamento legal.`,
+                    ru: `Вы эксперт по иммиграционному праву и социальный работник. Предоставляйте точные, сочувствующие рекомендации по иммиграционным вопросам. Всегда напоминайте пользователям консультироваться с квалифицированными юристами для получения юридических консультаций.`,
+                    fr: `Vous êtes un avocat spécialisé en immigration et un travailleur social. Fournissez des conseils précis et empathiques pour les questions d'immigration. Rappelez toujours aux utilisateurs de consulter des avocats qualifiés pour des conseils juridiques.`
+                };
+                
+                return prompts[language] || prompts.en;
+            }
+            
+            buildUserPrompt(userMessage, userProfile, language) {
+                let prompt = `User message: ${userMessage}\n\n`;
+                
+                if (userProfile) {
+                    prompt += `User Profile Information:\n`;
+                    prompt += `- Name: ${userProfile.firstName} ${userProfile.lastName}\n`;
+                    prompt += `- Country of Birth: ${userProfile.countryOfBirth}\n`;
+                    prompt += `- Current Address: ${userProfile.currentAddress}\n`;
+                    prompt += `- Immigration Status: ${userProfile.immigrationStatus}\n`;
+                    prompt += `- Entry Date: ${userProfile.entryDate}\n`;
+                    prompt += `- Phone: ${userProfile.phoneNumber}\n`;
+                    prompt += `- Email: ${userProfile.emailAddress}\n\n`;
+                }
+                
+                prompt += `Please provide helpful, accurate guidance in ${language}. Include specific form recommendations, next steps, and resources when appropriate.`;
+                
+                return prompt;
+            }
+            
+            getFallbackResponse(userMessage, language) {
+                const responses = {
+                    en: {
+                        daca: "I can help you with DACA applications. Based on your profile, I recommend starting with Form I-821D. Would you like me to guide you through the process?",
+                        work: "For employment authorization, you'll need Form I-765. I can help you understand the requirements and fill out the form using your profile information.",
+                        travel: "Form I-131 is for advance parole/travel documents. This allows you to travel outside the US and return legally.",
+                        asylum: "Asylum applications require Form I-589. This is a complex process that I can help guide you through step by step.",
+                        help: "I'm here to help with all your immigration needs. What specific form or process would you like assistance with?",
+                        default: "I can assist you with immigration forms, explain processes, and guide you through each step. How can I help you today?"
+                    },
+                    es: {
+                        daca: "Puedo ayudarte con las aplicaciones de DACA. Basándome en tu perfil, recomiendo comenzar con el Formulario I-821D. ¿Te gustaría que te guíe a través del proceso?",
+                        work: "Para autorización de empleo, necesitarás el Formulario I-765. Puedo ayudarte a entender los requisitos y llenar el formulario usando la información de tu perfil.",
+                        travel: "El Formulario I-131 es para documentos de permiso de viaje anticipado. Esto te permite viajar fuera de los EE.UU. y regresar legalmente.",
+                        asylum: "Las aplicaciones de asilo requieren el Formulario I-589. Este es un proceso complejo que puedo ayudarte a guiar paso a paso.",
+                        help: "Estoy aquí para ayudarte con todas tus necesidades de inmigración. ¿Con qué formulario o proceso específico te gustaría asistencia?",
+                        default: "Puedo asistirte con formularios de inmigración, explicar procesos y guiarte a través de cada paso. ¿Cómo puedo ayudarte hoy?"
+                    }
+                };
+                
+                const langResponses = responses[language] || responses.en;
+                const message = userMessage.toLowerCase();
+                
+                if (message.includes('daca')) return langResponses.daca;
+                if (message.includes('work') || message.includes('empleo')) return langResponses.work;
+                if (message.includes('travel') || message.includes('viaje')) return langResponses.travel;
+                if (message.includes('asylum') || message.includes('asilo')) return langResponses.asylum;
+                if (message.includes('help') || message.includes('ayuda')) return langResponses.help;
+                
+                return langResponses.default;
+            }
+            
+            async fillFormIntelligently(formType, userProfile) {
+                const formGuidance = {
+                    'I-821D': {
+                        title: 'DACA Application Form',
+                        sections: [
+                            'Personal Information',
+                            'Arrival Information', 
+                            'Education Information',
+                            'Criminal History',
+                            'Economic Necessity'
+                        ],
+                        guidance: 'I will help you fill out each section using your profile information. Let\'s start with personal information.'
+                    },
+                    'I-765': {
+                        title: 'Employment Authorization Document',
+                        sections: [
+                            'Personal Information',
+                            'Immigration Status',
+                            'Employment History',
+                            'Supporting Documents'
+                        ],
+                        guidance: 'This form allows you to work legally in the US. I\'ll guide you through each section.'
+                    },
+                    'I-131': {
+                        title: 'Advance Parole Document',
+                        sections: [
+                            'Personal Information',
+                            'Travel Purpose',
+                            'Travel Dates',
+                            'Supporting Evidence'
+                        ],
+                        guidance: 'This form allows you to travel outside the US and return legally. Let me help you complete it.'
+                    }
+                };
+                
+                return formGuidance[formType] || formGuidance['I-821D'];
+            }
+        }
+        
+        // Initialize LLM
+        const immigrationLLM = new ImmigrationLLM();
+            const message = userMessage.toLowerCase();
+            const t = translations[currentLanguage] || translations.en;
+            
+            // Check for specific form mentions
+            if (message.includes('i-821d') || message.includes('daca')) {
+                return t.aiResponseDACA || "I can help you fill out Form I-821D (DACA). Based on your profile, I will guide you through each section. Let's start with your personal information.";
+            }
+            
+            if (message.includes('i-765') || message.includes('work permit')) {
+                return t.aiResponseWorkPermit || "For Form I-765 (Work Permit), you will need to provide your employment authorization details. I can help you complete this step by step.";
+            }
+            
+            if (message.includes('i-131') || message.includes('travel')) {
+                return t.aiResponseTravel || "Form I-131 is for advance parole/travel document. I can help you understand the requirements and fill out this form.";
+            }
+            
+            if (message.includes('help') || message.includes('assist')) {
+                return t.aiResponseHelp || "I can assist you with any immigration form. Just tell me which form you're working on and I'll help you fill it out using your profile information.";
+            }
+            
+            if (message.includes('status') || message.includes('check')) {
+                return t.aiResponseStatus || "Based on your profile, I can help you check your application status and guide you through the next steps in your immigration process.";
+            }
+            
+            if (message.includes('document') || message.includes('form')) {
+                return t.aiResponseDocuments || "I can help you understand the requirements for each document. Which document would you like me to explain or help you fill out?";
+            }
+            
+            // Default intelligent response
+            const responses = [
+                t.aiResponseDefault1 || "I can help you fill out Form I-821D. Based on your profile, I will guide you through each section. Let's start with your personal information.",
+                t.aiResponseDefault2 || "For Form I-765, you will need to provide your employment information. I can help you complete this section step by step.",
+                t.aiResponseDefault3 || "I notice you are working on your DACA renewal. I can help you fill out all the required forms using your profile information.",
+                t.aiResponseDefault4 || "Let me help you with the Economic Necessity Worksheet. I will guide you through the financial information needed.",
+                t.aiResponseDefault5 || "I can assist you with any immigration form. Just tell me which form you're working on and I will help you fill it out.",
+                t.aiResponseDefault6 || "Based on your information, I can help you complete all your immigration forms. Would you like to start with Form I-821D?",
+                t.aiResponseDefault7 || "I can explain any immigration process in detail. What specific question do you have about your application?",
+                t.aiResponseDefault8 || "I can help you understand the requirements for each document. Which document would you like me to explain?"
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        // Enhanced Chat functionality with LLM integration
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addChatMessage(message, true);
+                
+                // Save to chat history
+                if (!currentChatId) {
+                    currentChatId = Date.now();
+                    chatHistory.push({
+                        id: currentChatId,
+                        title: message.substring(0, 50) + (message.length > 50 ? '...' : ''),
+                        date: new Date(),
+                        messages: []
+                    });
+                }
+                
+                chatHistory[chatHistory.length - 1].messages.push({
+                    text: message,
+                    isUser: true,
+                    timestamp: new Date()
+                });
+                
+                input.value = '';
+                
+                // Show typing indicator
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'message ai typing';
+                typingIndicator.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+                document.getElementById('chatMessages').appendChild(typingIndicator);
+                document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+                
+                try {
+                    // Generate intelligent AI response using LLM
+                    const aiResponse = await immigrationLLM.generateResponse(message, userProfile, currentLanguage);
+                    
+                    // Remove typing indicator
+                    typingIndicator.remove();
+                    
+                    // Add AI response
+                    addChatMessage(aiResponse, false);
+                    
+                    // Save AI response to chat history
+                    chatHistory[chatHistory.length - 1].messages.push({
+                        text: aiResponse,
+                        isUser: false,
+                        timestamp: new Date()
+                    });
+                    
+                    // Check if user is asking about forms and offer to help fill them
+                    if (message.toLowerCase().includes('form') || message.toLowerCase().includes('document') || message.toLowerCase().includes('i-821d') || message.toLowerCase().includes('i-765') || message.toLowerCase().includes('i-131')) {
+                        setTimeout(() => {
+                            const formHelpMessage = getTranslatedText('formHelpMessage') || "I can help you fill out immigration forms. Would you like me to open a specific form for you?";
+                            addChatMessage(formHelpMessage, false);
+                            
+                            chatHistory[chatHistory.length - 1].messages.push({
+                                text: formHelpMessage,
+                                isUser: false,
+                                timestamp: new Date()
+                            });
+                        }, 1000);
+                    }
+                    
+                    updateChatHistory();
+                    
+                } catch (error) {
+                    // Remove typing indicator
+                    typingIndicator.remove();
+                    
+                    // Fallback response
+                    const fallbackResponse = immigrationLLM.getFallbackResponse(message, currentLanguage);
+                    addChatMessage(fallbackResponse, false);
+                    
+                    // Save fallback response to chat history
+                    chatHistory[chatHistory.length - 1].messages.push({
+                        text: fallbackResponse,
+                        isUser: false,
+                        timestamp: new Date()
+                    });
+                    
+                    updateChatHistory();
+                }
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function addChatMessage(text, isUser) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            messageDiv.textContent = text;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Chat history
+        function updateChatHistory() {
+            const container = document.getElementById('chatHistoryList');
+            container.innerHTML = '';
+            
+            chatHistory.forEach(chat => {
+                const chatDiv = document.createElement('div');
+                chatDiv.className = 'chat-item';
+                chatDiv.onclick = () => loadChatHistory(chat.id);
+                
+                const lastMessage = chat.messages[chat.messages.length - 1];
+                const preview = lastMessage ? lastMessage.text.substring(0, 100) + (lastMessage.text.length > 100 ? '...' : '') : '';
+                
+                chatDiv.innerHTML = `
+                    <div class="chat-item-title">${chat.title}</div>
+                    <div class="chat-item-date">${chat.date.toLocaleDateString()} at ${chat.date.toLocaleTimeString()}</div>
+                    <div class="chat-item-preview">${preview}</div>
+                `;
+                
+                container.appendChild(chatDiv);
+            });
+        }
+
+        function loadChatHistory(chatId) {
+            const chat = chatHistory.find(c => c.id === chatId);
+            if (chat) {
+                currentChatId = chatId;
+                const messagesContainer = document.getElementById('chatMessages');
+                messagesContainer.innerHTML = '';
+                
+                chat.messages.forEach(msg => {
+                    addChatMessage(msg.text, msg.isUser);
+                });
+                
+                showSection('ai-chat');
+            }
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Help Resources Functions
+        function populateHelpResources() {
+            populateResourceCategory('emergencyResources', helpResources.emergencyResources);
+            populateResourceCategory('legalAidResources', helpResources.legalAid);
+            populateResourceCategory('communityCenters', helpResources.communityCenters);
+            populateResourceCategory('healthcareResources', helpResources.healthcare);
+            populateResourceCategory('employmentResources', helpResources.employment);
+            populateResourceCategory('educationalResources', helpResources.educationalResources);
+        }
+        
+        function populateResourceCategory(containerId, resources) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const t = translations[currentLanguage] || translations.en;
+            
+            container.innerHTML = '';
+            
+            resources.forEach(resource => {
+                const resourceCard = document.createElement('div');
+                resourceCard.className = 'resource-card';
+                
+                let servicesHtml = '';
+                if (resource.services) {
+                    servicesHtml = `
+                        <div class="resource-services">
+                            <h4>${t.services}</h4>
+                            ${resource.services.map(service => `<span class="service-tag">${service}</span>`).join('')}
+                        </div>
+                    `;
+                }
+                
+                let languagesHtml = '';
+                if (resource.languages) {
+                    languagesHtml = `
+                        <div class="resource-languages">
+                            <h4>${t.languages}</h4>
+                            ${resource.languages.map(lang => `<span class="language-tag">${lang}</span>`).join('')}
+                        </div>
+                    `;
+                }
+                
+                let locationsHtml = '';
+                if (resource.locations) {
+                    locationsHtml = `
+                        <div class="resource-locations">
+                            <strong>${t.locations}</strong> ${resource.locations.join(', ')}
+                        </div>
+                    `;
+                }
+                
+                let availabilityHtml = '';
+                if (resource.availability) {
+                    availabilityHtml = `
+                        <div class="resource-locations">
+                            <strong>${t.availability}</strong> ${resource.availability}
+                        </div>
+                    `;
+                }
+                
+                resourceCard.innerHTML = `
+                    <div class="resource-name">${resource.name}</div>
+                    <div class="resource-type">${resource.type}</div>
+                    ${resource.phone ? `<div class="resource-phone">📞 ${resource.phone}</div>` : ''}
+                    ${resource.website ? `<a href="https://${resource.website}" target="_blank" class="resource-website">🌐 ${resource.website}</a>` : ''}
+                    ${servicesHtml}
+                    ${languagesHtml}
+                    ${locationsHtml}
+                    ${availabilityHtml}
+                `;
+                
+                container.appendChild(resourceCard);
+            });
+        }
+        
+        // Initialize main application after login
+        function initMainApp() {
+            // Set language selectors
+            const languageSelect = document.getElementById('languageSelect');
+            if (languageSelect) {
+                languageSelect.value = currentLanguage;
+            }
+            
+            // Load saved profile data
+            const savedProfile = localStorage.getItem('profileData');
+            if (savedProfile) {
+                userProfile = JSON.parse(savedProfile);
+                profileComplete = true;
+            }
+            
+            // Load saved chat history
+            const savedChatHistory = localStorage.getItem('chatHistory');
+            if (savedChatHistory) {
+                chatHistory = JSON.parse(savedChatHistory);
+            }
+            
+            // Initialize speech recognition
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+                
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('chatInput').value = transcript;
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                };
+            }
+            
+            updateChatHistory();
+            
+            // Populate help resources
+            populateHelpResources();
+            
+            // Welcome message
+            setTimeout(() => {
+                showNotification('Welcome to Immigr-Aid! Your AI assistant is ready to help with immigration forms.', 'success');
+            }, 1000);
+        }
+
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved language preference
+            const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            currentLanguage = savedLanguage;
+            
+            // Initialize the main application directly
+            initMainApp();
+        });
+    </script>
+</body>
+</html>

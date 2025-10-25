@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NavigateHome AI - Your 24/7 Immigration Caseworker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .login-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .login-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .login-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .login-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .demo-login {
+            background: rgba(16, 185, 129, 0.3);
+            border: 2px solid rgba(16, 185, 129, 0.5);
+        }
+        
+        .demo-login:hover {
+            background: rgba(16, 185, 129, 0.5);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+        
+        .dashboard {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+        }
+        
+        .welcome {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .progress-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #4ade80;
+            width: 75%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .tabs-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .tabs-header {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 15px 20px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-button.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-bottom-color: #4ade80;
+        }
+        
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .tab-content {
+            padding: 20px;
+            min-height: 200px;
+        }
+        
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .document-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border-left: 4px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .document-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .document-card.pending {
+            border-left-color: #f59e0b;
+        }
+        
+        .document-card.review {
+            border-left-color: #3b82f6;
+        }
+        
+        .document-card.completed {
+            border-left-color: #10b981;
+        }
+        
+        .document-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .document-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .document-info {
+            flex: 1;
+        }
+        
+        .document-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .document-type {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+        
+        .document-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .status-pending {
+            background: #f59e0b;
+            color: white;
+        }
+        
+        .status-review {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .status-completed {
+            background: #10b981;
+            color: white;
+        }
+        
+        .document-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .view-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .download-btn {
+            background: #10b981;
+            color: white;
+        }
+        
+        .upload-btn {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+        
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .action-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .action-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .action-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .insights {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .insight-item {
+            padding: 20px;
+        }
+        
+        .insight-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .insight-label {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .insight-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+        
+        .language-selector select {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        .language-selector option {
+            background: #333;
+            color: white;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+            max-width: 300px;
+        }
+        
+        .notification.error {
+            background: #ef4444;
+        }
+        
+        .notification.warning {
+            background: #f59e0b;
+        }
+        
+        .notification.info {
+            background: #3b82f6;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .modal-content {
+            background: white;
+            color: #333;
+            width: 90%;
+            max-width: 600px;
+            height: 70%;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+        }
+        
+        .modal-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8fafc;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #333;
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+        
+        .chat-messages {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+        }
+        
+        .message.user {
+            background: #667eea;
+            color: white;
+            margin-left: auto;
+        }
+        
+        .message.ai {
+            background: #e2e8f0;
+            color: #333;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 25px;
+            outline: none;
+        }
+        
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .upload-area:hover {
+            background: #f0f4ff;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .resource-item {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .resource-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .resource-type {
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .resource-details {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .resource-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .profile-form {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .profile-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        
+        .document-detail {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .document-detail h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .document-detail p {
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .document-detail .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .dashboard {
+                padding: 20px;
+            }
+            
+            .tabs-header {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                border-bottom: none;
+                border-right: 3px solid transparent;
+            }
+            
+            .tab-button.active {
+                border-right-color: #4ade80;
+                border-bottom-color: transparent;
+            }
+            
+            .documents-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-form">
+            <div class="login-title">🛡️ NavigateHome AI</div>
+            <div class="login-subtitle">Your 24/7 Immigration Caseworker</div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Enter your password" required>
+                </div>
+                
+                <button type="submit" class="login-button">Sign In</button>
+            </form>
+            
+            <button onclick="demoLogin()" class="login-button demo-login">🚀 Demo Login (Skip)</button>
+            
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">
+                New user? <a href="#" style="color: white; text-decoration: underline;">Create Account</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" class="hidden">
+        <div class="language-selector">
+            <select id="languageSelect" onchange="changeLanguage()">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="zh">中文</option>
+                <option value="ar">العربية</option>
+                <option value="hi">हिन्दी</option>
+                <option value="pt">Português</option>
+                <option value="ru">Русский</option>
+                <option value="fr">Français</option>
+            </select>
+        </div>
+
+        <div class="container">
+            <div class="header">
+                <div class="logo">🛡️ NavigateHome AI</div>
+                <div class="subtitle">Your 24/7 Immigration Caseworker</div>
+            </div>
+
+            <div class="dashboard">
+                <div class="welcome">
+                    <h2 id="welcomeText">Welcome back, Carlos!</h2>
+                    <p id="welcomeSubtext">Your DACA case is in progress. Here's what you need to know today.</p>
+                </div>
+
+                <div class="progress-section">
+                    <h3 id="progressTitle">Case Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p id="progressText">75% Complete - Next deadline: March 15, 2024</p>
+                </div>
+
+                <!-- Documents Tabs -->
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-button active" onclick="switchTab('pending')" id="pendingTab">
+                            <span id="pendingTabText">Pending Documents</span>
+                            <span class="status-badge status-pending" id="pendingCount">3</span>
+                        </button>
+                        <button class="tab-button" onclick="switchTab('review')" id="reviewTab">
+                            <span id="reviewTabText">Under Review</span>
+                            <span class="status-badge status-review" id="reviewCount">2</span>
+                        </button>
+                        <button class="tab-button" onclick="switchTab('completed')" id="completedTab">
+                            <span id="completedTabText">Completed</span>
+                            <span class="status-badge status-completed" id="completedCount">4</span>
+                        </button>
+                    </div>
+                    
+                    <div class="tab-content">
+                        <div id="pendingContent" class="tab-panel">
+                            <div class="documents-grid" id="pendingDocuments">
+                                <!-- Pending documents will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div id="reviewContent" class="tab-panel hidden">
+                            <div class="documents-grid" id="reviewDocuments">
+                                <!-- Review documents will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div id="completedContent" class="tab-panel hidden">
+                            <div class="documents-grid" id="completedDocuments">
+                                <!-- Completed documents will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions-grid">
+                    <button class="action-button" onclick="openChat()">
+                        <div class="action-icon">🤖</div>
+                        <span id="aiAssistantText">Ask AI Assistant</span>
+                    </button>
+                    <button class="action-button" onclick="uploadDocument()">
+                        <div class="action-icon">📤</div>
+                        <span id="uploadText">Upload Document</span>
+                    </button>
+                    <button class="action-button" onclick="findResources()">
+                        <div class="action-icon">📍</div>
+                        <span id="resourcesText">Find Resources</span>
+                    </button>
+                    <button class="action-button" onclick="emergencyHelp()">
+                        <div class="action-icon">🚨</div>
+                        <span id="emergencyText">Emergency Help</span>
+                    </button>
+                </div>
+
+                <div class="insights">
+                    <h3 id="insightsTitle">Community Insights</h3>
+                    <div class="insights-grid">
+                        <div class="insight-item">
+                            <div class="insight-number" style="color: #3b82f6;">94%</div>
+                            <div class="insight-label" id="successRateText">Success Rate</div>
+                            <div class="insight-desc" id="successDescText">Based on 1,247 recent applications</div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-number" style="color: #10b981;">4-6 months</div>
+                            <div class="insight-label" id="processingTimeText">Average Processing Time</div>
+                            <div class="insight-label" id="processingDescText">For your visa type in your area</div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-number" style="color: #8b5cf6;">$0</div>
+                            <div class="insight-label" id="legalFeesText">Average Legal Fees</div>
+                            <div class="insight-desc" id="legalFeesDescText">With free legal aid programs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Modal -->
+    <div id="chatModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="chatTitle">AI Assistant</span>
+                <button class="close-btn" onclick="closeChat()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        <div id="welcomeMessage">Hello! I'm your AI immigration assistant. How can I help you today?</div>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleChatKeyPress(event)">
+                    <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="uploadTitle">Upload Document</span>
+                <button class="close-btn" onclick="closeUpload()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" onclick="triggerFileUpload()">
+                    <div class="upload-icon">📁</div>
+                    <p id="uploadInstructions">Click here to select files or drag and drop</p>
+                    <p style="font-size: 0.9rem; opacity: 0.7;" id="uploadFormats">Supports: PDF, JPG, PNG, DOC, DOCX</p>
+                </div>
+                <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="display: none;" onchange="handleFileUpload(event)">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeUpload()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resources Modal -->
+    <div id="resourcesModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="resourcesModalTitle">Local Resources</span>
+                <button class="close-btn" onclick="closeResources()">×</button>
+            </div>
+            <div class="modal-body" id="resourcesContent">
+                <!-- Resources will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="profileTitle">Profile Settings</span>
+                <button class="close-btn" onclick="closeProfile()">×</button>
+            </div>
+            <div class="modal-body">
+                <form class="profile-form" id="profileForm">
+                    <div class="form-row">
+                        <div>
+                            <label>First Name</label>
+                            <input type="text" class="profile-input" id="firstName" value="Carlos">
+                        </div>
+                        <div>
+                            <label>Last Name</label>
+                            <input type="text" class="profile-input" id="lastName" value="Rodriguez">
+                        </div>
+                    </div>
+                    <div>
+                        <label>Email</label>
+                        <input type="email" class="profile-input" id="email" value="carlos@email.com">
+                    </div>
+                    <div>
+                        <label>Phone</label>
+                        <input type="tel" class="profile-input" id="phone" value="(555) 987-6543">
+                    </div>
+                    <div>
+                        <label>Country of Origin</label>
+                        <select class="profile-input" id="country">
+                            <option value="Mexico">Mexico</option>
+                            <option value="China">China</option>
+                            <option value="India">India</option>
+                            <option value="Philippines">Philippines</option>
+                            <option value="El Salvador">El Salvador</option>
+                            <option value="Guatemala">Guatemala</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Visa Status</label>
+                        <input type="text" class="profile-input" id="visaStatus" value="DACA" readonly>
+                    </div>
+                    <div>
+                        <label>Preferred Language</label>
+                        <select class="profile-input" id="preferredLanguage">
+                            <option value="English">English</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="Arabic">Arabic</option>
+                            <option value="Hindi">Hindi</option>
+                            <option value="Portuguese">Portuguese</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeProfile()">Cancel</button>
+                <button class="btn btn-success" onclick="saveProfile()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Detail Modal -->
+    <div id="documentModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="documentTitle">Document Details</span>
+                <button class="close-btn" onclick="closeDocument()">×</button>
+            </div>
+            <div class="modal-body" id="documentContent">
+                <!-- Document details will be populated by JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeDocument()">Close</button>
+                <button class="btn btn-primary" onclick="downloadDocument()" id="downloadBtn">Download</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Real Immigration Documents Data
+        const immigrationDocuments = {
+            pending: [
+                {
+                    id: 1,
+                    name: "Form I-821D (DACA Application)",
+                    type: "DACA Renewal Application",
+                    status: "pending",
+                    icon: "📋",
+                    description: "Application for Consideration of Deferred Action for Childhood Arrivals",
+                    required: true,
+                    deadline: "2024-03-15",
+                    instructions: "Complete all sections accurately. Include supporting documents.",
+                    fee: "$495"
+                },
+                {
+                    id: 2,
+                    name: "Form I-765 (Employment Authorization)",
+                    type: "Work Permit Application",
+                    status: "pending",
+                    icon: "💼",
+                    description: "Application for Employment Authorization Document",
+                    required: true,
+                    deadline: "2024-03-15",
+                    instructions: "Submit with passport photos and supporting documents.",
+                    fee: "$410"
+                },
+                {
+                    id: 3,
+                    name: "Form I-765WS (Worksheet)",
+                    type: "Economic Necessity Worksheet",
+                    status: "pending",
+                    icon: "📊",
+                    description: "Worksheet demonstrating economic necessity for employment authorization",
+                    required: true,
+                    deadline: "2024-03-15",
+                    instructions: "Provide detailed financial information and supporting documents.",
+                    fee: "Included"
+                }
+            ],
+            review: [
+                {
+                    id: 4,
+                    name: "Passport",
+                    type: "Identity Document",
+                    status: "review",
+                    icon: "🛂",
+                    description: "Valid passport from country of origin",
+                    required: true,
+                    deadline: "N/A",
+                    instructions: "Must be valid and not expired. Include all pages.",
+                    fee: "N/A"
+                },
+                {
+                    id: 5,
+                    name: "Birth Certificate",
+                    type: "Identity Document",
+                    status: "review",
+                    icon: "📄",
+                    description: "Official birth certificate with apostille or certified translation",
+                    required: true,
+                    deadline: "N/A",
+                    instructions: "Must be translated if not in English. Include certified translation.",
+                    fee: "N/A"
+                }
+            ],
+            completed: [
+                {
+                    id: 6,
+                    name: "Form G-1145 (E-Notification)",
+                    type: "Notification Form",
+                    status: "completed",
+                    icon: "📧",
+                    description: "Application/Petition/Request/Refund for E-Notification",
+                    required: false,
+                    deadline: "N/A",
+                    instructions: "Optional form to receive email/SMS notifications about case status.",
+                    fee: "Free"
+                },
+                {
+                    id: 7,
+                    name: "Passport Photos",
+                    type: "Biometric Document",
+                    status: "completed",
+                    icon: "📸",
+                    description: "Two identical passport-style photographs",
+                    required: true,
+                    deadline: "N/A",
+                    instructions: "Must meet USCIS photo requirements. Taken within 30 days.",
+                    fee: "$15-25"
+                },
+                {
+                    id: 8,
+                    name: "Evidence of Identity",
+                    type: "Supporting Document",
+                    status: "completed",
+                    icon: "🆔",
+                    description: "Documents proving identity and age",
+                    required: true,
+                    deadline: "N/A",
+                    instructions: "School records, medical records, or other official documents.",
+                    fee: "N/A"
+                },
+                {
+                    id: 9,
+                    name: "Evidence of Entry",
+                    type: "Supporting Document",
+                    status: "completed",
+                    icon: "✈️",
+                    description: "Documents proving entry before age 16",
+                    required: true,
+                    deadline: "N/A",
+                    instructions: "I-94, passport stamps, or other entry records.",
+                    fee: "N/A"
+                }
+            ]
+        };
+
+        // Language translations
+        const translations = {
+            en: {
+                welcome: "Welcome back, Carlos!",
+                subtitle: "Your DACA case is in progress. Here's what you need to know today.",
+                progressTitle: "Case Progress",
+                progressText: "75% Complete - Next deadline: March 15, 2024",
+                pendingTabText: "Pending Documents",
+                reviewTabText: "Under Review",
+                completedTabText: "Completed",
+                aiAssistantText: "Ask AI Assistant",
+                uploadText: "Upload Document",
+                resourcesText: "Find Resources",
+                emergencyText: "Emergency Help",
+                insightsTitle: "Community Insights",
+                successRateText: "Success Rate",
+                successDescText: "Based on 1,247 recent applications",
+                processingTimeText: "Average Processing Time",
+                processingDescText: "For your visa type in your area",
+                legalFeesText: "Average Legal Fees",
+                legalFeesDescText: "With free legal aid programs",
+                chatTitle: "AI Assistant",
+                welcomeMessage: "Hello! I'm your AI immigration assistant. How can I help you today?",
+                uploadTitle: "Upload Document",
+                uploadInstructions: "Click here to select files or drag and drop",
+                uploadFormats: "Supports: PDF, JPG, PNG, DOC, DOCX",
+                resourcesModalTitle: "Local Resources",
+                profileTitle: "Profile Settings",
+                documentTitle: "Document Details",
+                viewDocument: "View Details",
+                downloadDocument: "Download",
+                uploadDocument: "Upload",
+                required: "Required",
+                optional: "Optional",
+                deadline: "Deadline",
+                fee: "Fee",
+                instructions: "Instructions"
+            },
+            es: {
+                welcome: "¡Bienvenido de nuevo, Carlos!",
+                subtitle: "Tu caso DACA está en progreso. Esto es lo que necesitas saber hoy.",
+                progressTitle: "Progreso del Caso",
+                progressText: "75% Completo - Próxima fecha límite: 15 de marzo, 2024",
+                pendingTabText: "Documentos Pendientes",
+                reviewTabText: "En Revisión",
+                completedTabText: "Completados",
+                aiAssistantText: "Preguntar al Asistente IA",
+                uploadText: "Subir Documento",
+                resourcesText: "Encontrar Recursos",
+                emergencyText: "Ayuda de Emergencia",
+                insightsTitle: "Información de la Comunidad",
+                successRateText: "Tasa de Éxito",
+                successDescText: "Basado en 1,247 aplicaciones recientes",
+                processingTimeText: "Tiempo Promedio de Procesamiento",
+                processingDescText: "Para tu tipo de visa en tu área",
+                legalFeesText: "Tarifas Legales Promedio",
+                legalFeesDescText: "Con programas de ayuda legal gratuita",
+                chatTitle: "Asistente IA",
+                welcomeMessage: "¡Hola! Soy tu asistente de inmigración con IA. ¿Cómo puedo ayudarte hoy?",
+                uploadTitle: "Subir Documento",
+                uploadInstructions: "Haz clic aquí para seleccionar archivos o arrastra y suelta",
+                uploadFormats: "Soporta: PDF, JPG, PNG, DOC, DOCX",
+                resourcesModalTitle: "Recursos Locales",
+                profileTitle: "Configuración del Perfil",
+                documentTitle: "Detalles del Documento",
+                viewDocument: "Ver Detalles",
+                downloadDocument: "Descargar",
+                uploadDocument: "Subir",
+                required: "Requerido",
+                optional: "Opcional",
+                deadline: "Fecha Límite",
+                fee: "Tarifa",
+                instructions: "Instrucciones"
+            },
+            zh: {
+                welcome: "欢迎回来，Carlos！",
+                subtitle: "您的DACA案件正在进行中。这是您今天需要了解的信息。",
+                progressTitle: "案件进度",
+                progressText: "75% 完成 - 下一个截止日期：2024年3月15日",
+                pendingTabText: "待处理文件",
+                reviewTabText: "审核中",
+                completedTabText: "已完成",
+                aiAssistantText: "询问AI助手",
+                uploadText: "上传文件",
+                resourcesText: "查找资源",
+                emergencyText: "紧急帮助",
+                insightsTitle: "社区洞察",
+                successRateText: "成功率",
+                successDescText: "基于1,247个最近申请",
+                processingTimeText: "平均处理时间",
+                processingDescText: "您所在地区的签证类型",
+                legalFeesText: "平均法律费用",
+                legalFeesDescText: "通过免费法律援助计划",
+                chatTitle: "AI助手",
+                welcomeMessage: "您好！我是您的AI移民助手。今天我能为您做些什么？",
+                uploadTitle: "上传文件",
+                uploadInstructions: "点击此处选择文件或拖放",
+                uploadFormats: "支持：PDF, JPG, PNG, DOC, DOCX",
+                resourcesModalTitle: "本地资源",
+                profileTitle: "个人资料设置",
+                documentTitle: "文件详情",
+                viewDocument: "查看详情",
+                downloadDocument: "下载",
+                uploadDocument: "上传",
+                required: "必需",
+                optional: "可选",
+                deadline: "截止日期",
+                fee: "费用",
+                instructions: "说明"
+            }
+        };
+
+        let currentLanguage = 'en';
+        let progress = 75;
+        let chatMessages = [];
+        let currentDocument = null;
+
+        // Login functionality
+        function demoLogin() {
+            showNotification('Welcome to NavigateHome AI!', 'success');
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            populateDocuments();
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            const password = this.querySelector('input[type="password"]').value;
+            
+            if (email && password) {
+                showNotification('Login successful!', 'success');
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+                populateDocuments();
+            } else {
+                showNotification('Please fill in all fields', 'error');
+            }
+        });
+
+        // Language switching
+        function changeLanguage() {
+            currentLanguage = document.getElementById('languageSelect').value;
+            updateLanguage();
+            showNotification(`Language changed to ${getLanguageName(currentLanguage)}`, 'info');
+        }
+
+        function getLanguageName(code) {
+            const names = {
+                'en': 'English',
+                'es': 'Español',
+                'zh': '中文',
+                'ar': 'العربية',
+                'hi': 'हिन्दी',
+                'pt': 'Português',
+                'ru': 'Русский',
+                'fr': 'Français'
+            };
+            return names[code] || 'English';
+        }
+
+        function updateLanguage() {
+            const t = translations[currentLanguage] || translations.en;
+            
+            // Update all text elements
+            document.getElementById('welcomeText').textContent = t.welcome;
+            document.getElementById('welcomeSubtext').textContent = t.subtitle;
+            document.getElementById('progressTitle').textContent = t.progressTitle;
+            document.getElementById('progressText').textContent = t.progressText;
+            document.getElementById('pendingTabText').textContent = t.pendingTabText;
+            document.getElementById('reviewTabText').textContent = t.reviewTabText;
+            document.getElementById('completedTabText').textContent = t.completedTabText;
+            document.getElementById('aiAssistantText').textContent = t.aiAssistantText;
+            document.getElementById('uploadText').textContent = t.uploadText;
+            document.getElementById('resourcesText').textContent = t.resourcesText;
+            document.getElementById('emergencyText').textContent = t.emergencyText;
+            document.getElementById('insightsTitle').textContent = t.insightsTitle;
+            document.getElementById('successRateText').textContent = t.successRateText;
+            document.getElementById('successDescText').textContent = t.successDescText;
+            document.getElementById('processingTimeText').textContent = t.processingTimeText;
+            document.getElementById('processingDescText').textContent = t.processingDescText;
+            document.getElementById('legalFeesText').textContent = t.legalFeesText;
+            document.getElementById('legalFeesDescText').textContent = t.legalFeesDescText;
+            document.getElementById('chatTitle').textContent = t.chatTitle;
+            document.getElementById('welcomeMessage').textContent = t.welcomeMessage;
+            document.getElementById('uploadTitle').textContent = t.uploadTitle;
+            document.getElementById('uploadInstructions').textContent = t.uploadInstructions;
+            document.getElementById('uploadFormats').textContent = t.uploadFormats;
+            document.getElementById('resourcesModalTitle').textContent = t.resourcesModalTitle;
+            document.getElementById('profileTitle').textContent = t.profileTitle;
+            document.getElementById('documentTitle').textContent = t.documentTitle;
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.add('hidden'));
+            document.getElementById(tabName + 'Content').classList.remove('hidden');
+        }
+
+        // Populate documents
+        function populateDocuments() {
+            const t = translations[currentLanguage] || translations.en;
+            
+            // Populate pending documents
+            const pendingContainer = document.getElementById('pendingDocuments');
+            pendingContainer.innerHTML = '';
+            immigrationDocuments.pending.forEach(doc => {
+                const docCard = createDocumentCard(doc, t);
+                pendingContainer.appendChild(docCard);
+            });
+            
+            // Populate review documents
+            const reviewContainer = document.getElementById('reviewDocuments');
+            reviewContainer.innerHTML = '';
+            immigrationDocuments.review.forEach(doc => {
+                const docCard = createDocumentCard(doc, t);
+                reviewContainer.appendChild(docCard);
+            });
+            
+            // Populate completed documents
+            const completedContainer = document.getElementById('completedDocuments');
+            completedContainer.innerHTML = '';
+            immigrationDocuments.completed.forEach(doc => {
+                const docCard = createDocumentCard(doc, t);
+                completedContainer.appendChild(docCard);
+            });
+        }
+
+        function createDocumentCard(doc, t) {
+            const card = document.createElement('div');
+            card.className = `document-card ${doc.status}`;
+            card.onclick = () => viewDocument(doc);
+            
+            card.innerHTML = `
+                <div class="document-header">
+                    <div class="document-icon">${doc.icon}</div>
+                    <div class="document-info">
+                        <div class="document-name">${doc.name}</div>
+                        <div class="document-type">${doc.type}</div>
+                        <span class="document-status status-${doc.status}">${doc.status.toUpperCase()}</span>
+                    </div>
+                </div>
+                <div class="document-actions">
+                    <button class="action-btn view-btn" onclick="event.stopPropagation(); viewDocument(${JSON.stringify(doc).replace(/"/g, '&quot;')})">${t.viewDocument}</button>
+                    ${doc.status === 'completed' ? `<button class="action-btn download-btn" onclick="event.stopPropagation(); downloadDocument(${doc.id})">${t.downloadDocument}</button>` : ''}
+                    ${doc.status === 'pending' ? `<button class="action-btn upload-btn" onclick="event.stopPropagation(); uploadDocument(${doc.id})">${t.uploadDocument}</button>` : ''}
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Document viewing
+        function viewDocument(doc) {
+            currentDocument = doc;
+            const t = translations[currentLanguage] || translations.en;
+            
+            document.getElementById('documentContent').innerHTML = `
+                <div class="document-detail">
+                    <h3>${doc.name}</h3>
+                    <p><strong>Type:</strong> ${doc.type}</p>
+                    <p><strong>Description:</strong> ${doc.description}</p>
+                    <p><strong>Status:</strong> <span class="status status-${doc.status}">${doc.status.toUpperCase()}</span></p>
+                    <p><strong>Required:</strong> ${doc.required ? t.required : t.optional}</p>
+                    <p><strong>${t.deadline}:</strong> ${doc.deadline}</p>
+                    <p><strong>${t.fee}:</strong> ${doc.fee}</p>
+                    <p><strong>${t.instructions}:</strong> ${doc.instructions}</p>
+                </div>
+            `;
+            
+            document.getElementById('documentModal').classList.remove('hidden');
+        }
+
+        function closeDocument() {
+            document.getElementById('documentModal').classList.add('hidden');
+            currentDocument = null;
+        }
+
+        function downloadDocument(docId) {
+            const doc = [...immigrationDocuments.pending, ...immigrationDocuments.review, ...immigrationDocuments.completed].find(d => d.id === docId);
+            if (doc) {
+                showNotification(`Downloading ${doc.name}...`, 'info');
+                setTimeout(() => {
+                    showNotification(`${doc.name} downloaded successfully`, 'success');
+                }, 2000);
+            }
+        }
+
+        function uploadDocument(docId) {
+            const doc = [...immigrationDocuments.pending, ...immigrationDocuments.review, ...immigrationDocuments.completed].find(d => d.id === docId);
+            if (doc) {
+                showNotification(`Uploading ${doc.name}...`, 'info');
+                setTimeout(() => {
+                    showNotification(`${doc.name} uploaded successfully`, 'success');
+                    // Move document to review status
+                    const pendingIndex = immigrationDocuments.pending.findIndex(d => d.id === docId);
+                    if (pendingIndex !== -1) {
+                        const uploadedDoc = immigrationDocuments.pending.splice(pendingIndex, 1)[0];
+                        uploadedDoc.status = 'review';
+                        immigrationDocuments.review.push(uploadedDoc);
+                        populateDocuments();
+                        updateCounts();
+                    }
+                }, 2000);
+            }
+        }
+
+        function updateCounts() {
+            document.getElementById('pendingCount').textContent = immigrationDocuments.pending.length;
+            document.getElementById('reviewCount').textContent = immigrationDocuments.review.length;
+            document.getElementById('completedCount').textContent = immigrationDocuments.completed.length;
+        }
+
+        // Real-time progress updates
+        setInterval(() => {
+            progress += Math.random() * 2;
+            if (progress > 100) progress = 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }, 3000);
+
+        // Chat functionality
+        function openChat() {
+            document.getElementById('chatModal').classList.remove('hidden');
+            document.getElementById('chatInput').focus();
+        }
+
+        function closeChat() {
+            document.getElementById('chatModal').classList.add('hidden');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addChatMessage(message, true);
+                input.value = '';
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const responses = [
+                        "Based on your DACA status, I can help you with renewal documents. You'll need your current DACA card, passport photos, and proof of continuous residence.",
+                        "I found 3 legal aid organizations near you that offer free consultations. Would you like me to help you schedule an appointment?",
+                        "For your healthcare needs, I recommend the Community Health Center on Oak Avenue. They offer services in Spanish and accept all insurance types.",
+                        "Your next important deadline is your DACA renewal, which should be submitted 120 days before expiration. Would you like me to create a checklist?",
+                        "I can help you find ESL classes, legal aid, healthcare providers, and food assistance programs in your area. What type of help do you need?",
+                        "Your case progress is looking good! You've completed 75% of required documents. Keep up the great work!"
+                    ];
+                    const response = responses[Math.floor(Math.random() * responses.length)];
+                    addChatMessage(response, false);
+                }, 1500);
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function addChatMessage(text, isUser) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            messageDiv.textContent = text;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Upload functionality
+        function uploadDocument() {
+            document.getElementById('uploadModal').classList.remove('hidden');
+        }
+
+        function closeUpload() {
+            document.getElementById('uploadModal').classList.add('hidden');
+        }
+
+        function triggerFileUpload() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileUpload(event) {
+            const files = event.target.files;
+            if (files.length > 0) {
+                showNotification(`Uploading ${files.length} file(s)...`, 'info');
+                setTimeout(() => {
+                    showNotification('Files uploaded successfully!', 'success');
+                    closeUpload();
+                }, 2000);
+            }
+        }
+
+        // Resources functionality
+        function findResources() {
+            document.getElementById('resourcesModal').classList.remove('hidden');
+            populateResources();
+        }
+
+        function closeResources() {
+            document.getElementById('resourcesModal').classList.add('hidden');
+        }
+
+        function populateResources() {
+            const resources = [
+                {
+                    name: "Legal Aid Society",
+                    type: "Legal Services",
+                    address: "123 Main St, Los Angeles, CA",
+                    phone: "(555) 123-4567",
+                    services: "Immigration, DACA, Family Law"
+                },
+                {
+                    name: "Community Health Center",
+                    type: "Healthcare",
+                    address: "456 Oak Ave, Los Angeles, CA",
+                    phone: "(555) 234-5678",
+                    services: "Primary Care, Mental Health, Dental"
+                },
+                {
+                    name: "ESL Classes",
+                    type: "Education",
+                    address: "789 Pine St, Los Angeles, CA",
+                    phone: "(555) 345-6789",
+                    services: "English Classes, Citizenship Prep"
+                },
+                {
+                    name: "Food Bank",
+                    type: "Food Assistance",
+                    address: "321 Elm St, Los Angeles, CA",
+                    phone: "(555) 456-7890",
+                    services: "Food Distribution, Nutrition Counseling"
+                }
+            ];
+
+            const container = document.getElementById('resourcesContent');
+            container.innerHTML = '';
+
+            resources.forEach(resource => {
+                const resourceDiv = document.createElement('div');
+                resourceDiv.className = 'resource-item';
+                resourceDiv.innerHTML = `
+                    <div class="resource-name">${resource.name}</div>
+                    <div class="resource-type">${resource.type}</div>
+                    <div class="resource-details">
+                        📍 ${resource.address}<br>
+                        📞 ${resource.phone}<br>
+                        🛠️ ${resource.services}
+                    </div>
+                    <div class="resource-actions">
+                        <button class="btn btn-success" onclick="callResource('${resource.name}', '${resource.phone}')">Call</button>
+                        <button class="btn btn-primary" onclick="getDirections('${resource.address}')">Directions</button>
+                    </div>
+                `;
+                container.appendChild(resourceDiv);
+            });
+        }
+
+        function callResource(name, phone) {
+            showNotification(`Calling ${name} at ${phone}...`, 'info');
+            setTimeout(() => {
+                showNotification('Call connected!', 'success');
+            }, 2000);
+        }
+
+        function getDirections(address) {
+            showNotification(`Getting directions to ${address}...`, 'info');
+            setTimeout(() => {
+                showNotification('Directions opened in Maps app', 'success');
+            }, 1500);
+        }
+
+        // Emergency functionality
+        function emergencyHelp() {
+            showNotification('Emergency: Calling 911 and your emergency contact...', 'error');
+            setTimeout(() => {
+                showNotification('Emergency services contacted. Help is on the way.', 'success');
+            }, 2000);
+        }
+
+        // Profile functionality
+        function openProfile() {
+            document.getElementById('profileModal').classList.remove('hidden');
+        }
+
+        function closeProfile() {
+            document.getElementById('profileModal').classList.add('hidden');
+        }
+
+        function saveProfile() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const country = document.getElementById('country').value;
+            const preferredLanguage = document.getElementById('preferredLanguage').value;
+
+            showNotification('Profile saved successfully!', 'success');
+            closeProfile();
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Simulate real-time updates
+        setInterval(() => {
+            const randomMessages = [
+                'Your case progress has been updated!',
+                'New resources available in your area',
+                'Document status updated',
+                'Community insights refreshed'
+            ];
+            
+            if (Math.random() > 0.7) {
+                showNotification(randomMessages[Math.floor(Math.random() * randomMessages.length)], 'info');
+            }
+        }, 10000);
+
+        // Welcome message
+        setTimeout(() => {
+            showNotification('Welcome to NavigateHome AI! Your case is progressing well.', 'success');
+        }, 1000);
+
+        // Add profile button click handler
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handler for profile access
+            const profileButton = document.createElement('button');
+            profileButton.innerHTML = '👤';
+            profileButton.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                background: rgba(255, 255, 255, 0.2);
+                border: none;
+                color: white;
+                padding: 10px;
+                border-radius: 10px;
+                cursor: pointer;
+                font-size: 1.2rem;
+                z-index: 1000;
+            `;
+            profileButton.onclick = openProfile;
+            document.body.appendChild(profileButton);
+        });
+    </script>
+</body>
+</html>
