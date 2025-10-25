@@ -1423,7 +1423,30 @@
         function changeLanguage(language) {
             currentLanguage = language;
             updateLanguage();
+            updateAILanguage();
             savePreferences();
+        }
+
+        function updateAILanguage() {
+            // Update AI system prompt language
+            if (immigrationLLM) {
+                immigrationLLM.currentLanguage = currentLanguage;
+            }
+            
+            // Update speech recognition language
+            if (recognition) {
+                const languageMap = {
+                    'en': 'en-US',
+                    'es': 'es-ES', 
+                    'zh': 'zh-CN',
+                    'ar': 'ar-SA',
+                    'hi': 'hi-IN',
+                    'pt': 'pt-BR',
+                    'ru': 'ru-RU',
+                    'fr': 'fr-FR'
+                };
+                recognition.lang = languageMap[currentLanguage] || 'en-US';
+            }
         }
 
         function toggleTheme() {
@@ -2081,7 +2104,7 @@
                 document.getElementById('aiSidebarChat').scrollTop = document.getElementById('aiSidebarChat').scrollHeight;
                 
                 try {
-                    // Generate intelligent AI response using LLM
+                    // Generate intelligent AI response using LLM with current language
                     const aiResponse = await immigrationLLM.generateResponse(message, userProfile, currentLanguage);
                     
                     // Remove typing indicator
@@ -2117,7 +2140,7 @@
                     // Remove typing indicator
                     typingIndicator.remove();
                     
-                    // Fallback response
+                    // Fallback response in current language
                     const fallbackResponse = immigrationLLM.getFallbackResponse(message, currentLanguage);
                     addSidebarMessage(fallbackResponse, false);
                     
@@ -2205,6 +2228,7 @@
                 this.apiKey = 'sk-proj-your-openai-api-key-here'; // Replace with actual API key
                 this.baseURL = 'https://api.openai.com/v1/chat/completions';
                 this.model = 'gpt-4';
+                this.currentLanguage = 'en';
                 this.context = this.buildImmigrationContext();
             }
             
@@ -2234,10 +2258,12 @@
                 };
             }
             
-            async generateResponse(userMessage, userProfile = null, currentLanguage = 'en') {
+            async generateResponse(userMessage, userProfile = null, currentLanguage = null) {
                 try {
-                    const systemPrompt = this.buildSystemPrompt(currentLanguage);
-                    const userPrompt = this.buildUserPrompt(userMessage, userProfile, currentLanguage);
+                    // Use instance language if not provided
+                    const language = currentLanguage || this.currentLanguage;
+                    const systemPrompt = this.buildSystemPrompt(language);
+                    const userPrompt = this.buildUserPrompt(userMessage, userProfile, language);
                     
                     const response = await fetch(this.baseURL, {
                         method: 'POST',
@@ -2265,7 +2291,7 @@
                     
                 } catch (error) {
                     console.error('LLM Error:', error);
-                    return this.getFallbackResponse(userMessage, currentLanguage);
+                    return this.getFallbackResponse(userMessage, currentLanguage || this.currentLanguage);
                 }
             }
             
@@ -2319,6 +2345,54 @@
                         asylum: "Las aplicaciones de asilo requieren el Formulario I-589. Este es un proceso complejo que puedo ayudarte a guiar paso a paso.",
                         help: "Estoy aquí para ayudarte con todas tus necesidades de inmigración. ¿Con qué formulario o proceso específico te gustaría asistencia?",
                         default: "Puedo asistirte con formularios de inmigración, explicar procesos y guiarte a través de cada paso. ¿Cómo puedo ayudarte hoy?"
+                    },
+                    zh: {
+                        daca: "我可以帮助您处理DACA申请。根据您的个人资料，我建议从I-821D表格开始。您希望我指导您完成这个过程吗？",
+                        work: "对于就业授权，您需要I-765表格。我可以帮助您了解要求并使用您的个人资料信息填写表格。",
+                        travel: "I-131表格用于提前假释/旅行文件。这允许您在美国境外旅行并合法返回。",
+                        asylum: "庇护申请需要I-589表格。这是一个复杂的过程，我可以逐步指导您完成。",
+                        help: "我在这里帮助您处理所有移民需求。您希望我协助哪个具体的表格或流程？",
+                        default: "我可以协助您处理移民表格，解释流程并指导您完成每个步骤。我今天如何帮助您？"
+                    },
+                    ar: {
+                        daca: "يمكنني مساعدتك في طلبات DACA. بناءً على ملفك الشخصي، أنصحك بالبدء بالنموذج I-821D. هل تريد مني أن أرشدك خلال العملية؟",
+                        work: "للحصول على تصريح العمل، ستحتاج إلى النموذج I-765. يمكنني مساعدتك في فهم المتطلبات وملء النموذج باستخدام معلومات ملفك الشخصي.",
+                        travel: "النموذج I-131 مخصص لوثائق السفر/الإفراج المسبق. هذا يسمح لك بالسفر خارج الولايات المتحدة والعودة بشكل قانوني.",
+                        asylum: "طلبات اللجوء تتطلب النموذج I-589. هذه عملية معقدة يمكنني مساعدتك في توجيهها خطوة بخطوة.",
+                        help: "أنا هنا لمساعدتك في جميع احتياجاتك المتعلقة بالهجرة. ما هو النموذج أو العملية المحددة التي تريد المساعدة فيها؟",
+                        default: "يمكنني مساعدتك في نماذج الهجرة وشرح العمليات وتوجيهك خلال كل خطوة. كيف يمكنني مساعدتك اليوم؟"
+                    },
+                    hi: {
+                        daca: "मैं आपकी DACA आवेदन में मदद कर सकता हूं। आपके प्रोफ़ाइल के आधार पर, मैं फॉर्म I-821D से शुरुआत करने की सलाह देता हूं। क्या आप चाहते हैं कि मैं आपको इस प्रक्रिया के माध्यम से मार्गदर्शन दूं?",
+                        work: "रोजगार प्राधिकरण के लिए, आपको फॉर्म I-765 की आवश्यकता होगी। मैं आपकी प्रोफ़ाइल जानकारी का उपयोग करके आवश्यकताओं को समझने और फॉर्म भरने में आपकी मदद कर सकता हूं।",
+                        travel: "फॉर्म I-131 अग्रिम पैरोल/यात्रा दस्तावेजों के लिए है। यह आपको अमेरिका के बाहर यात्रा करने और कानूनी रूप से वापस आने की अनुमति देता है।",
+                        asylum: "शरण आवेदन के लिए फॉर्म I-589 की आवश्यकता होती है। यह एक जटिल प्रक्रिया है जिसमें मैं आपकी मदद कर सकता हूं।",
+                        help: "मैं आपकी सभी आप्रवासन आवश्यकताओं में मदद के लिए यहां हूं। आप किस विशिष्ट फॉर्म या प्रक्रिया में सहायता चाहते हैं?",
+                        default: "मैं आप्रवासन फॉर्म में सहायता कर सकता हूं, प्रक्रियाओं की व्याख्या कर सकता हूं और आपको हर कदम पर मार्गदर्शन दे सकता हूं। आज मैं आपकी कैसे मदद कर सकता हूं?"
+                    },
+                    pt: {
+                        daca: "Posso ajudá-lo com aplicações DACA. Com base no seu perfil, recomendo começar com o Formulário I-821D. Gostaria que eu o guiasse através do processo?",
+                        work: "Para autorização de emprego, você precisará do Formulário I-765. Posso ajudá-lo a entender os requisitos e preencher o formulário usando as informações do seu perfil.",
+                        travel: "O Formulário I-131 é para documentos de viagem/parole antecipado. Isso permite que você viaje para fora dos EUA e retorne legalmente.",
+                        asylum: "Aplicações de asilo requerem o Formulário I-589. Este é um processo complexo que posso ajudá-lo a guiar passo a passo.",
+                        help: "Estou aqui para ajudá-lo com todas as suas necessidades de imigração. Com qual formulário ou processo específico você gostaria de assistência?",
+                        default: "Posso assisti-lo com formulários de imigração, explicar processos e guiá-lo através de cada etapa. Como posso ajudá-lo hoje?"
+                    },
+                    ru: {
+                        daca: "Я могу помочь вам с заявками DACA. Основываясь на вашем профиле, я рекомендую начать с формы I-821D. Хотели бы, чтобы я провел вас через этот процесс?",
+                        work: "Для разрешения на работу вам понадобится форма I-765. Я могу помочь вам понять требования и заполнить форму, используя информацию из вашего профиля.",
+                        travel: "Форма I-131 предназначена для документов на поездку/досрочное освобождение. Это позволяет вам путешествовать за пределы США и законно возвращаться.",
+                        asylum: "Заявления на убежище требуют форму I-589. Это сложный процесс, который я могу помочь вам пройти пошагово.",
+                        help: "Я здесь, чтобы помочь со всеми вашими иммиграционными потребностями. С какой конкретной формой или процессом вы хотели бы получить помощь?",
+                        default: "Я могу помочь вам с иммиграционными формами, объяснить процессы и провести вас через каждый шаг. Как я могу помочь вам сегодня?"
+                    },
+                    fr: {
+                        daca: "Je peux vous aider avec les demandes DACA. Basé sur votre profil, je recommande de commencer par le formulaire I-821D. Aimerez-vous que je vous guide à travers le processus?",
+                        work: "Pour l'autorisation de travail, vous aurez besoin du formulaire I-765. Je peux vous aider à comprendre les exigences et remplir le formulaire en utilisant les informations de votre profil.",
+                        travel: "Le formulaire I-131 est pour les documents de voyage/parole anticipée. Cela vous permet de voyager en dehors des États-Unis et de revenir légalement.",
+                        asylum: "Les demandes d'asile nécessitent le formulaire I-589. C'est un processus complexe que je peux vous aider à guider étape par étape.",
+                        help: "Je suis là pour vous aider avec tous vos besoins d'immigration. Avec quel formulaire ou processus spécifique aimeriez-vous de l'assistance?",
+                        default: "Je peux vous assister avec les formulaires d'immigration, expliquer les processus et vous guider à travers chaque étape. Comment puis-je vous aider aujourd'hui?"
                     }
                 };
                 
@@ -2326,10 +2400,10 @@
                 const message = userMessage.toLowerCase();
                 
                 if (message.includes('daca')) return langResponses.daca;
-                if (message.includes('work') || message.includes('empleo')) return langResponses.work;
-                if (message.includes('travel') || message.includes('viaje')) return langResponses.travel;
-                if (message.includes('asylum') || message.includes('asilo')) return langResponses.asylum;
-                if (message.includes('help') || message.includes('ayuda')) return langResponses.help;
+                if (message.includes('work') || message.includes('empleo') || message.includes('工作') || message.includes('عمل') || message.includes('काम') || message.includes('trabalho') || message.includes('работа') || message.includes('travail')) return langResponses.work;
+                if (message.includes('travel') || message.includes('viaje') || message.includes('旅行') || message.includes('سفر') || message.includes('यात्रा') || message.includes('viagem') || message.includes('путешествие') || message.includes('voyage')) return langResponses.travel;
+                if (message.includes('asylum') || message.includes('asilo') || message.includes('庇护') || message.includes('لجوء') || message.includes('शरण') || message.includes('asilo') || message.includes('убежище') || message.includes('asile')) return langResponses.asylum;
+                if (message.includes('help') || message.includes('ayuda') || message.includes('帮助') || message.includes('مساعدة') || message.includes('मदद') || message.includes('ajuda') || message.includes('помощь') || message.includes('aide')) return langResponses.help;
                 
                 return langResponses.default;
             }
@@ -2879,7 +2953,122 @@
                 communityCenters: "Centros Comunitarios",
                 healthcareResources: "Atención Médica",
                 employmentResources: "Empleo",
-                educationalResources: "Recursos Educativos"
+                educationalResources: "Recursos Educativos",
+                
+                // Sidebar AI
+                aiSidebarSubtitle: "Estoy aquí para ayudarte con tus formularios de inmigración y preguntas. ¡Pregúntame cualquier cosa!",
+                aiSidebarWelcomeMessage: "¡Hola! Soy tu asistente de inmigración con IA. Puedo ayudarte a llenar formularios, responder preguntas sobre tu proceso de inmigración y guiarte a través de cada paso. ¿Cómo puedo ayudarte hoy?",
+                aiSidebarPlaceholder: "Pregúntame cualquier cosa...",
+                
+                // Form field translations
+                personalInformation: "Información Personal",
+                arrivalInformation: "Información de Llegada",
+                educationInformation: "Información Educativa",
+                criminalRecord: "Antecedentes Penales",
+                criminalDetails: "Detalles Penales (si aplica)",
+                economicNecessity: "Necesidad Económica",
+                immigrationStatus: "Estado de Inmigración",
+                currentStatus: "Estado Actual de Inmigración",
+                alienNumber: "Número de Extranjero (si aplica)",
+                employmentHistory: "Historial de Empleo",
+                previousEmployer: "Empleador Anterior",
+                employmentDates: "Fechas de Empleo",
+                jobTitle: "Título del Trabajo",
+                supportingDocuments: "Documentos de Apoyo",
+                passportPhoto: "Foto de Pasaporte Requerida",
+                identityDocument: "Documento de Identidad",
+                employmentEvidence: "Evidencia de Empleo",
+                travelPurpose: "Propósito de Viaje",
+                travelReason: "Razón del Viaje",
+                travelDestination: "Destino del Viaje",
+                travelDates: "Fechas de Viaje",
+                departureDate: "Fecha de Salida",
+                returnDate: "Fecha de Regreso",
+                supportingEvidence: "Evidencia de Apoyo",
+                travelDocumentation: "Documentación de Viaje",
+                emergencyContact: "Contacto de Emergencia",
+                emergencyPhone: "Teléfono de Emergencia",
+                schoolName: "Nombre de la Escuela Actual/Última",
+                graduationDate: "Fecha de Graduación",
+                annualIncome: "Ingreso Anual",
+                householdSize: "Tamaño del Hogar",
+                economicHardship: "Explicación de Dificultad Económica",
+                
+                // Placeholders
+                firstNamePlaceholder: "Ingresa tu nombre",
+                lastNamePlaceholder: "Ingresa tu apellido",
+                middleNamePlaceholder: "Ingresa tu segundo nombre (opcional)",
+                dateOfBirthPlaceholder: "Selecciona tu fecha de nacimiento",
+                addressPlaceholder: "Ingresa tu dirección actual",
+                phonePlaceholder: "Ingresa tu número de teléfono",
+                emailPlaceholder: "Ingresa tu dirección de correo",
+                ssnPlaceholder: "Ingresa tu SSN (si aplica)",
+                entryDatePlaceholder: "Selecciona tu fecha de entrada",
+                schoolNamePlaceholder: "Ingresa el nombre de la escuela",
+                graduationDatePlaceholder: "Selecciona la fecha de graduación",
+                criminalDetailsPlaceholder: "Ingresa detalles penales si aplican",
+                annualIncomePlaceholder: "Ingresa el ingreso anual",
+                householdSizePlaceholder: "Ingresa el tamaño del hogar",
+                economicHardshipPlaceholder: "Explica la dificultad económica",
+                alienNumberPlaceholder: "Ingresa el número de extranjero si aplica",
+                previousEmployerPlaceholder: "Ingresa el empleador anterior",
+                employmentDatesPlaceholder: "Ingresa las fechas de empleo",
+                jobTitlePlaceholder: "Ingresa el título del trabajo",
+                travelDestinationPlaceholder: "Ingresa el destino del viaje",
+                travelDocumentationPlaceholder: "Ingresa la documentación de viaje",
+                emergencyContactPlaceholder: "Ingresa el nombre del contacto de emergencia",
+                emergencyPhonePlaceholder: "Ingresa el teléfono de emergencia",
+                
+                // Select options
+                selectOption: "Seleccionar...",
+                mexico: "México",
+                china: "China",
+                india: "India",
+                philippines: "Filipinas",
+                elSalvador: "El Salvador",
+                guatemala: "Guatemala",
+                honduras: "Honduras",
+                cuba: "Cuba",
+                dominicanRepublic: "República Dominicana",
+                colombia: "Colombia",
+                venezuela: "Venezuela",
+                brazil: "Brasil",
+                argentina: "Argentina",
+                peru: "Perú",
+                ecuador: "Ecuador",
+                bolivia: "Bolivia",
+                chile: "Chile",
+                uruguay: "Uruguay",
+                paraguay: "Paraguay",
+                other: "Otro",
+                visa: "Visa",
+                borderCrossing: "Cruzar Frontera",
+                airport: "Aeropuerto",
+                elementary: "Escuela Primaria",
+                middleSchool: "Escuela Secundaria",
+                highSchool: "Escuela Preparatoria",
+                someCollege: "Algo de Universidad",
+                associateDegree: "Grado Asociado",
+                bachelorDegree: "Licenciatura",
+                masterDegree: "Maestría",
+                doctorate: "Doctorado",
+                employed: "Empleado",
+                unemployed: "Desempleado",
+                student: "Estudiante",
+                selfEmployed: "Autoempleado",
+                retired: "Retirado",
+                none: "Sin Antecedentes Penales",
+                minor: "Delitos Menores",
+                major: "Delitos Mayores",
+                daca: "DACA",
+                tps: "TPS",
+                asylumPending: "Asilo Pendiente",
+                familyPetitionPending: "Petición Familiar Pendiente",
+                educational: "Educativo",
+                employment: "Empleo",
+                humanitarian: "Humanitario",
+                familyEmergency: "Emergencia Familiar",
+                medical: "Médico"
             },
             zh: {
                 // Navigation
@@ -2935,7 +3124,122 @@
                 communityCenters: "社区中心",
                 healthcareResources: "医疗保健",
                 employmentResources: "就业",
-                educationalResources: "教育资源"
+                educationalResources: "教育资源",
+                
+                // Sidebar AI
+                aiSidebarSubtitle: "我在这里帮助您处理移民表格和问题。问我任何问题！",
+                aiSidebarWelcomeMessage: "您好！我是您的AI移民助手。我可以帮助您填写表格，回答有关移民过程的问题，并指导您完成每个步骤。我今天如何帮助您？",
+                aiSidebarPlaceholder: "问我任何问题...",
+                
+                // Form field translations
+                personalInformation: "个人信息",
+                arrivalInformation: "入境信息",
+                educationInformation: "教育信息",
+                criminalRecord: "犯罪记录",
+                criminalDetails: "犯罪详情（如适用）",
+                economicNecessity: "经济需要",
+                immigrationStatus: "移民身份",
+                currentStatus: "当前移民身份",
+                alienNumber: "外国人号码（如适用）",
+                employmentHistory: "就业历史",
+                previousEmployer: "前雇主",
+                employmentDates: "就业日期",
+                jobTitle: "职位",
+                supportingDocuments: "支持文件",
+                passportPhoto: "需要护照照片",
+                identityDocument: "身份文件",
+                employmentEvidence: "就业证明",
+                travelPurpose: "旅行目的",
+                travelReason: "旅行原因",
+                travelDestination: "旅行目的地",
+                travelDates: "旅行日期",
+                departureDate: "出发日期",
+                returnDate: "返回日期",
+                supportingEvidence: "支持证据",
+                travelDocumentation: "旅行文件",
+                emergencyContact: "紧急联系人",
+                emergencyPhone: "紧急电话",
+                schoolName: "当前/最后学校名称",
+                graduationDate: "毕业日期",
+                annualIncome: "年收入",
+                householdSize: "家庭规模",
+                economicHardship: "经济困难说明",
+                
+                // Placeholders
+                firstNamePlaceholder: "输入您的名字",
+                lastNamePlaceholder: "输入您的姓氏",
+                middleNamePlaceholder: "输入您的中间名（可选）",
+                dateOfBirthPlaceholder: "选择您的出生日期",
+                addressPlaceholder: "输入您当前的地址",
+                phonePlaceholder: "输入您的电话号码",
+                emailPlaceholder: "输入您的电子邮件地址",
+                ssnPlaceholder: "输入您的SSN（如适用）",
+                entryDatePlaceholder: "选择您的入境日期",
+                schoolNamePlaceholder: "输入学校名称",
+                graduationDatePlaceholder: "选择毕业日期",
+                criminalDetailsPlaceholder: "输入犯罪详情（如适用）",
+                annualIncomePlaceholder: "输入年收入",
+                householdSizePlaceholder: "输入家庭规模",
+                economicHardshipPlaceholder: "说明经济困难",
+                alienNumberPlaceholder: "输入外国人号码（如适用）",
+                previousEmployerPlaceholder: "输入前雇主",
+                employmentDatesPlaceholder: "输入就业日期",
+                jobTitlePlaceholder: "输入职位",
+                travelDestinationPlaceholder: "输入旅行目的地",
+                travelDocumentationPlaceholder: "输入旅行文件",
+                emergencyContactPlaceholder: "输入紧急联系人姓名",
+                emergencyPhonePlaceholder: "输入紧急电话",
+                
+                // Select options
+                selectOption: "选择...",
+                mexico: "墨西哥",
+                china: "中国",
+                india: "印度",
+                philippines: "菲律宾",
+                elSalvador: "萨尔瓦多",
+                guatemala: "危地马拉",
+                honduras: "洪都拉斯",
+                cuba: "古巴",
+                dominicanRepublic: "多米尼加共和国",
+                colombia: "哥伦比亚",
+                venezuela: "委内瑞拉",
+                brazil: "巴西",
+                argentina: "阿根廷",
+                peru: "秘鲁",
+                ecuador: "厄瓜多尔",
+                bolivia: "玻利维亚",
+                chile: "智利",
+                uruguay: "乌拉圭",
+                paraguay: "巴拉圭",
+                other: "其他",
+                visa: "签证",
+                borderCrossing: "边境过境",
+                airport: "机场",
+                elementary: "小学",
+                middleSchool: "中学",
+                highSchool: "高中",
+                someCollege: "大学部分",
+                associateDegree: "副学士学位",
+                bachelorDegree: "学士学位",
+                masterDegree: "硕士学位",
+                doctorate: "博士学位",
+                employed: "就业",
+                unemployed: "失业",
+                student: "学生",
+                selfEmployed: "自雇",
+                retired: "退休",
+                none: "无犯罪记录",
+                minor: "轻微犯罪",
+                major: "严重犯罪",
+                daca: "DACA",
+                tps: "TPS",
+                asylumPending: "庇护待定",
+                familyPetitionPending: "家庭申请待定",
+                educational: "教育",
+                employment: "就业",
+                humanitarian: "人道主义",
+                familyEmergency: "家庭紧急情况",
+                medical: "医疗"
             },
             ar: {
                 // Navigation
