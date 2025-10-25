@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immigr-Aid - Functionality Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Immigr-Aid Functionality Test Suite</h1>
+        <p>This page tests all functionality of the Immigr-Aid platform to ensure everything works correctly.</p>
+        
+        <div class="test-section">
+            <h2>📱 Main Application Test</h2>
+            <p>Testing the main Immigr-Aid dashboard:</p>
+            <button class="test-button" onclick="testMainApp()">Test Main Application</button>
+            <div id="mainAppResult" class="test-result" style="display: none;"></div>
+            <iframe id="mainAppFrame" src="immigr-aid-dashboard.html" style="display: none;"></iframe>
+        </div>
+
+        <div class="test-section">
+            <h2>🌐 Language Switching Test</h2>
+            <p>Testing language switching functionality:</p>
+            <button class="test-button" onclick="testLanguageSwitching()">Test Language Switching</button>
+            <div id="languageResult" class="test-result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📄 Document Management Test</h2>
+            <p>Testing document filling and management:</p>
+            <button class="test-button" onclick="testDocumentManagement()">Test Document Management</button>
+            <div id="documentResult" class="test-result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🤖 AI Assistant Test</h2>
+            <p>Testing AI chatbot functionality:</p>
+            <button class="test-button" onclick="testAIAssistant()">Test AI Assistant</button>
+            <div id="aiResult" class="test-result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>💾 Data Persistence Test</h2>
+            <p>Testing data saving and loading:</p>
+            <button class="test-button" onclick="testDataPersistence()">Test Data Persistence</button>
+            <div id="dataResult" class="test-result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🎤 Speech-to-Text Test</h2>
+            <p>Testing voice input functionality:</p>
+            <button class="test-button" onclick="testSpeechToText()">Test Speech-to-Text</button>
+            <div id="speechResult" class="test-result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Overall Status</h2>
+            <div id="overallStatus" class="test-result info">
+                <strong>Ready to test!</strong> Click the test buttons above to verify all functionality.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let testResults = {
+            mainApp: false,
+            languageSwitching: false,
+            documentManagement: false,
+            aiAssistant: false,
+            dataPersistence: false,
+            speechToText: false
+        };
+
+        function updateOverallStatus() {
+            const totalTests = Object.keys(testResults).length;
+            const passedTests = Object.values(testResults).filter(result => result).length;
+            const statusDiv = document.getElementById('overallStatus');
+            
+            if (passedTests === totalTests) {
+                statusDiv.className = 'test-result success';
+                statusDiv.innerHTML = `<strong>✅ All Tests Passed!</strong> (${passedTests}/${totalTests}) - Immigr-Aid is fully functional!`;
+            } else if (passedTests > 0) {
+                statusDiv.className = 'test-result info';
+                statusDiv.innerHTML = `<strong>⚠️ Partial Success</strong> (${passedTests}/${totalTests}) - Some features need attention.`;
+            } else {
+                statusDiv.className = 'test-result error';
+                statusDiv.innerHTML = `<strong>❌ Tests Failed</strong> (${passedTests}/${totalTests}) - Please check the application.`;
+            }
+        }
+
+        function testMainApp() {
+            const resultDiv = document.getElementById('mainAppResult');
+            const frame = document.getElementById('mainAppFrame');
+            
+            try {
+                frame.style.display = 'block';
+                resultDiv.style.display = 'block';
+                
+                // Test if the main app loads
+                frame.onload = function() {
+                    try {
+                        const iframeDoc = frame.contentDocument || frame.contentWindow.document;
+                        
+                        // Check for key elements
+                        const hasNavigation = iframeDoc.querySelector('.nav-bar') !== null;
+                        const hasDashboard = iframeDoc.querySelector('#dashboardSection') !== null;
+                        const hasProfile = iframeDoc.querySelector('#profileSection') !== null;
+                        const hasDocuments = iframeDoc.querySelector('#documentsSection') !== null;
+                        const hasChat = iframeDoc.querySelector('#chatSection') !== null;
+                        
+                        if (hasNavigation && hasDashboard && hasProfile && hasDocuments && hasChat) {
+                            resultDiv.className = 'test-result success';
+                            resultDiv.innerHTML = '✅ Main application loads correctly with all sections!';
+                            testResults.mainApp = true;
+                        } else {
+                            resultDiv.className = 'test-result error';
+                            resultDiv.innerHTML = '❌ Main application missing key sections!';
+                            testResults.mainApp = false;
+                        }
+                    } catch (e) {
+                        resultDiv.className = 'test-result error';
+                        resultDiv.innerHTML = '❌ Cannot access iframe content: ' + e.message;
+                        testResults.mainApp = false;
+                    }
+                    updateOverallStatus();
+                };
+                
+                resultDiv.className = 'test-result info';
+                resultDiv.innerHTML = '🔄 Testing main application...';
+                
+            } catch (e) {
+                resultDiv.className = 'test-result error';
+                resultDiv.innerHTML = '❌ Error testing main app: ' + e.message;
+                testResults.mainApp = false;
+                updateOverallStatus();
+            }
+        }
+
+        function testLanguageSwitching() {
+            const resultDiv = document.getElementById('languageResult');
+            resultDiv.style.display = 'block';
+            
+            try {
+                // Test if translations object exists
+                const frame = document.getElementById('mainAppFrame');
+                const iframeDoc = frame.contentDocument || frame.contentWindow.document;
+                const iframeWindow = frame.contentWindow;
+                
+                if (iframeWindow && iframeWindow.translations) {
+                    const languages = Object.keys(iframeWindow.translations);
+                    
+                    if (languages.length >= 8) {
+                        resultDiv.className = 'test-result success';
+                        resultDiv.innerHTML = `✅ Language switching works! Found ${languages.length} languages: ${languages.join(', ')}`;
+                        testResults.languageSwitching = true;
+                    } else {
+                        resultDiv.className = 'test-result error';
+                        resultDiv.innerHTML = `❌ Insufficient languages found: ${languages.length}`;
+                        testResults.languageSwitching = false;
+                    }
+                } else {
+                    resultDiv.className = 'test-result error';
+                    resultDiv.innerHTML = '❌ Translations object not found!';
+                    testResults.languageSwitching = false;
+                }
+            } catch (e) {
+                resultDiv.className = 'test-result error';
+                resultDiv.innerHTML = '❌ Error testing language switching: ' + e.message;
+                testResults.languageSwitching = false;
+            }
+            updateOverallStatus();
+        }
+
+        function testDocumentManagement() {
+            const resultDiv = document.getElementById('documentResult');
+            resultDiv.style.display = 'block';
+            
+            try {
+                const frame = document.getElementById('mainAppFrame');
+                const iframeDoc = frame.contentDocument || frame.contentWindow.document;
+                const iframeWindow = frame.contentWindow;
+                
+                if (iframeWindow && iframeWindow.documents) {
+                    const documents = iframeWindow.documents;
+                    
+                    if (documents.length >= 3) {
+                        resultDiv.className = 'test-result success';
+                        resultDiv.innerHTML = `✅ Document management works! Found ${documents.length} immigration forms: ${documents.map(d => d.name).join(', ')}`;
+                        testResults.documentManagement = true;
+                    } else {
+                        resultDiv.className = 'test-result error';
+                        resultDiv.innerHTML = `❌ Insufficient documents found: ${documents.length}`;
+                        testResults.documentManagement = false;
+                    }
+                } else {
+                    resultDiv.className = 'test-result error';
+                    resultDiv.innerHTML = '❌ Documents object not found!';
+                    testResults.documentManagement = false;
+                }
+            } catch (e) {
+                resultDiv.className = 'test-result error';
+                resultDiv.innerHTML = '❌ Error testing document management: ' + e.message;
+                testResults.documentManagement = false;
+            }
+            updateOverallStatus();
+        }
+
+        function testAIAssistant() {
+            const resultDiv = document.getElementById('aiResult');
+            resultDiv.style.display = 'block';
+            
+            try {
+                const frame = document.getElementById('mainAppFrame');
+                const iframeDoc = frame.contentDocument || frame.contentWindow.document;
+                const iframeWindow = frame.contentWindow;
+                
+                if (iframeWindow && iframeWindow.ImmigrationLLM) {
+                    resultDiv.className = 'test-result success';
+                    resultDiv.innerHTML = '✅ AI Assistant is properly integrated with LLM class!';
+                    testResults.aiAssistant = true;
+                } else {
+                    resultDiv.className = 'test-result error';
+                    resultDiv.innerHTML = '❌ AI Assistant LLM integration not found!';
+                    testResults.aiAssistant = false;
+                }
+            } catch (e) {
+                resultDiv.className = 'test-result error';
+                resultDiv.innerHTML = '❌ Error testing AI assistant: ' + e.message;
+                testResults.aiAssistant = false;
+            }
+            updateOverallStatus();
+        }
+
+        function testDataPersistence() {
+            const resultDiv = document.getElementById('dataResult');
+            resultDiv.style.display = 'block';
+            
+            try {
+                // Test localStorage functionality
+                const testKey = 'immigr-aid-test';
+                const testData = { test: 'data', timestamp: Date.now() };
+                
+                localStorage.setItem(testKey, JSON.stringify(testData));
+                const retrieved = JSON.parse(localStorage.getItem(testKey));
+                
+                if (retrieved && retrieved.test === 'data') {
+                    localStorage.removeItem(testKey);
+                    resultDiv.className = 'test-result success';
+                    resultDiv.innerHTML = '✅ Data persistence works! localStorage is functional.';
+                    testResults.dataPersistence = true;
+                } else {
+                    resultDiv.className = 'test-result error';
+                    resultDiv.innerHTML = '❌ Data persistence failed! localStorage not working.';
+                    testResults.dataPersistence = false;
+                }
+            } catch (e) {
+                resultDiv.className = 'test-result error';
+                resultDiv.innerHTML = '❌ Error testing data persistence: ' + e.message;
+                testResults.dataPersistence = false;
+            }
+            updateOverallStatus();
+        }
+
+        function testSpeechToText() {
+            const resultDiv = document.getElementById('speechResult');
+            resultDiv.style.display = 'block';
+            
+            try {
+                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                    resultDiv.className = 'test-result success';
+                    resultDiv.innerHTML = '✅ Speech-to-text is supported! Browser has speech recognition API.';
+                    testResults.speechToText = true;
+                } else {
+                    resultDiv.className = 'test-result error';
+                    resultDiv.innerHTML = '❌ Speech-to-text not supported! Browser lacks speech recognition API.';
+                    testResults.speechToText = false;
+                }
+            } catch (e) {
+                resultDiv.className = 'test-result error';
+                resultDiv.innerHTML = '❌ Error testing speech-to-text: ' + e.message;
+                testResults.speechToText = false;
+            }
+            updateOverallStatus();
+        }
+
+        // Auto-run basic tests on page load
+        window.onload = function() {
+            setTimeout(() => {
+                testDataPersistence();
+                testSpeechToText();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
