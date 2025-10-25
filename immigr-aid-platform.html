@@ -107,6 +107,221 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        /* AI Sidebar */
+        .ai-sidebar {
+            width: 350px;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .dark-mode .ai-sidebar {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        
+        .ai-sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .dark-mode .ai-sidebar-header {
+            border-bottom-color: #333333;
+        }
+        
+        .ai-sidebar-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000000;
+        }
+        
+        .dark-mode .ai-sidebar-title {
+            color: #ffffff;
+        }
+        
+        .ai-sidebar-subtitle {
+            font-size: 0.9rem;
+            color: #666666;
+            margin-bottom: 15px;
+        }
+        
+        .dark-mode .ai-sidebar-subtitle {
+            color: #cccccc;
+        }
+        
+        .ai-sidebar-chat {
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .dark-mode .ai-sidebar-chat {
+            background: #2a2a2a;
+        }
+        
+        .ai-sidebar-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .ai-sidebar-input input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            background: #ffffff;
+            color: #000000;
+        }
+        
+        .dark-mode .ai-sidebar-input input {
+            background: #2a2a2a;
+            border-color: #444444;
+            color: #ffffff;
+        }
+        
+        .ai-sidebar-input input:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+        
+        .ai-sidebar-voice-btn {
+            background: #ff6b6b;
+            color: #ffffff;
+            border: none;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        .ai-sidebar-voice-btn:hover {
+            background: #ff5252;
+        }
+        
+        .ai-sidebar-voice-btn.recording {
+            background: #ff4444;
+            animation: pulse 1s infinite;
+        }
+        
+        .ai-sidebar-send-btn {
+            background: #00ff88;
+            color: #000000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .ai-sidebar-send-btn:hover {
+            background: #00cc6a;
+        }
+        
+        .ai-sidebar-message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            max-width: 90%;
+            word-wrap: break-word;
+        }
+        
+        .ai-sidebar-message.user {
+            background: #00ff88;
+            color: #000000;
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .ai-sidebar-message.ai {
+            background: #ffffff;
+            color: #000000;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .dark-mode .ai-sidebar-message.ai {
+            background: #1a1a1a;
+            color: #ffffff;
+            border-color: #333333;
+        }
+        
+        .ai-sidebar-message.typing {
+            background: #e5e5e5;
+            color: #666666;
+        }
+        
+        .dark-mode .ai-sidebar-message.typing {
+            background: #333333;
+            color: #999999;
+        }
+        
+        .ai-sidebar-typing-dots {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+        }
+        
+        .ai-sidebar-typing-dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #666666;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .dark-mode .ai-sidebar-typing-dots span {
+            background: #999999;
+        }
+        
+        .ai-sidebar-typing-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        
+        .ai-sidebar-typing-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .ai-sidebar {
+                width: 100%;
+                position: static;
+                order: -1;
+            }
         }
         
         /* Navigation Tabs */
@@ -897,247 +1112,239 @@
 
     <!-- Main Container -->
     <div class="main-container">
-        <!-- Navigation Tabs -->
-        <div class="nav-tabs">
-            <a href="#" class="nav-tab active" onclick="showSection('dashboard')" id="dashboardNav">📊 Dashboard</a>
-            <a href="#" class="nav-tab" onclick="showSection('profile')" id="profileNav">👤 Profile</a>
-            <a href="#" class="nav-tab" onclick="showSection('documents')" id="documentsNav">📄 Documents</a>
-            <a href="#" class="nav-tab" onclick="showSection('chat')" id="chatNav">🤖 AI Assistant</a>
-            <a href="#" class="nav-tab" onclick="showSection('chatHistory')" id="chatHistoryNav">💬 AI Chats</a>
-            <a href="#" class="nav-tab" onclick="showSection('help')" id="helpNav">🆘 Help Resources</a>
-        </div>
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <a href="#" class="nav-tab active" onclick="showSection('dashboard')" id="dashboardNav">📊 Dashboard</a>
+                <a href="#" class="nav-tab" onclick="showSection('profile')" id="profileNav">👤 Profile</a>
+                <a href="#" class="nav-tab" onclick="showSection('documents')" id="documentsNav">📄 Documents</a>
+                <a href="#" class="nav-tab" onclick="showSection('help')" id="helpNav">🆘 Help Resources</a>
+            </div>
 
-        <!-- Dashboard Section -->
-        <div id="dashboardSection" class="content-section active">
-            <h1 class="section-title" id="dashboardTitle">Dashboard - Immigr-Aid</h1>
-            
-            <!-- Progress Cards -->
-            <div class="progress-container">
-                <div class="progress-card">
-                    <div class="progress-number" id="completedCount">0</div>
-                    <div class="progress-label" id="completedLabel">Completed</div>
+            <!-- Dashboard Section -->
+            <div id="dashboardSection" class="content-section active">
+                <h1 class="section-title" id="dashboardTitle">Dashboard - Immigr-Aid</h1>
+                
+                <!-- Progress Cards -->
+                <div class="progress-container">
+                    <div class="progress-card">
+                        <div class="progress-number" id="completedCount">0</div>
+                        <div class="progress-label" id="completedLabel">Completed</div>
+                    </div>
+                    <div class="progress-card">
+                        <div class="progress-number" id="remainingCount">3</div>
+                        <div class="progress-label" id="remainingLabel">Remaining</div>
+                    </div>
                 </div>
-                <div class="progress-card">
-                    <div class="progress-number" id="remainingCount">3</div>
-                    <div class="progress-label" id="remainingLabel">Remaining</div>
+
+                <!-- Profile Completion Card -->
+                <div class="card">
+                    <h2 id="profileTitle">Personal Information</h2>
+                    <p id="profileDescription">Complete your profile to enable AI assistance with form filling and personalized guidance.</p>
+                    <div style="margin-top: 15px;">
+                        <button class="btn" onclick="showSection('profile')" id="completeProfileBtn">Complete Profile</button>
+                    </div>
+                </div>
+
+                <!-- Documents Overview -->
+                <div class="card">
+                    <h2 id="documentsTitle">Required Documents</h2>
+                    <p id="documentsDescription">All documents needed to complete your immigration application process</p>
+                    <div id="documentsPreview" class="documents-grid" style="margin-top: 20px;">
+                        <!-- Documents will be populated here -->
+                    </div>
                 </div>
             </div>
 
-            <!-- Profile Completion Card -->
-            <div class="card">
-                <h2 id="profileTitle">Personal Information</h2>
-                <p id="profileDescription">Complete your profile to enable AI assistance with form filling and personalized guidance.</p>
-                <div style="margin-top: 15px;">
-                    <button class="btn" onclick="showSection('profile')" id="completeProfileBtn">Complete Profile</button>
+            <!-- Profile Section -->
+            <div id="profileSection" class="content-section">
+                <h1 class="section-title" id="profileSectionTitle">Personal Information</h1>
+                <div class="card">
+                    <form class="profile-form" id="profileForm">
+                        <div class="form-group">
+                            <label for="firstName" id="firstNameLabel">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName" id="lastNameLabel">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="middleName" id="middleNameLabel">Middle Name</label>
+                            <input type="text" id="middleName" name="middleName">
+                        </div>
+                        <div class="form-group">
+                            <label for="dateOfBirth" id="dateOfBirthLabel">Date of Birth *</label>
+                            <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="countryOfBirth" id="countryOfBirthLabel">Country of Birth *</label>
+                            <select id="countryOfBirth" name="countryOfBirth" required>
+                                <option value="">Select Country</option>
+                                <option value="Mexico">Mexico</option>
+                                <option value="China">China</option>
+                                <option value="India">India</option>
+                                <option value="Philippines">Philippines</option>
+                                <option value="El Salvador">El Salvador</option>
+                                <option value="Guatemala">Guatemala</option>
+                                <option value="Honduras">Honduras</option>
+                                <option value="Cuba">Cuba</option>
+                                <option value="Dominican Republic">Dominican Republic</option>
+                                <option value="Colombia">Colombia</option>
+                                <option value="Venezuela">Venezuela</option>
+                                <option value="Brazil">Brazil</option>
+                                <option value="Argentina">Argentina</option>
+                                <option value="Peru">Peru</option>
+                                <option value="Ecuador">Ecuador</option>
+                                <option value="Bolivia">Bolivia</option>
+                                <option value="Chile">Chile</option>
+                                <option value="Uruguay">Uruguay</option>
+                                <option value="Paraguay">Paraguay</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="currentAddress" id="currentAddressLabel">Current Address *</label>
+                            <textarea id="currentAddress" name="currentAddress" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber" id="phoneNumberLabel">Phone Number *</label>
+                            <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emailAddress" id="emailAddressLabel">Email Address *</label>
+                            <input type="email" id="emailAddress" name="emailAddress" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="socialSecurityNumber" id="socialSecurityNumberLabel">Social Security Number</label>
+                            <input type="text" id="socialSecurityNumber" name="socialSecurityNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="entryDate" id="entryDateLabel">Entry Date to US *</label>
+                            <input type="date" id="entryDate" name="entryDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="methodOfEntry" id="methodOfEntryLabel">Method of Entry *</label>
+                            <select id="methodOfEntry" name="methodOfEntry" required>
+                                <option value="">Select Method</option>
+                                <option value="Visa">Visa</option>
+                                <option value="Border Crossing">Border Crossing</option>
+                                <option value="Airport">Airport</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="educationLevel" id="educationLevelLabel">Education Level *</label>
+                            <select id="educationLevel" name="educationLevel" required>
+                                <option value="">Select Education Level</option>
+                                <option value="Elementary">Elementary School</option>
+                                <option value="Middle School">Middle School</option>
+                                <option value="High School">High School</option>
+                                <option value="Some College">Some College</option>
+                                <option value="Associate Degree">Associate Degree</option>
+                                <option value="Bachelor Degree">Bachelor Degree</option>
+                                <option value="Master Degree">Master Degree</option>
+                                <option value="Doctorate">Doctorate</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="employmentStatus" id="employmentStatusLabel">Employment Status *</label>
+                            <select id="employmentStatus" name="employmentStatus" required>
+                                <option value="">Select Status</option>
+                                <option value="Employed">Employed</option>
+                                <option value="Unemployed">Unemployed</option>
+                                <option value="Student">Student</option>
+                                <option value="Self-Employed">Self-Employed</option>
+                                <option value="Retired">Retired</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="criminalHistory" id="criminalHistoryLabel">Criminal History *</label>
+                            <select id="criminalHistory" name="criminalHistory" required>
+                                <option value="">Select Status</option>
+                                <option value="None">No Criminal History</option>
+                                <option value="Minor">Minor Offenses</option>
+                                <option value="Major">Major Offenses</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <button type="button" class="btn" onclick="saveProfile()" id="saveProfileBtn">Save Profile Information</button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
-            <!-- Documents Overview -->
-            <div class="card">
-                <h2 id="documentsTitle">Required Documents</h2>
-                <p id="documentsDescription">All documents needed to complete your immigration application process</p>
-                <div id="documentsPreview" class="documents-grid" style="margin-top: 20px;">
+            <!-- Documents Section -->
+            <div id="documentsSection" class="content-section">
+                <h1 class="section-title" id="documentsSectionTitle">Required Documents</h1>
+                <div class="documents-grid" id="documentsContainer">
                     <!-- Documents will be populated here -->
                 </div>
             </div>
-        </div>
 
-        <!-- Profile Section -->
-        <div id="profileSection" class="content-section">
-            <h1 class="section-title" id="profileSectionTitle">Personal Information</h1>
-            <div class="card">
-                <form class="profile-form" id="profileForm">
-                    <div class="form-group">
-                        <label for="firstName" id="firstNameLabel">First Name *</label>
-                        <input type="text" id="firstName" name="firstName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName" id="lastNameLabel">Last Name *</label>
-                        <input type="text" id="lastName" name="lastName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="middleName" id="middleNameLabel">Middle Name</label>
-                        <input type="text" id="middleName" name="middleName">
-                    </div>
-                    <div class="form-group">
-                        <label for="dateOfBirth" id="dateOfBirthLabel">Date of Birth *</label>
-                        <input type="date" id="dateOfBirth" name="dateOfBirth" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="countryOfBirth" id="countryOfBirthLabel">Country of Birth *</label>
-                        <select id="countryOfBirth" name="countryOfBirth" required>
-                            <option value="">Select Country</option>
-                            <option value="Mexico">Mexico</option>
-                            <option value="China">China</option>
-                            <option value="India">India</option>
-                            <option value="Philippines">Philippines</option>
-                            <option value="El Salvador">El Salvador</option>
-                            <option value="Guatemala">Guatemala</option>
-                            <option value="Honduras">Honduras</option>
-                            <option value="Cuba">Cuba</option>
-                            <option value="Dominican Republic">Dominican Republic</option>
-                            <option value="Colombia">Colombia</option>
-                            <option value="Venezuela">Venezuela</option>
-                            <option value="Brazil">Brazil</option>
-                            <option value="Argentina">Argentina</option>
-                            <option value="Peru">Peru</option>
-                            <option value="Ecuador">Ecuador</option>
-                            <option value="Bolivia">Bolivia</option>
-                            <option value="Chile">Chile</option>
-                            <option value="Uruguay">Uruguay</option>
-                            <option value="Paraguay">Paraguay</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="currentAddress" id="currentAddressLabel">Current Address *</label>
-                        <textarea id="currentAddress" name="currentAddress" rows="3" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="phoneNumber" id="phoneNumberLabel">Phone Number *</label>
-                        <input type="tel" id="phoneNumber" name="phoneNumber" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="emailAddress" id="emailAddressLabel">Email Address *</label>
-                        <input type="email" id="emailAddress" name="emailAddress" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="socialSecurityNumber" id="socialSecurityNumberLabel">Social Security Number</label>
-                        <input type="text" id="socialSecurityNumber" name="socialSecurityNumber">
-                    </div>
-                    <div class="form-group">
-                        <label for="entryDate" id="entryDateLabel">Entry Date to US *</label>
-                        <input type="date" id="entryDate" name="entryDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="methodOfEntry" id="methodOfEntryLabel">Method of Entry *</label>
-                        <select id="methodOfEntry" name="methodOfEntry" required>
-                            <option value="">Select Method</option>
-                            <option value="Visa">Visa</option>
-                            <option value="Border Crossing">Border Crossing</option>
-                            <option value="Airport">Airport</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="educationLevel" id="educationLevelLabel">Education Level *</label>
-                        <select id="educationLevel" name="educationLevel" required>
-                            <option value="">Select Education Level</option>
-                            <option value="Elementary">Elementary School</option>
-                            <option value="Middle School">Middle School</option>
-                            <option value="High School">High School</option>
-                            <option value="Some College">Some College</option>
-                            <option value="Associate Degree">Associate Degree</option>
-                            <option value="Bachelor Degree">Bachelor Degree</option>
-                            <option value="Master Degree">Master Degree</option>
-                            <option value="Doctorate">Doctorate</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="employmentStatus" id="employmentStatusLabel">Employment Status *</label>
-                        <select id="employmentStatus" name="employmentStatus" required>
-                            <option value="">Select Status</option>
-                            <option value="Employed">Employed</option>
-                            <option value="Unemployed">Unemployed</option>
-                            <option value="Student">Student</option>
-                            <option value="Self-Employed">Self-Employed</option>
-                            <option value="Retired">Retired</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="criminalHistory" id="criminalHistoryLabel">Criminal History *</label>
-                        <select id="criminalHistory" name="criminalHistory" required>
-                            <option value="">Select Status</option>
-                            <option value="None">No Criminal History</option>
-                            <option value="Minor">Minor Offenses</option>
-                            <option value="Major">Major Offenses</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <button type="button" class="btn" onclick="saveProfile()" id="saveProfileBtn">Save Profile Information</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Documents Section -->
-        <div id="documentsSection" class="content-section">
-            <h1 class="section-title" id="documentsSectionTitle">Required Documents</h1>
-            <div class="documents-grid" id="documentsContainer">
-                <!-- Documents will be populated here -->
-            </div>
-        </div>
-
-        <!-- AI Chat Section -->
-        <div id="chatSection" class="content-section">
-            <h1 class="section-title" id="chatTitle">AI Assistant - Immigr-Aid</h1>
-            <div class="card">
-                <div class="chat-container">
-                    <div class="chat-messages" id="chatMessages">
-                        <div class="message ai">
-                            <div id="welcomeMessage">Hello! I am your AI immigration assistant. I can help you fill out forms, answer questions about your immigration process, and guide you through each step. How can I assist you today?</div>
+            <!-- Help Resources Section -->
+            <div id="helpSection" class="content-section">
+                <h1 class="section-title" id="helpTitle">Help Resources & Locations</h1>
+                <div class="help-resources">
+                    <div>
+                        <h3 id="emergencyResources">Emergency Resources</h3>
+                        <div id="emergencyResourcesContainer">
+                            <!-- Emergency resources will be populated here -->
                         </div>
                     </div>
-                    <div class="chat-input-container">
-                        <input type="text" id="chatInput" class="chat-input" placeholder="Type your message or use voice input..." onkeypress="handleKeyPress(event)">
-                        <button class="voice-btn" id="voiceBtn" onclick="toggleVoiceRecording()" title="Voice Input">🎤</button>
-                        <button class="send-btn" onclick="sendMessage()">Send</button>
+                    <div>
+                        <h3 id="legalAid">Legal Aid</h3>
+                        <div id="legalAidContainer">
+                            <!-- Legal aid resources will be populated here -->
+                        </div>
+                    </div>
+                    <div>
+                        <h3 id="communityCenters">Community Centers</h3>
+                        <div id="communityCentersContainer">
+                            <!-- Community centers will be populated here -->
+                        </div>
+                    </div>
+                    <div>
+                        <h3 id="healthcareResources">Healthcare</h3>
+                        <div id="healthcareResourcesContainer">
+                            <!-- Healthcare resources will be populated here -->
+                        </div>
+                    </div>
+                    <div>
+                        <h3 id="employmentResources">Employment</h3>
+                        <div id="employmentResourcesContainer">
+                            <!-- Employment resources will be populated here -->
+                        </div>
+                    </div>
+                    <div>
+                        <h3 id="educationalResources">Educational Resources</h3>
+                        <div id="educationalResourcesContainer">
+                            <!-- Educational resources will be populated here -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Chat History Section -->
-        <div id="chatHistorySection" class="content-section">
-            <h1 class="section-title" id="chatHistoryTitle">AI Chat History</h1>
-            <div class="card">
-                <div id="chatHistoryContainer">
-                    <p id="noChatHistory">No chat history yet. Start a conversation with the AI assistant!</p>
+        <!-- AI Sidebar -->
+        <div class="ai-sidebar">
+            <div class="ai-sidebar-header">
+                <div class="ai-sidebar-title">🤖 AI Assistant</div>
+            </div>
+            <div class="ai-sidebar-subtitle" id="aiSidebarSubtitle">I'm here to help you with your immigration forms and questions. Ask me anything!</div>
+            
+            <div class="ai-sidebar-chat" id="aiSidebarChat">
+                <div class="ai-sidebar-message ai" id="aiSidebarWelcome">
+                    <div id="aiSidebarWelcomeMessage">Hello! I'm your AI immigration assistant. I can help you fill out forms, answer questions about your immigration process, and guide you through each step. How can I assist you today?</div>
                 </div>
             </div>
-        </div>
-
-        <!-- Help Resources Section -->
-        <div id="helpSection" class="content-section">
-            <h1 class="section-title" id="helpTitle">Help Resources & Locations</h1>
-            <div class="help-resources">
-                <div>
-                    <h3 id="emergencyResources">Emergency Resources</h3>
-                    <div id="emergencyResourcesContainer">
-                        <!-- Emergency resources will be populated here -->
-                    </div>
-                </div>
-                <div>
-                    <h3 id="legalAid">Legal Aid</h3>
-                    <div id="legalAidContainer">
-                        <!-- Legal aid resources will be populated here -->
-                    </div>
-                </div>
-                <div>
-                    <h3 id="communityCenters">Community Centers</h3>
-                    <div id="communityCentersContainer">
-                        <!-- Community centers will be populated here -->
-                    </div>
-                </div>
-                <div>
-                    <h3 id="healthcareResources">Healthcare</h3>
-                    <div id="healthcareResourcesContainer">
-                        <!-- Healthcare resources will be populated here -->
-                    </div>
-                </div>
-                <div>
-                    <h3 id="employmentResources">Employment</h3>
-                    <div id="employmentResourcesContainer">
-                        <!-- Employment resources will be populated here -->
-                    </div>
-                </div>
-                <div>
-                    <h3 id="educationalResources">Educational Resources</h3>
-                    <div id="educationalResourcesContainer">
-                        <!-- Educational resources will be populated here -->
-                    </div>
-                </div>
+            
+            <div class="ai-sidebar-input">
+                <input type="text" id="aiSidebarInput" placeholder="Ask me anything..." onkeypress="handleSidebarKeyPress(event)">
+                <button class="ai-sidebar-voice-btn" id="aiSidebarVoiceBtn" onclick="toggleSidebarVoiceRecording()" title="Voice Input">🎤</button>
+                <button class="ai-sidebar-send-btn" onclick="sendSidebarMessage()">Send</button>
             </div>
         </div>
     </div>
@@ -1608,15 +1815,16 @@
 
         function generateFormFields(fields) {
             let html = '';
+            const t = translations[currentLanguage] || translations.en;
             
             fields.forEach(field => {
                 if (field.type === 'section') {
                     html += `<div class="form-section" style="grid-column: 1 / -1; margin: 20px 0 10px 0; padding: 10px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #00ff88;">
-                        <h4 style="margin: 0; color: #000000;">${field.label}</h4>
+                        <h4 style="margin: 0; color: #000000;">${getTranslatedFieldLabel(field.label)}</h4>
                     </div>`;
                 } else {
                     html += `<div class="form-group">
-                        <label for="${field.id}">${field.label}${field.required ? ' *' : ''}</label>
+                        <label for="${field.id}">${getTranslatedFieldLabel(field.label)}${field.required ? ' *' : ''}</label>
                         ${generateFieldInput(field)}
                     </div>`;
                 }
@@ -1627,6 +1835,7 @@
 
         function generateFieldInput(field) {
             const required = field.required ? 'required' : '';
+            const t = translations[currentLanguage] || translations.en;
             
             switch (field.type) {
                 case 'text':
@@ -1634,16 +1843,16 @@
                 case 'tel':
                 case 'date':
                 case 'number':
-                    return `<input type="${field.type}" id="${field.id}" name="${field.id}" ${required}>`;
+                    return `<input type="${field.type}" id="${field.id}" name="${field.id}" ${required} placeholder="${getTranslatedPlaceholder(field.id)}">`;
                 
                 case 'textarea':
-                    return `<textarea id="${field.id}" name="${field.id}" rows="3" ${required}></textarea>`;
+                    return `<textarea id="${field.id}" name="${field.id}" rows="3" ${required} placeholder="${getTranslatedPlaceholder(field.id)}"></textarea>`;
                 
                 case 'select':
-                    let options = '<option value="">Select...</option>';
+                    let options = `<option value="">${getTranslatedText('selectOption') || 'Select...'}</option>`;
                     if (field.options) {
                         field.options.forEach(option => {
-                            options += `<option value="${option}">${option}</option>`;
+                            options += `<option value="${option}">${getTranslatedOption(option)}</option>`;
                         });
                     }
                     return `<select id="${field.id}" name="${field.id}" ${required}>${options}</select>`;
@@ -1652,8 +1861,153 @@
                     return `<input type="checkbox" id="${field.id}" name="${field.id}" ${required}>`;
                 
                 default:
-                    return `<input type="text" id="${field.id}" name="${field.id}" ${required}>`;
+                    return `<input type="text" id="${field.id}" name="${field.id}" ${required} placeholder="${getTranslatedPlaceholder(field.id)}">`;
             }
+        }
+
+        function getTranslatedFieldLabel(fieldLabel) {
+            const t = translations[currentLanguage] || translations.en;
+            
+            // Map field labels to translations
+            const fieldTranslations = {
+                'Personal Information': t.personalInformation || 'Personal Information',
+                'First Name': t.firstName || 'First Name',
+                'Last Name': t.lastName || 'Last Name',
+                'Middle Name': t.middleName || 'Middle Name',
+                'Date of Birth': t.dateOfBirth || 'Date of Birth',
+                'Country of Birth': t.countryOfBirth || 'Country of Birth',
+                'Current Address': t.currentAddress || 'Current Address',
+                'Phone Number': t.phoneNumber || 'Phone Number',
+                'Email Address': t.emailAddress || 'Email Address',
+                'Social Security Number': t.socialSecurityNumber || 'Social Security Number',
+                'Arrival Information': t.arrivalInformation || 'Arrival Information',
+                'Date of Entry to US': t.entryDate || 'Date of Entry to US',
+                'Method of Entry': t.methodOfEntry || 'Method of Entry',
+                'Education Information': t.educationInformation || 'Education Information',
+                'Education Level': t.educationLevel || 'Education Level',
+                'Current/Last School Name': t.schoolName || 'Current/Last School Name',
+                'Graduation Date': t.graduationDate || 'Graduation Date',
+                'Criminal History': t.criminalHistory || 'Criminal History',
+                'Criminal Record': t.criminalRecord || 'Criminal Record',
+                'Criminal Details (if applicable)': t.criminalDetails || 'Criminal Details (if applicable)',
+                'Economic Necessity': t.economicNecessity || 'Economic Necessity',
+                'Employment Status': t.employmentStatus || 'Employment Status',
+                'Annual Income': t.annualIncome || 'Annual Income',
+                'Household Size': t.householdSize || 'Household Size',
+                'Economic Hardship Explanation': t.economicHardship || 'Economic Hardship Explanation',
+                'Immigration Status': t.immigrationStatus || 'Immigration Status',
+                'Current Immigration Status': t.currentStatus || 'Current Immigration Status',
+                'Alien Number (if applicable)': t.alienNumber || 'Alien Number (if applicable)',
+                'Employment History': t.employmentHistory || 'Employment History',
+                'Previous Employer': t.previousEmployer || 'Previous Employer',
+                'Employment Dates': t.employmentDates || 'Employment Dates',
+                'Job Title': t.jobTitle || 'Job Title',
+                'Supporting Documents': t.supportingDocuments || 'Supporting Documents',
+                'Passport Photo Required': t.passportPhoto || 'Passport Photo Required',
+                'Identity Document': t.identityDocument || 'Identity Document',
+                'Employment Evidence': t.employmentEvidence || 'Employment Evidence',
+                'Travel Purpose': t.travelPurpose || 'Travel Purpose',
+                'Reason for Travel': t.travelReason || 'Reason for Travel',
+                'Travel Destination': t.travelDestination || 'Travel Destination',
+                'Travel Dates': t.travelDates || 'Travel Dates',
+                'Departure Date': t.departureDate || 'Departure Date',
+                'Return Date': t.returnDate || 'Return Date',
+                'Supporting Evidence': t.supportingEvidence || 'Supporting Evidence',
+                'Travel Documentation': t.travelDocumentation || 'Travel Documentation',
+                'Emergency Contact': t.emergencyContact || 'Emergency Contact',
+                'Emergency Phone': t.emergencyPhone || 'Emergency Phone'
+            };
+            
+            return fieldTranslations[fieldLabel] || fieldLabel;
+        }
+
+        function getTranslatedPlaceholder(fieldId) {
+            const t = translations[currentLanguage] || translations.en;
+            
+            const placeholderTranslations = {
+                'firstName': t.firstNamePlaceholder || 'Enter your first name',
+                'lastName': t.lastNamePlaceholder || 'Enter your last name',
+                'middleName': t.middleNamePlaceholder || 'Enter your middle name (optional)',
+                'dateOfBirth': t.dateOfBirthPlaceholder || 'Select your date of birth',
+                'currentAddress': t.addressPlaceholder || 'Enter your current address',
+                'phoneNumber': t.phonePlaceholder || 'Enter your phone number',
+                'emailAddress': t.emailPlaceholder || 'Enter your email address',
+                'socialSecurityNumber': t.ssnPlaceholder || 'Enter your SSN (if applicable)',
+                'entryDate': t.entryDatePlaceholder || 'Select your date of entry',
+                'schoolName': t.schoolNamePlaceholder || 'Enter school name',
+                'graduationDate': t.graduationDatePlaceholder || 'Select graduation date',
+                'criminalDetails': t.criminalDetailsPlaceholder || 'Enter criminal details if applicable',
+                'annualIncome': t.annualIncomePlaceholder || 'Enter annual income',
+                'householdSize': t.householdSizePlaceholder || 'Enter household size',
+                'economicHardship': t.economicHardshipPlaceholder || 'Explain economic hardship',
+                'alienNumber': t.alienNumberPlaceholder || 'Enter alien number if applicable',
+                'previousEmployer': t.previousEmployerPlaceholder || 'Enter previous employer',
+                'employmentDates': t.employmentDatesPlaceholder || 'Enter employment dates',
+                'jobTitle': t.jobTitlePlaceholder || 'Enter job title',
+                'travelDestination': t.travelDestinationPlaceholder || 'Enter travel destination',
+                'travelDocumentation': t.travelDocumentationPlaceholder || 'Enter travel documentation',
+                'emergencyContact': t.emergencyContactPlaceholder || 'Enter emergency contact name',
+                'emergencyPhone': t.emergencyPhonePlaceholder || 'Enter emergency contact phone'
+            };
+            
+            return placeholderTranslations[fieldId] || '';
+        }
+
+        function getTranslatedOption(option) {
+            const t = translations[currentLanguage] || translations.en;
+            
+            const optionTranslations = {
+                'Mexico': t.mexico || 'Mexico',
+                'China': t.china || 'China',
+                'India': t.india || 'India',
+                'Philippines': t.philippines || 'Philippines',
+                'El Salvador': t.elSalvador || 'El Salvador',
+                'Guatemala': t.guatemala || 'Guatemala',
+                'Honduras': t.honduras || 'Honduras',
+                'Cuba': t.cuba || 'Cuba',
+                'Dominican Republic': t.dominicanRepublic || 'Dominican Republic',
+                'Colombia': t.colombia || 'Colombia',
+                'Venezuela': t.venezuela || 'Venezuela',
+                'Brazil': t.brazil || 'Brazil',
+                'Argentina': t.argentina || 'Argentina',
+                'Peru': t.peru || 'Peru',
+                'Ecuador': t.ecuador || 'Ecuador',
+                'Bolivia': t.bolivia || 'Bolivia',
+                'Chile': t.chile || 'Chile',
+                'Uruguay': t.uruguay || 'Uruguay',
+                'Paraguay': t.paraguay || 'Paraguay',
+                'Other': t.other || 'Other',
+                'Visa': t.visa || 'Visa',
+                'Border Crossing': t.borderCrossing || 'Border Crossing',
+                'Airport': t.airport || 'Airport',
+                'Elementary': t.elementary || 'Elementary School',
+                'Middle School': t.middleSchool || 'Middle School',
+                'High School': t.highSchool || 'High School',
+                'Some College': t.someCollege || 'Some College',
+                'Associate Degree': t.associateDegree || 'Associate Degree',
+                'Bachelor Degree': t.bachelorDegree || 'Bachelor Degree',
+                'Master Degree': t.masterDegree || 'Master Degree',
+                'Doctorate': t.doctorate || 'Doctorate',
+                'Employed': t.employed || 'Employed',
+                'Unemployed': t.unemployed || 'Unemployed',
+                'Student': t.student || 'Student',
+                'Self-Employed': t.selfEmployed || 'Self-Employed',
+                'Retired': t.retired || 'Retired',
+                'None': t.none || 'No Criminal History',
+                'Minor': t.minor || 'Minor Offenses',
+                'Major': t.major || 'Major Offenses',
+                'DACA': t.daca || 'DACA',
+                'TPS': t.tps || 'TPS',
+                'Asylum Pending': t.asylumPending || 'Asylum Pending',
+                'Family Petition Pending': t.familyPetitionPending || 'Family Petition Pending',
+                'Educational': t.educational || 'Educational',
+                'Employment': t.employment || 'Employment',
+                'Humanitarian': t.humanitarian || 'Humanitarian',
+                'Family Emergency': t.familyEmergency || 'Family Emergency',
+                'Medical': t.medical || 'Medical'
+            };
+            
+            return optionTranslations[option] || option;
         }
 
         function saveDocumentForm(docId) {
@@ -1692,13 +2046,13 @@
             }
         }
 
-        // Enhanced Chat Functions with LLM Integration
-        async function sendMessage() {
-            const input = document.getElementById('chatInput');
+        // Sidebar AI Functions
+        async function sendSidebarMessage() {
+            const input = document.getElementById('aiSidebarInput');
             const message = input.value.trim();
             
             if (message) {
-                addChatMessage(message, true);
+                addSidebarMessage(message, true);
                 
                 // Save to chat history
                 if (!currentChatId) {
@@ -1721,10 +2075,10 @@
                 
                 // Show typing indicator
                 const typingIndicator = document.createElement('div');
-                typingIndicator.className = 'message ai typing';
-                typingIndicator.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
-                document.getElementById('chatMessages').appendChild(typingIndicator);
-                document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+                typingIndicator.className = 'ai-sidebar-message ai typing';
+                typingIndicator.innerHTML = '<div class="ai-sidebar-typing-dots"><span></span><span></span><span></span></div>';
+                document.getElementById('aiSidebarChat').appendChild(typingIndicator);
+                document.getElementById('aiSidebarChat').scrollTop = document.getElementById('aiSidebarChat').scrollHeight;
                 
                 try {
                     // Generate intelligent AI response using LLM
@@ -1734,7 +2088,7 @@
                     typingIndicator.remove();
                     
                     // Add AI response
-                    addChatMessage(aiResponse, false);
+                    addSidebarMessage(aiResponse, false);
                     
                     // Save AI response to chat history
                     chatHistory[chatHistory.length - 1].messages.push({
@@ -1747,7 +2101,7 @@
                     if (message.toLowerCase().includes('form') || message.toLowerCase().includes('document') || message.toLowerCase().includes('i-821d') || message.toLowerCase().includes('i-765') || message.toLowerCase().includes('i-131')) {
                         setTimeout(() => {
                             const formHelpMessage = getTranslatedText('formHelpMessage') || "I can help you fill out immigration forms. Would you like me to open a specific form for you?";
-                            addChatMessage(formHelpMessage, false);
+                            addSidebarMessage(formHelpMessage, false);
                             
                             chatHistory[chatHistory.length - 1].messages.push({
                                 text: formHelpMessage,
@@ -1757,7 +2111,6 @@
                         }, 1000);
                     }
                     
-                    updateChatHistory();
                     savePreferences();
                     
                 } catch (error) {
@@ -1766,7 +2119,7 @@
                     
                     // Fallback response
                     const fallbackResponse = immigrationLLM.getFallbackResponse(message, currentLanguage);
-                    addChatMessage(fallbackResponse, false);
+                    addSidebarMessage(fallbackResponse, false);
                     
                     // Save fallback response to chat history
                     chatHistory[chatHistory.length - 1].messages.push({
@@ -1775,9 +2128,45 @@
                         timestamp: new Date()
                     });
                     
-                    updateChatHistory();
                     savePreferences();
                 }
+            }
+        }
+
+        function addSidebarMessage(message, isUser) {
+            const messagesContainer = document.getElementById('aiSidebarChat');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-sidebar-message ${isUser ? 'user' : 'ai'}`;
+            messageDiv.textContent = message;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function handleSidebarKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendSidebarMessage();
+            }
+        }
+
+        function toggleSidebarVoiceRecording() {
+            if (!recognition) {
+                alert('Speech recognition not supported in this browser.');
+                return;
+            }
+            
+            const voiceBtn = document.getElementById('aiSidebarVoiceBtn');
+            
+            if (isRecording) {
+                recognition.stop();
+                voiceBtn.classList.remove('recording');
+                voiceBtn.textContent = '🎤';
+                isRecording = false;
+            } else {
+                recognition.start();
+                voiceBtn.classList.add('recording');
+                voiceBtn.textContent = '⏹️';
+                isRecording = true;
             }
         }
 
@@ -2319,7 +2708,122 @@
                 aiResponseDefault6: "Based on your information, I can help you complete all your immigration forms. Would you like to start with Form I-821D?",
                 aiResponseDefault7: "I can explain any immigration process in detail. What specific question do you have about your application?",
                 aiResponseDefault8: "I can help you understand the requirements for each document. Which document would you like me to explain?",
-                formHelpMessage: "I can help you fill out immigration forms. Would you like me to open a specific form for you?"
+                formHelpMessage: "I can help you fill out immigration forms. Would you like me to open a specific form for you?",
+                
+                // Sidebar AI
+                aiSidebarSubtitle: "I'm here to help you with your immigration forms and questions. Ask me anything!",
+                aiSidebarWelcomeMessage: "Hello! I'm your AI immigration assistant. I can help you fill out forms, answer questions about your immigration process, and guide you through each step. How can I assist you today?",
+                aiSidebarPlaceholder: "Ask me anything...",
+                
+                // Form field translations
+                personalInformation: "Personal Information",
+                arrivalInformation: "Arrival Information",
+                educationInformation: "Education Information",
+                criminalRecord: "Criminal Record",
+                criminalDetails: "Criminal Details (if applicable)",
+                economicNecessity: "Economic Necessity",
+                immigrationStatus: "Immigration Status",
+                currentStatus: "Current Immigration Status",
+                alienNumber: "Alien Number (if applicable)",
+                employmentHistory: "Employment History",
+                previousEmployer: "Previous Employer",
+                employmentDates: "Employment Dates",
+                jobTitle: "Job Title",
+                supportingDocuments: "Supporting Documents",
+                passportPhoto: "Passport Photo Required",
+                identityDocument: "Identity Document",
+                employmentEvidence: "Employment Evidence",
+                travelPurpose: "Travel Purpose",
+                travelReason: "Reason for Travel",
+                travelDestination: "Travel Destination",
+                travelDates: "Travel Dates",
+                departureDate: "Departure Date",
+                returnDate: "Return Date",
+                supportingEvidence: "Supporting Evidence",
+                travelDocumentation: "Travel Documentation",
+                emergencyContact: "Emergency Contact",
+                emergencyPhone: "Emergency Phone",
+                schoolName: "Current/Last School Name",
+                graduationDate: "Graduation Date",
+                annualIncome: "Annual Income",
+                householdSize: "Household Size",
+                economicHardship: "Economic Hardship Explanation",
+                
+                // Placeholders
+                firstNamePlaceholder: "Enter your first name",
+                lastNamePlaceholder: "Enter your last name",
+                middleNamePlaceholder: "Enter your middle name (optional)",
+                dateOfBirthPlaceholder: "Select your date of birth",
+                addressPlaceholder: "Enter your current address",
+                phonePlaceholder: "Enter your phone number",
+                emailPlaceholder: "Enter your email address",
+                ssnPlaceholder: "Enter your SSN (if applicable)",
+                entryDatePlaceholder: "Select your date of entry",
+                schoolNamePlaceholder: "Enter school name",
+                graduationDatePlaceholder: "Select graduation date",
+                criminalDetailsPlaceholder: "Enter criminal details if applicable",
+                annualIncomePlaceholder: "Enter annual income",
+                householdSizePlaceholder: "Enter household size",
+                economicHardshipPlaceholder: "Explain economic hardship",
+                alienNumberPlaceholder: "Enter alien number if applicable",
+                previousEmployerPlaceholder: "Enter previous employer",
+                employmentDatesPlaceholder: "Enter employment dates",
+                jobTitlePlaceholder: "Enter job title",
+                travelDestinationPlaceholder: "Enter travel destination",
+                travelDocumentationPlaceholder: "Enter travel documentation",
+                emergencyContactPlaceholder: "Enter emergency contact name",
+                emergencyPhonePlaceholder: "Enter emergency contact phone",
+                
+                // Select options
+                selectOption: "Select...",
+                mexico: "Mexico",
+                china: "China",
+                india: "India",
+                philippines: "Philippines",
+                elSalvador: "El Salvador",
+                guatemala: "Guatemala",
+                honduras: "Honduras",
+                cuba: "Cuba",
+                dominicanRepublic: "Dominican Republic",
+                colombia: "Colombia",
+                venezuela: "Venezuela",
+                brazil: "Brazil",
+                argentina: "Argentina",
+                peru: "Peru",
+                ecuador: "Ecuador",
+                bolivia: "Bolivia",
+                chile: "Chile",
+                uruguay: "Uruguay",
+                paraguay: "Paraguay",
+                other: "Other",
+                visa: "Visa",
+                borderCrossing: "Border Crossing",
+                airport: "Airport",
+                elementary: "Elementary School",
+                middleSchool: "Middle School",
+                highSchool: "High School",
+                someCollege: "Some College",
+                associateDegree: "Associate Degree",
+                bachelorDegree: "Bachelor Degree",
+                masterDegree: "Master Degree",
+                doctorate: "Doctorate",
+                employed: "Employed",
+                unemployed: "Unemployed",
+                student: "Student",
+                selfEmployed: "Self-Employed",
+                retired: "Retired",
+                none: "No Criminal History",
+                minor: "Minor Offenses",
+                major: "Major Offenses",
+                daca: "DACA",
+                tps: "TPS",
+                asylumPending: "Asylum Pending",
+                familyPetitionPending: "Family Petition Pending",
+                educational: "Educational",
+                employment: "Employment",
+                humanitarian: "Humanitarian",
+                familyEmergency: "Family Emergency",
+                medical: "Medical"
             },
             es: {
                 // Navigation
@@ -2764,9 +3268,10 @@
                 document.getElementById('criminalHistoryLabel').textContent = t.criminalHistoryLabel + ' *';
                 document.getElementById('saveProfileBtn').textContent = t.saveProfileBtn;
                 
-                // Update chat
-                document.getElementById('welcomeMessage').textContent = t.welcomeMessage;
-                document.getElementById('chatInput').placeholder = "Type your message or use voice input...";
+                // Update sidebar AI elements
+                document.getElementById('aiSidebarSubtitle').textContent = t.aiSidebarSubtitle || "I'm here to help you with your immigration forms and questions. Ask me anything!";
+                document.getElementById('aiSidebarWelcomeMessage').textContent = t.aiSidebarWelcomeMessage || "Hello! I'm your AI immigration assistant. I can help you fill out forms, answer questions about your immigration process, and guide you through each step. How can I assist you today?";
+                document.getElementById('aiSidebarInput').placeholder = t.aiSidebarPlaceholder || "Ask me anything...";
                 
                 // Update help resources
                 document.getElementById('emergencyResources').textContent = t.emergencyResources;
